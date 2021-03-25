@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>导航</title>
+    <url>/2021/03/19/%E5%AF%BC%E8%88%AA/</url>
+    <content><![CDATA[<p><a href="https://docs.unrealengine.com/zh-CN/index.html">官网链接</a><br></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <a href="/2021/03/17/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84Pawn/" title="创建自己的Pawn">创建自己的Pawn</a><br></li>
+<li><input disabled="" type="checkbox"> <a href="/2021/03/20/%E6%93%8D%E4%BD%9C%E6%98%A0%E5%B0%84%E4%B8%8E%E8%BD%B4%E6%98%A0%E5%B0%84/" title="操作映射与轴映射">操作映射与轴映射</a><br></li>
+<li><input disabled="" type="checkbox"> <a href="/2021/03/07/%E8%81%94%E7%BD%91%E5%92%8C%E5%A4%9A%E4%BA%BA%E6%B8%B8%E6%88%8F/" title="联网和多人游戏">联网和多人游戏</a><br></li>
+<li><input checked="" disabled="" type="checkbox"> <a href="/2021/03/19/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%94%B1%E8%BE%93%E5%85%A5%E6%8E%A7%E5%88%B6%E7%9A%84%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/" title="创建一个由输入控制的粒子系统">创建一个由输入控制的粒子系统</a><br></li>
+<li><input disabled="" type="checkbox"> <a href="/2021/03/20/c-API/" title="c++API">c++API</a><br></li>
+<li><input disabled="" type="checkbox"> <a href="/2021/03/16/%E7%BB%84%E4%BB%B6/" title="组件">组件</a><br></li>
+<li><input disabled="" type="checkbox"> <a href="/2021/03/09/Camera/" title="摄像机">摄像机</a><br></li>
+<li><input disabled="" type="checkbox"> <a href="/2021/03/20/%E5%88%9B%E5%BB%BA%E5%B8%A6%E6%9C%89UMG%E7%9A%84%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2/" title="创建带有UMG的用户界面">创建带有UMG的用户界面</a><br></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>网格体组件基本知识点及设置</title>
+    <url>/2021/03/25/%E7%BD%91%E6%A0%BC%E4%BD%93%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<p>概述： ？？见title</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>使用某个组件时，要在头文件和cpp文件中都经行声明或者引入头文件</p>
+<h2 id="网格体组件通用操作"><a href="#网格体组件通用操作" class="headerlink" title="网格体组件通用操作"></a>网格体组件通用操作</h2><h3 id="初始化网格体组件"><a href="#初始化网格体组件" class="headerlink" title="初始化网格体组件"></a>初始化网格体组件</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">CreateDefaultSubobject&lt;USphereComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;SphereComp&quot;</span>))</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">创建默认物件，&lt;返回的对象类型&gt;  TEXT（&quot;&quot;）命名生成的组件</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1.CreateDefaultSubobject必须写在Actor的无参构造函数中，否则会报错</span></span><br><span class="line"><span class="comment">2.CreateDefaultSubobject在同一个Actor中不可以重名，否则报错；</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="设置根组件"><a href="#设置根组件" class="headerlink" title="设置根组件"></a>设置根组件</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">RootComponent = MeshComp;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="设置子组件"><a href="#设置子组件" class="headerlink" title="设置子组件"></a>设置子组件</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">SphereComp-&gt;<span class="built_in">SetupAttachment</span>(MeshComp);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="StaticMeshComponent-（静态网格体组件）"><a href="#StaticMeshComponent-（静态网格体组件）" class="headerlink" title="StaticMeshComponent:（静态网格体组件）"></a>StaticMeshComponent:（静态网格体组件）</h2><h3 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">UStaticMeshComponent* MeshComp;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="SphereComponent（球体组件）"><a href="#SphereComponent（球体组件）" class="headerlink" title="SphereComponent（球体组件）"></a>SphereComponent（球体组件）</h2><h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;Components&#x2F;SphereComponent.h&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义变量-："><a href="#定义变量-：" class="headerlink" title="定义变量 ："></a>定义变量 ：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">USphereComponent* SphereComp;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改球体半径："><a href="#修改球体半径：" class="headerlink" title="修改球体半径："></a>修改球体半径：</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">SphereComponent-&gt;<span class="built_in">InitSphereRadius</span>(<span class="keyword">const</span> <span class="keyword">float</span> Radius);</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置该变量在编辑器中的名字"><a href="#设置该变量在编辑器中的名字" class="headerlink" title="设置该变量在编辑器中的名字"></a>设置该变量在编辑器中的名字</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SphereComponent-&gt;SetCollisionProfileName(TEXT(&quot;Pawn&quot;));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;也可以在</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用硬编码来调用文件内部的资源"><a href="#使用硬编码来调用文件内部的资源" class="headerlink" title="使用硬编码来调用文件内部的资源"></a>使用硬编码来调用文件内部的资源</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用硬编码来调用文件内部的资源，一般不推荐</span></span><br><span class="line"><span class="comment">//获取文件内资产</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; <span class="title">SphereVisualAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere&quot;</span>))</span></span>;</span><br><span class="line"><span class="comment">//将资产给与sphereVisual 的StaticMesh属性</span></span><br><span class="line">SphereVisual-&gt;<span class="built_in">SetStaticMesh</span>(SphereVisualAsset.Object);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>网格体组件</category>
+      </categories>
+      <tags>
+        <tag>cpp</tag>
+        <tag>网格体组件</tag>
+        <tag>网格体</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Overlap应用（1）</title>
+    <url>/2021/03/25/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AE%9E%E4%BE%8B%E5%8F%8A%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<p>概述：void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>该函数的  ：识别发生重叠的Actor是否是FPSActor  </p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AFPSObjectiveActor::NotifyActorBeginOverlap</span><span class="params">(AActor* OtherActor)</span><span class="comment">//OtherActor是与物体接触的另一个Actor，可以理解为与当前物体发生Overlap的物体</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NotifyActorBeginOverlap</span>(OtherActor)；<span class="comment">//基实现</span></span><br><span class="line">	<span class="built_in">PlayEffects</span>();<span class="comment">//添加的函数</span></span><br><span class="line">	AFPSCharacter* myCharacter = Cast&lt;AFPSCharacter&gt;(OtherActor);<span class="comment">//类型转换</span></span><br><span class="line">	<span class="keyword">if</span> (myCharacter) &#123;<span class="comment">//类型转换成功与否，成功的话myCharacter会指向一个对象，转换失败的话会是一个空指针</span></span><br><span class="line">		myCharacter-&gt;bisCarryingObjective = <span class="literal">true</span>;</span><br><span class="line">		<span class="built_in">Destroy</span>();<span class="comment">//删除的会是调用这个函数的类的对象</span></span><br><span class="line">		<span class="comment">//myCharacter-&gt;Destroy();这会删除这个角色</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>应用</category>
+      </categories>
+      <tags>
+        <tag>cpp</tag>
+        <tag>应用</tag>
+        <tag>overlap</tag>
+        <tag>函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Overlap应用（1）</title>
+    <url>/2021/03/25/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AE%9E%E4%BE%8B%E5%8F%8A%E7%90%86%E8%A7%A3%20(1)/</url>
+    <content><![CDATA[<p>概述：void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>该函数的  ：识别发生重叠的Actor是否是FPSActor  </p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AFPSObjectiveActor::NotifyActorBeginOverlap</span><span class="params">(AActor* OtherActor)</span><span class="comment">//OtherActor是与物体接触的另一个Actor，可以理解为与当前物体发生Overlap的物体</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NotifyActorBeginOverlap</span>(OtherActor)；<span class="comment">//基实现</span></span><br><span class="line">	<span class="built_in">PlayEffects</span>();<span class="comment">//添加的函数</span></span><br><span class="line">	AFPSCharacter* myCharacter = Cast&lt;AFPSCharacter&gt;(OtherActor);<span class="comment">//类型转换</span></span><br><span class="line">	<span class="keyword">if</span> (myCharacter) &#123;<span class="comment">//类型转换成功与否，成功的话myCharacter会指向一个对象，转换失败的话会是一个空指针</span></span><br><span class="line">		myCharacter-&gt;bisCarryingObjective = <span class="literal">true</span>;</span><br><span class="line">		<span class="built_in">Destroy</span>();<span class="comment">//删除的会是调用这个函数的类的对象</span></span><br><span class="line">		<span class="comment">//myCharacter-&gt;Destroy();这会删除这个角色</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>应用</category>
+      </categories>
+      <tags>
+        <tag>cpp</tag>
+        <tag>应用</tag>
+        <tag>overlap</tag>
+        <tag>函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>碰撞</title>
+    <url>/2021/03/25/%E7%A2%B0%E6%92%9E/</url>
+    <content><![CDATA[<p>概述： 一些基本的碰撞设置</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+
+
+<h1 id="事实上前半部分应该算是Overlap"><a href="#事实上前半部分应该算是Overlap" class="headerlink" title="事实上前半部分应该算是Overlap"></a>事实上前半部分应该算是Overlap</h1><h2 id="设置碰撞-是否可碰撞或者可否查询"><a href="#设置碰撞-是否可碰撞或者可否查询" class="headerlink" title="设置碰撞(是否可碰撞或者可否查询)"></a>设置碰撞(是否可碰撞或者可否查询)</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//需要包含头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;Componennts/StaticMeshComponents.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">组件-&gt;<span class="built_in">SetCollisionEnabled</span>(ECollisionEnabled::CollisionType);</span><br><span class="line"><span class="comment">/*CollisionType: NoCollision		 注释：没有碰撞</span></span><br><span class="line"><span class="comment">				PhysicsOnly	   		注释：没有碰撞</span></span><br><span class="line"><span class="comment">				QueryAndPhysics		注释：查询和物理</span></span><br><span class="line"><span class="comment">				QueryOnly	   		注释：只有查询(射线检测什么的)</span></span><br><span class="line"><span class="comment">				Type		  		注释：目前理解为自定义？？？？</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="碰撞设置"><a href="#碰撞设置" class="headerlink" title="碰撞设置"></a>碰撞设置</h2><h3 id="响应通道设置"><a href="#响应通道设置" class="headerlink" title="响应通道设置"></a>响应通道设置</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//设置该组件的所有相应通道</span></span><br><span class="line">组件-&gt;<span class="built_in">SetCollisionResponseToAllChannels</span>(ECR_......)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//为单个通道设置相应</span></span><br><span class="line"></span><br><span class="line">组件-&gt;<span class="built_in">SetCollisionResponseToChannel</span>(ECC_... , ECR_....)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">ECR_Block	物块</span></span><br><span class="line"><span class="comment">ECR_Ignore  忽略</span></span><br><span class="line"><span class="comment">ECR_Max		？？？？不知道</span></span><br><span class="line"><span class="comment">ECR_Overlap	 重叠</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">ECC_Pawn   指向人物</span></span><br><span class="line"><span class="comment">...还有很多碰到的时候再加</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="virtual-void-NotifyActorBeginOverlap-AActor-OtherActor"><a href="#virtual-void-NotifyActorBeginOverlap-AActor-OtherActor" class="headerlink" title="virtual void NotifyActorBeginOverlap(AActor* OtherActor)"></a>virtual void NotifyActorBeginOverlap(AActor* OtherActor)</h2><ol>
+<li>该函数是Actor类里的函数</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//该函数可以重写，来添加Overlap事件</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">NotifyActorBeginOverlap</span><span class="params">(AActor* OtherActor)</span></span>;</span><br><span class="line">	<span class="comment">/** </span></span><br><span class="line"><span class="comment">	 *	Event when this actor overlaps another actor, for example a player walking into a trigger.</span></span><br><span class="line"><span class="comment">	 *	For events when objects have a blocking collision, for example a player hitting a wall, see &#x27;Hit&#x27; events.</span></span><br><span class="line"><span class="comment">	 *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.</span></span><br><span class="line"><span class="comment">	 */</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Notify函数重写</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AFPSObjectiveActor::NotifyActorBeginOverlap</span><span class="params">(AActor* OtherActor)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NotifyActorBeginOverlap</span>(OtherActor);<span class="comment">//调用基实现</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">f1</span>();</span><br><span class="line">	<span class="built_in">f2</span>();</span><br><span class="line">	.....</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="这里开始才算是碰撞"><a href="#这里开始才算是碰撞" class="headerlink" title="这里开始才算是碰撞"></a>这里开始才算是碰撞</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">SphereComponent-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Pawn&quot;</span>));</span><br><span class="line"><span class="comment">//这一句会使SphereComponent产生碰撞（PS：即使该phereComponent的实例无法穿过一些物体）</span></span><br></pre></td></tr></table></figure>
+
+<p>对于摄像机，增加弹簧臂组件可以使摄像机更加平滑的跟踪pawn，并且拥有一些内置功能，例如防止摄像机穿过固体</p>
+]]></content>
+      <categories>
+        <category>碰撞</category>
+      </categories>
+      <tags>
+        <tag>cpp</tag>
+        <tag>碰撞设置</tag>
+        <tag>碰撞</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>组件应用（一）</title>
+    <url>/2021/03/25/%E7%94%9F%E6%88%90%E4%BA%BA%E7%89%A9%E9%87%8D%E5%8F%A0%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<p>概述： 生成人物重叠事件</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//设置所有通道的冲突响应 SetCollisionResponseToAllChannels</span></span><br><span class="line">组件 -&gt;<span class="built_in">SetCollisionEnabled</span>(ECollisionEnabled::QueryOnly);</span><br><span class="line"><span class="comment">//将冲突响应设置为通道 SetCollisionResponseToChannel（相关参数：ECR_Overlap 重叠,</span></span><br><span class="line">ECR_Block 物块，ECR_Ignore 忽略, ECR_MAX ?）</span><br><span class="line">组件 -&gt;<span class="built_in">SetCollisionResponseToAllChannels</span>(ECR_Ignore); <span class="comment">// ECR_Ignore 全部忽略</span></span><br><span class="line"><span class="comment">//注释：ECC_Pawn 指向人物</span></span><br><span class="line">组件 -&gt;<span class="built_in">SetCollisionResponseToChannel</span>(ECC_Pawn, ECR_Ignore);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>应用</category>
+      </categories>
+      <tags>
+        <tag>cpp</tag>
+        <tag>应用</tag>
+        <tag>overlap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cpp知识</title>
+    <url>/2021/03/25/cpp%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<p>概述：一些学ue4的时候忘记的或者不知道的知识点</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>如果要在另一个类中调用本类的函数或者变量，需要在本类中将该函数或者变量声明在Public中</p>
+]]></content>
+      <categories>
+        <category>cpp</category>
+      </categories>
+      <tags>
+        <tag>cpp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>创建带有UMG的用户界面</title>
+    <url>/2021/03/20/%E5%88%9B%E5%BB%BA%E5%B8%A6%E6%9C%89UMG%E7%9A%84%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2/</url>
+    <content><![CDATA[<p>概述: <strong>虚幻运动图形（UMG）</strong></p>
+<span id="more"></span>
+
+<p><em><strong>UMG指虚幻运动图形</strong></em></p>
+<h1 id="1-添加模块"><a href="#1-添加模块" class="headerlink" title="1. 添加模块"></a>1. 添加模块</h1><p>​    若要在UE4中使用UMG,需要将<code> &quot;UMG&quot;</code> 添加到公共模块列表中,并将 <code>&quot;Slate&quot; </code>, <code>&quot;SlateCore&quot;</code> 添加到私有模块列表中</p>
+<p>​        修改<code>Build.cs</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">PublicDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123; <span class="string">&quot;Core&quot;</span>, <span class="string">&quot;CoreUObject&quot;</span>, <span class="string">&quot;Engine&quot;</span>, <span class="string">&quot;InputCore&quot;</span>, <span class="string">&quot;UMG&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line">PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123; <span class="string">&quot;Slate&quot;</span>, <span class="string">&quot;SlateCore&quot;</span> ;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-新建GameMode类并做好初始化工作"><a href="#2-新建GameMode类并做好初始化工作" class="headerlink" title="2. 新建GameMode类并做好初始化工作"></a>2. 新建GameMode类并做好初始化工作</h1>]]></content>
+  </entry>
+  <entry>
+    <title>操作映射与轴映射</title>
+    <url>/2021/03/20/%E6%93%8D%E4%BD%9C%E6%98%A0%E5%B0%84%E4%B8%8E%E8%BD%B4%E6%98%A0%E5%B0%84/</url>
+    <content><![CDATA[<p>概述: ???</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<ul>
+<li><p><strong>轴映射</strong></p>
+<p>先说一下我自己的理解 轴映射指的是系统在接受到输入时,在输入存在的时间内会向引擎提供一个预设好的值</p>
+</li>
+<li><p><strong>操作映射</strong></p>
+<p>操作映射会向引擎返回一个状态,比如按下,弹起,双击,,,,等</p>
+</li>
+</ul>
+<p>具体对比可以从项目设置的输入设置中看出<img src="%E6%93%8D%E4%BD%9C%E6%98%A0%E5%B0%84%E4%B8%8E%E8%BD%B4%E6%98%A0%E5%B0%84/image-20210320171431082.png" alt="image-20210320171431082"></p>
+<p>就如图片所描述的,*<strong>操作映射针对按下和松开按钮,轴映射则针对拥有连续范围的输入*</strong></p>
+<h3 id="三维空间的右手笛卡尔坐标系如图所示"><a href="#三维空间的右手笛卡尔坐标系如图所示" class="headerlink" title="三维空间的右手笛卡尔坐标系如图所示"></a>三维空间的右手笛卡尔坐标系如图所示<img src="%E6%93%8D%E4%BD%9C%E6%98%A0%E5%B0%84%E4%B8%8E%E8%BD%B4%E6%98%A0%E5%B0%84/image-20210320174326157.png" alt="image-20210320174326157"></h3><p><strong>在航空中，pitch, yaw, roll</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pitch是围绕X轴旋转，也叫做俯仰角。</span><br><span class="line"></span><br><span class="line">yaw是围绕Y轴旋转，也叫偏航角</span><br><span class="line"></span><br><span class="line">roll是围绕Z轴旋转，也叫翻滚角</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>创建一个简单的摄像机</title>
+    <url>/2021/03/20/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA/</url>
+    <content><![CDATA[<p><a href="https://docs.unrealengine.com/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/PlayerCamera/index.html">unreal doc</a></p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>本教程将讲解如何激活摄像机，以及如何将你的活跃摄像机从一台变更为另一台的方法。</p>
+<h3 id="1-新建Paw类并设置组件"><a href="#1-新建Paw类并设置组件" class="headerlink" title="1. 新建Paw类并设置组件"></a>1. 新建Paw类并设置组件</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">USpringArmComponent</span>* <span class="title">SpringArmComp</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">UCameraComponent</span>* <span class="title">CameraComp</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    UStaticMeshComponent* StaticMeshComp;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//在cpp中添加头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;GameFramework/SpringArmComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Camera/Component.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;创建组件</span><br><span class="line">RootComponent &#x3D; CreateDefaultSubobject&lt;USceneComponent&gt;(TEXT(&quot;RootSceneComponent&quot;));</span><br><span class="line">StaticMeshComp &#x3D; CreateDefaultSubobject &lt;UStaticMeshComponent&gt;(TEXT(&quot;StaticMeshComponent&quot;));</span><br><span class="line">SpringArmComp &#x3D; CreateDefaultSubobject&lt;USpringArmComponent&gt;(TEXT(&quot;SpringArmComponent&quot;));</span><br><span class="line">CameraComp &#x3D; CreateDefaultSubobject&lt;UCameraComponent&gt;(TEXT(&quot;CameraComponent&quot;));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;绑定组件</span><br><span class="line">StaticMeshComp-&gt;SetupAttachment(RootComponent);</span><br><span class="line">SpringArmComp-&gt;SetupAttachment(StaticMeshComp);</span><br><span class="line">&#x2F;&#x2F;SetupAttachment(Componemts,FName SocketName);,,,,,后面那个参数不知道是干什么的</span><br><span class="line">CameraComp-&gt;SetupAttachment(SpringArmComp,USpringArmComponent::SocketName);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;为SpringArm类的变量赋值。</span><br><span class="line">SpringArmComp-&gt;SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 50.0f), FRotator(-60.0f, 0.0f, 0.0f));</span><br><span class="line">SpringArmComp-&gt;TargetArmLength &#x3D; 400.f;</span><br><span class="line">SpringArmComp-&gt;bEnableCameraLag &#x3D; true;</span><br><span class="line">SpringArmComp-&gt;CameraLagSpeed &#x3D; 3.0f;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;控制默认玩家</span><br><span class="line">AutoPossessPlayer &#x3D; EAutoReceiveInput::Player0;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-在编辑器中设置操作映射与轴映射-并在代码中绑定"><a href="#2-在编辑器中设置操作映射与轴映射-并在代码中绑定" class="headerlink" title="2. 在编辑器中设置操作映射与轴映射,并在代码中绑定"></a>2. 在编辑器中设置操作映射与轴映射,并在代码中绑定</h3><blockquote>
+<p>定义要使用的变量与函数,并实现</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">protect:</span><br><span class="line">	<span class="comment">//输入变量</span></span><br><span class="line">    <span class="comment">//Fvector2D ue的一种变量类型, 有 x,y 两个属性	</span></span><br><span class="line">	FVector2D MovementInput;</span><br><span class="line">	FVector2D CameraInput;</span><br><span class="line">	<span class="keyword">float</span> ZoomFactor;</span><br><span class="line">	<span class="keyword">bool</span> bZoomingIn;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public: </span><br><span class="line">&#x2F;&#x2F; 输入函数</span><br><span class="line">void MoveForward(float AxisValue);</span><br><span class="line">void MoveRight(float AxisValue);</span><br><span class="line">void PitchCamera(float AxisValue);</span><br><span class="line">void YawCamera(float AxisValue);</span><br><span class="line">void ZoomIn();</span><br><span class="line">void ZoomOut();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 输入函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">APawnWithCamera::MoveForward</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MovementInput.X = FMath::Clamp&lt;<span class="keyword">float</span>&gt;(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">APawnWithCamera::MoveRight</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MovementInput.Y = FMath::Clamp&lt;<span class="keyword">float</span>&gt;(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">APawnWithCamera::PitchCamera</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CameraInput.Y = AxisValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">APawnWithCamera::YawCamera</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CameraInput.X = AxisValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">APawnWithCamera::ZoomIn</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bZoomingIn = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">APawnWithCamera::ZoomOut</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bZoomingIn = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在SetupPlayerinputComponent中绑定函数</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 绑定&quot;ZoomIn&quot;的事件</span><br><span class="line">InputComponent-&gt;BindAction(&quot;ZoomIn&quot;, IE_Pressed, this, &amp;APawnWithCamera::ZoomIn);</span><br><span class="line">InputComponent-&gt;BindAction(&quot;ZoomIn&quot;, IE_Released, this, &amp;APawnWithCamera::ZoomOut);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;为四条轴绑定事件（每帧调用）</span><br><span class="line">InputComponent-&gt;BindAxis(&quot;MoveForward&quot;, this, &amp;APawnWithCamera::MoveForward);</span><br><span class="line">InputComponent-&gt;BindAxis(&quot;MoveRight&quot;, this, &amp;APawnWithCamera::MoveRight);</span><br><span class="line">InputComponent-&gt;BindAxis(&quot;CameraPitch&quot;, this, &amp;APawnWithCamera::PitchCamera);</span><br><span class="line">InputComponent-&gt;BindAxis(&quot;CameraYaw&quot;, this, &amp;APawnWithCamera::YawCamera);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在Tick中使用定义的变量改变参数的值</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//如果按下了放大按钮则放大，否则就缩小</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//此处实现了平滑移动</span></span><br><span class="line">    <span class="keyword">if</span> (bZoomingIn)</span><br><span class="line">    &#123;</span><br><span class="line">        ZoomFactor += DeltaTime / <span class="number">0.5f</span>;         <span class="comment">//Zoom in over half a second</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        ZoomFactor -= DeltaTime / <span class="number">0.25f</span>;        <span class="comment">//Zoom out over a quarter of a second</span></span><br><span class="line">    &#125;</span><br><span class="line">    ZoomFactor = FMath::Clamp&lt;<span class="keyword">float</span>&gt;(ZoomFactor, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据ZoomFactor来设置摄像机的视场和弹簧臂的长度</span></span><br><span class="line">    CameraComp-&gt;FieldOfView = FMath::Lerp&lt;<span class="keyword">float</span>&gt;(<span class="number">90.0f</span>, <span class="number">60.0f</span>, ZoomFactor);</span><br><span class="line">    SpringArmComp-&gt;TargetArmLength = FMath::Lerp&lt;<span class="keyword">float</span>&gt;(<span class="number">400.0f</span>, <span class="number">300.0f</span>, ZoomFactor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>[^NOTE]: 此处可以将0.5，0.25，暴露给编辑器来修改，，，，and  这*<em>个功能很适合用于FPS和TPS的瞄准</em></p>
+<blockquote>
+<p>设置视角旋转与actor旋转</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;旋转Actor的偏转角度，这样摄像机也能旋转，因为摄像机与Actor相互绑定</span><br><span class="line">&#123;</span><br><span class="line">    FRotator NewRotation &#x3D; GetActorRotation();</span><br><span class="line">    NewRotation.Yaw +&#x3D; CameraInput.X;</span><br><span class="line">    SetActorRotation(NewRotation);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 旋转摄像机的俯仰角度，但要对其进行限制，这样我们就能始终俯视Actor</span><br><span class="line">&#123;</span><br><span class="line">    FRotator NewRotation &#x3D; OurCameraSpringArm-&gt;GetComponentRotation();</span><br><span class="line">    NewRotation.Pitch &#x3D; FMath::Clamp(NewRotation.Pitch + CameraInput.Y, -80.0f, -15.0f);</span><br><span class="line">    SpringArmComp-&gt;SetWorldRotation(NewRotation);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>使用SpringArmComp的滞后属性    也很好用</strong></em></p>
+<p><img src="%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA/image-20210320164319661.png" alt="image-20210320164319661"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>c++API</title>
+    <url>/2021/03/20/c-API/</url>
+    <content><![CDATA[<p>c++API文档</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<h1 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h1><h2 id="UActorComponents"><a href="#UActorComponents" class="headerlink" title="UActorComponents"></a>UActorComponents</h2><ul>
+<li>UActorComponent::<a href="/2021/03/20/SetActive/" title="SetActive">SetActive</a>  <a href="https://docs.unrealengine.com/en-US/API/Runtime/Engine/Components/UActorComponent/SetActive/index.html">官网链接</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>SetActive</title>
+    <url>/2021/03/20/SetActive/</url>
+    <content><![CDATA[<h1 id="UActorComponent-SetActive"><a href="#UActorComponent-SetActive" class="headerlink" title="UActorComponent::SetActive"></a>UActorComponent::SetActive</h1><p>Sets whether the component is active or not</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<ul>
+<li><strong>References</strong>  (引用)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th><a href="https://docs.unrealengine.com/en-US/API/Runtime/Engine/index.html">Engine</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>/Engine/Source/Runtime/Engine/Classes/Components/ActorComponent.h</td>
+</tr>
+<tr>
+<td>Include</td>
+<td>#include “Components/ActorComponent.h”</td>
+</tr>
+<tr>
+<td>Source</td>
+<td>/Engine/Source/Runtime/Engine/Private/Components/ActorComponent.cpp</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>Syntax</strong>   (语法)</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">virtual</span> <span class="keyword">void</span> SetActive&#123;</span><br><span class="line">	<span class="keyword">bool</span> bNewActive;</span><br><span class="line">	<span class="keyword">bool</span> bReset;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Parameters</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">bNewActive</td>
+<td align="left">The new active state of the component  (设置组件新的激活状态)</td>
+</tr>
+<tr>
+<td align="left">bReset</td>
+<td align="left">Whether the activation should happen even if ShouldActivate returns false.(重置组件的状态……..大概是这个)</td>
+</tr>
+</tbody></table>
+]]></content>
+      <tags>
+        <tag>c++API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>创建一个由输入控制的粒子系统</title>
+    <url>/2021/03/19/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%94%B1%E8%BE%93%E5%85%A5%E6%8E%A7%E5%88%B6%E7%9A%84%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<p>概述: </p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用ParticleSystemComponent所需的头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Particles/ParticleSystemComponent.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//在.h中创建该变量的空指针，并在开头声明类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UParticleSystemComponent</span>；</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">UPROPERTY</span>()</span></span><br><span class="line"><span class="class"><span class="title">UParticleSystemComponent</span>* <span class="title">OurParticleSystem</span>;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建可激活或停止的粒子系统</span></span><br><span class="line"></span><br><span class="line">    OurParticleSystem = CreateDefaultSubobject&lt;UParticleSystemComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;MovementParticles&quot;</span>));</span><br><span class="line"></span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetupAttachment</span>(SphereVisual);</span><br><span class="line"></span><br><span class="line">    OurParticleSystem-&gt;bAutoActivate = <span class="literal">false</span>;<span class="comment">//在场景中激活</span></span><br><span class="line"></span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">-20.0f</span>, <span class="number">0.0f</span>, <span class="number">20.0f</span>));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//基于硬编码的资产路径，一般不使用</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> ConstructorHelpers::FObjectFinder&lt;UParticleSystem&gt; <span class="title">ParticleAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Particles/P_Fire.P_Fire&quot;</span>))</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (ParticleAsset.<span class="built_in">Succeeded</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        OurParticleSystem-&gt;<span class="built_in">SetTemplate</span>(ParticleAsset.Object);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//定义函数并且实现</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ParticleToggle</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ACollidingPawn::ParticleToggle</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (OurParticleSystem &amp;&amp; OurParticleSystem-&gt;Template)</span><br><span class="line">     &#123;</span><br><span class="line">         OurParticleSystem-&gt;<span class="built_in">ToggleActive</span>();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//将函数与编辑器中的操作绑定</span></span><br><span class="line"></span><br><span class="line">InInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;ParticleToggle&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ACollidingPawn::ParticleToggle);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="OurParticleSystem-gt-ToggleActive"><a href="#OurParticleSystem-gt-ToggleActive" class="headerlink" title="OurParticleSystem-&gt;ToggleActive();"></a><code>OurParticleSystem-&gt;ToggleActive();</code></h4><p><code>//官方使用的ToggleActive()切换粒子状态(Active ,DActive),不建议使用,只有慢慢按键才会变,估计是ue4优化问题</code></p>
+<ol>
+<li><p>该函数在Components/ActorComponents内实现</p>
+</li>
+<li><p>函数定义</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Toggles the active state of the component</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, Category=<span class="string">&quot;Components|Activation&quot;</span>, meta=(UnsafeDuringActorConstruction=<span class="string">&quot;true&quot;</span>))</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">ToggleActive</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>函数实现</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UActorComponent::ToggleActive</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">SetActive</span>(!<span class="built_in">IsActive</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ol start="4">
+<li><p>建议直接用计数器+<a href="/2021/03/20/SetActive/" title="SetActive">SetActive</a>    <a href="https://blog.csdn.net/weixin_30918633/article/details/95445602?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242">大佬牛逼</a></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">在.h中定义为私有</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">private</span> :  <span class="keyword">bool</span> ParticleState =<span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在调用时改变状态并设置激活状态</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ACollidingPawn::ParticleToggle</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (OurParticleSystem)</span><br><span class="line">     &#123;</span><br><span class="line">        ParticleState = !ParticleState;</span><br><span class="line">         OurParticleSystem-&gt;<span class="built_in">SetActive</span>(ParticleState);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>创建自己的Pawn</title>
+    <url>/2021/03/17/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84Pawn/</url>
+    <content><![CDATA[<p>概述 ： 描述了如何从零创建一个Pawn</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<h1 id="创建一个空的Pawn并绑定基础操作"><a href="#创建一个空的Pawn并绑定基础操作" class="headerlink" title="创建一个空的Pawn并绑定基础操作"></a>创建一个空的Pawn并绑定基础操作</h1><pre><code>[NOTE] Pawn是一种由真实玩家或AI控制的 Actor。
+</code></pre>
+<p><a href="https://docs.unrealengine.com/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/PlayerInput/index.html">Unreal 文档</a></p>
+<ol>
+<li>向项目添加自定义 c++ Pawn 类，并命名为MyPawn</li>
+<li>初始化MyPawn，并添加一些组件使MyPawn可见。<br><blockquote>
+   <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 将该Pawn设为由最小编号玩家控制</span></span><br><span class="line">AutoPossessPlayer = EAutoReceiveInput::Player0;</span><br></pre></td></tr></table></figure>
+<p>  场景组件（SceneComponent) 具有变形和支持附件功能，但没有渲染或碰撞功能。<br>  它在层级中用作”虚拟”组件来偏移其他组件，或者与其子组件交互以使其像一个整体。</p>
+  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//这里只是作为使创建的Pawn可见的一个值</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">USceneComponent* OurVisibleComponent;</span><br></pre></td></tr></table></figure>
+  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建可附加内容的虚拟根组件。</span></span><br><span class="line">RootComponent = CreateDefaultSubobject&lt;USceneComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;RootComponent&quot;</span>));</span><br><span class="line"><span class="comment">// 创建相机和可见对象</span></span><br><span class="line">UCameraComponent* OurCamera = CreateDefaultSubobject&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;OurCamera&quot;</span>));</span><br><span class="line">OurVisibleComponent = CreateDefaultSubobject&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;OurVisibleComponent&quot;</span>));</span><br><span class="line"><span class="comment">// 将相机和可见对象附加到根组件。偏移并旋转相机。</span></span><br><span class="line">OurCamera-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line">OurCamera-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">-250.0f</span>, <span class="number">0.0f</span>, <span class="number">250.0f</span>));</span><br><span class="line">OurCamera-&gt;<span class="built_in">SetRelativeRotation</span>(<span class="built_in">FRotator</span>(<span class="number">-45.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>));</span><br><span class="line">OurVisibleComponent-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br></pre></td></tr></table></figure></blockquote>
+</li>
+<li>在编辑器的项目设置中绑定操作，并且为SceneComponent的StaticMesh选择资产<blockquote>
+</blockquote>
+</li>
+<li>定义并创建操作对应的函数与将要使用的变量<blockquote>
+  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">  在头文件中创建</span><br><span class="line"><span class="comment">//输入函数 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Move_XAxis</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Move_YAxis</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">StartGrowing</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">StopGrowing</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输入变量</span></span><br><span class="line">FVector CurrentVelocity;</span><br><span class="line"><span class="keyword">bool</span> bGrowing;</span><br></pre></td></tr></table></figure>
+  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">在cpp中实现函数</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AMyPawn::Move_XAxis</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span>&#123;</span><br><span class="line">      <span class="comment">// 以100单位/秒的速度向前或向后移动</span></span><br><span class="line">      CurrentVelocity.X = FMath::<span class="built_in">Clamp</span>(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>) * <span class="number">100.0f</span>;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AMyPawn::Move_YAxis</span><span class="params">(<span class="keyword">float</span> AxisValue)</span></span>&#123;</span><br><span class="line">      <span class="comment">// 以100单位/秒的速度向右或向左移动</span></span><br><span class="line">       CurrentVelocity.Y = FMath::<span class="built_in">Clamp</span>(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>) * <span class="number">100.0f</span>;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AMyPawn::StartGrowing</span><span class="params">()</span></span>&#123;</span><br><span class="line">      bGrowing = <span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AMyPawn::StopGrowing</span><span class="params">()</span></span>&#123;</span><br><span class="line">      bGrowing = <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>  [^NOTE] : 使用 FMath::Clamp 约束输入中得到的值，将其约束在-1到+1的范围内。</p>
+</blockquote>
+</li>
+<li>绑定函数并将代码添加到AMyPawn::SetupPlayerInputComponent 中<blockquote>
+<p>  [^NOTE] : 关于SetupPlayerInputComponent，未完成</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//绑定操作映射</span></span><br><span class="line"><span class="comment">// 在按下或松开&quot;Grow&quot;键时做出响应。</span></span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Grow&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;AMyPawn::StartGrowing);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Grow&quot;</span>, IE_Released, <span class="keyword">this</span>, &amp;AMyPawn::StopGrowing);</span><br><span class="line"><span class="comment">//绑定轴映射</span></span><br><span class="line"><span class="comment">// 对两个移动轴&quot;MoveX&quot;和&quot;MoveY&quot;的值逐帧反应。</span></span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveX&quot;</span>, <span class="keyword">this</span>, &amp;AMyPawn::Move_XAxis);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveY&quot;</span>, <span class="keyword">this</span>, &amp;AMyPawn::Move_YAxis);</span><br></pre></td></tr></table></figure></blockquote>
+</li>
+</ol>
+<blockquote>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于 "></a>关于 <a href="/2021/03/20/%E6%93%8D%E4%BD%9C%E6%98%A0%E5%B0%84%E4%B8%8E%E8%BD%B4%E6%98%A0%E5%B0%84/" title="操作映射与轴映射">操作映射与轴映射</a></h2></blockquote>
+]]></content>
+      <tags>
+        <tag>c++</tag>
+        <tag>应用</tag>
+        <tag>Pawn</tag>
+        <tag>Pawn操作绑定</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>组件</title>
+    <url>/2021/03/16/%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<p>概述 ： 组件及其细分类别      <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/index.html">MORE</a></p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>组件是可以<strong>添加到Actor上</strong>并被Actor使用的一项功能，但是组件*<em>无法单独存在</em><br><strong>组件实例化</strong> ： 当Actor被实例化时，该Actor上的组件也将被实例化</p>
+<h1 id="AI组件-AI-Component"><a href="#AI组件-AI-Component" class="headerlink" title="AI组件     AI  Component"></a>AI组件 <a href="https://docs.unrealengine.com/en-US/Basics/Components/AI/index.html">    AI  Component</a></h1><h1 id="音频组件-Audio-Component"><a href="#音频组件-Audio-Component" class="headerlink" title="音频组件     Audio  Component"></a>音频组件  <a href="https://docs.unrealengine.com/en-US/Basics/Components/Audio/index.html">   Audio  Component</a></h1><h1 id="摄像机组件-Camera-Component"><a href="#摄像机组件-Camera-Component" class="headerlink" title="摄像机组件    Camera  Component"></a>摄像机组件 <a href="https://docs.unrealengine.com/en-US/Basics/Components/Camera/index.html">   Camera  Component</a></h1><h1 id="灯光组件-Light-Component"><a href="#灯光组件-Light-Component" class="headerlink" title="灯光组件    Light  Component"></a>灯光组件 <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Lights/index.html">   Light  Component</a></h1><h1 id="移动组件-Movement-Component"><a href="#移动组件-Movement-Component" class="headerlink" title="移动组件    Movement  Component"></a>移动组件 <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Movement/index.html">   Movement  Component</a></h1><h1 id="寻路组件-Navigation-Component"><a href="#寻路组件-Navigation-Component" class="headerlink" title="寻路组件    Navigation  Component"></a>寻路组件 <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Navigation/index.html">   Navigation  Component</a></h1><h1 id="Paper2D组件-Paper2D-Component"><a href="#Paper2D组件-Paper2D-Component" class="headerlink" title="Paper2D组件    Paper2D  Component"></a>Paper2D组件 <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Paper2D/index.html">   Paper2D  Component</a></h1><h1 id="物理组件-Physics-Component"><a href="#物理组件-Physics-Component" class="headerlink" title="物理组件   Physics  Component"></a>物理组件<a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Physics/index.html">   Physics  Component</a></h1><h1 id="渲染组件-Rendering-Component"><a href="#渲染组件-Rendering-Component" class="headerlink" title="渲染组件     Rendering  Component"></a>渲染组件  <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Rendering/index.html">   Rendering  Component</a></h1><h1 id="形状组件-Shap-Components"><a href="#形状组件-Shap-Components" class="headerlink" title="形状组件      Shap Components"></a>形状组件  <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Shapes/index.html">    Shap Components</a></h1><blockquote>
+<p> 形状组件可用于创建碰撞或在其他对象周围创建触发器、提示方向或创建路径</p>
+</blockquote>
+<ul>
+<li><h2 id="Arrow-Component-（箭头组件）"><a href="#Arrow-Component-（箭头组件）" class="headerlink" title="Arrow Component （箭头组件）"></a>Arrow Component （箭头组件）</h2><blockquote>
+<p><strong>ArrowComponent</strong> 是一个用直线渲染的简单箭头，用于指示对象应当遵循的朝向。</p>
+<p>箭头不会显示在实际游戏中（除非取消选中 <em>Hidden in Game</em> 选项），而颜色和大小可以随意调整。</p>
+<p>该组件没有任何碰撞设置，可以被用作脚本”标记”（例如，将一个 <strong>ArrowComponent</strong> 添加到人物肩部上方的 <strong>CharacterBlueprint</strong>，然后在玩家按下按钮时，将 <strong>CameraComponent</strong> 移动到创建过肩式摄像机的 <strong>ArrowComponent</strong> 所在的位置）。</p>
+<p>箭头组件也属于实用工具组件</p>
+<p><img src="%E7%BB%84%E4%BB%B6/arrow_component.jpg" alt="arrow_component.png"></p>
+</blockquote>
+</li>
+<li><h2 id="Box-Component-（盒体组件）"><a href="#Box-Component-（盒体组件）" class="headerlink" title="Box Component （盒体组件）"></a>Box Component （盒体组件）</h2><blockquote>
+<p><strong>BoxComponent</strong> 是一个盒体，通常被用于简单碰撞,也经常用做触发器。</p>
+</blockquote>
+</li>
+<li><h2 id="Capsule-Component-（胶囊形组件）"><a href="#Capsule-Component-（胶囊形组件）" class="headerlink" title="Capsule Component （胶囊形组件）"></a>Capsule Component （胶囊形组件）</h2></li>
+<li><h2 id="Sphere-Component-（球形组件）"><a href="#Sphere-Component-（球形组件）" class="headerlink" title="Sphere Component （球形组件）"></a>Sphere Component （球形组件）</h2></li>
+<li><h2 id="Spline-Component-（样条组件）"><a href="#Spline-Component-（样条组件）" class="headerlink" title="Spline Component （样条组件）"></a>Spline Component （样条组件）</h2></li>
+</ul>
+<h1 id="骨架网格模型组件-Skeletal-Mesh-Component"><a href="#骨架网格模型组件-Skeletal-Mesh-Component" class="headerlink" title="骨架网格模型组件    Skeletal  Mesh  Component"></a>骨架网格模型组件 <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/SkeletalMesh/index.html">   Skeletal  Mesh  Component</a></h1><h1 id="静态网格模型组件-Static-Mesh-Component"><a href="#静态网格模型组件-Static-Mesh-Component" class="headerlink" title="静态网格模型组件   Static  Mesh  Component"></a>静态网格模型组件<a href="https://docs.unrealengine.com/zh-CN/Basics/Components/StaticMesh/index.html">   Static  Mesh  Component</a></h1><blockquote>
+<p><strong>StaticMeshComponent</strong> 用于创建 <code>UStaticMesh</code> 的实例。<br><br><strong>Static Mesh</strong> 是一个包含一组静态多边形的几何体，是在虚幻引擎 4 的场景中创建世界几何体所用的基本单位。除构建场景外，静态网格模型还能用于创建运动体（如门或电梯）、刚体物理对象、植物和地形修饰、程序化创建的建筑、游戏目标和许多其他的视觉元素。<br>在actor中创建StaticMeshComponent之后，如果将该组件暴露给编辑器，则可以在编辑器中选择模型资产</p>
+</blockquote>
+<blockquote>
+<h2 id="Static-MeshComponent的创建"><a href="#Static-MeshComponent的创建" class="headerlink" title="Static MeshComponent的创建"></a>Static MeshComponent的创建</h2><p>1 . 在头文件中定义该组件的指针并且声明类</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//声明部分</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UStaticMeshComponent</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//定义组件变量，并使用宏公开给编辑器</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleAnywhere, Category = <span class="string">&quot;Components&quot;</span>)</span><br><span class="line">UStaticMeshComponent* MeshComp;</span><br></pre></td></tr></table></figure>
+<p>2 . 在cpp文件中创建该组件，需要添加头文件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Components/StaticMeshComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">MeshComp = CreateDefaultSubobject&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;MeshComp&quot;</span>));</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="实用工具组件-Utility-Component"><a href="#实用工具组件-Utility-Component" class="headerlink" title="实用工具组件    Utility  Component"></a>实用工具组件 <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Utility/index.html">   Utility  Component</a></h1><ul>
+<li><h2 id="应用程序生命周期组件"><a href="#应用程序生命周期组件" class="headerlink" title="应用程序生命周期组件"></a>应用程序生命周期组件</h2><blockquote>
+<p>应用程序生命周期组件（ApplicationLifecycleComponent） 处理从OS（操作系统）接收的<code>关于应用程序的状态（开始、停止、结束等）的通知</code>。</p>
+</blockquote>
+</li>
+<li><h2 id="平台事件组件"><a href="#平台事件组件" class="headerlink" title="平台事件组件"></a>平台事件组件</h2><blockquote>
+<p>平台事件组件（PlatformEventComponent） 根据特定于平台的OS信息和事件来轮询和接收事件的功能。</p>
+<p>目前，该组件支持可翻转式笔记本电脑，提供关于平台是否为可翻转式笔记本电脑及其状态（笔记本电脑模式或平板电脑模式）的信息。</p>
+<p>为了无需不断轮询这些函数就能知道平台状态何时改变，可以绑定代理。当状态改变时，代理会通知代码（或蓝图）</p>
+</blockquote>
+</li>
+<li><h2 id="子Actor组件"><a href="#子Actor组件" class="headerlink" title="子Actor组件"></a>子Actor组件</h2><blockquote>
+<p>子Actor组件（ChildActorComponent） 是一个在注册时生成Actor并在取消注册时销毁Actor的组件。 </p>
+<p>子Actor组件通过提供C++ 或蓝图资源来指定要生成的Actor。选择类或资源后，将显示 子Actor模板（Child Actor Template） 字段。</p>
+<p>你可以展开此字段并编辑指定子Actor或其组件的所有公开的可编辑字段，包括蓝图中声明的公共变量。<br>ChildActorTemplate.jpg<br><img src="%E7%BB%84%E4%BB%B6/ChildActorTemplate.jpg" alt="ChildActorTemplate.png"></p>
+</blockquote>
+</li>
+<li><h2 id="场景组件"><a href="#场景组件" class="headerlink" title="场景组件"></a>场景组件</h2><blockquote>
+<p> 场景组件（SceneComponent） 具有变形和支持附件功能，但没有渲染或碰撞功能。</p>
+<p>它在层级中用作”虚拟”组件来偏移其他组件，或者与其子组件交互以使其像一个整体。</p>
+<p>例如，你可以移动或旋转子组件，使其全部可见或不可见，或者将其断开。</p>
+<p>有一点很重要，就是不要将场景组件作为组织工具过度使用，因为在生成包含这些组件的Actor时，每个组件都会占用相应的时间和内存。</p>
+</blockquote>
+</li>
+<li><h2 id="箭头组件"><a href="#箭头组件" class="headerlink" title="箭头组件"></a>箭头组件</h2><blockquote>
+<p>箭头组件（ArrowComponent） 是一种场景组件，绘制为指向所面对方向的简单箭头。</p>
+<p>箭头组件尤其适用于调试插槽位置或方向等内容。这对于游戏中出现的服装、手持或附着的物体或者产生发射物的枪口特别有用。</p>
+<p>默认情况下，这些组件仅显示在编辑器中。要使其在游戏中可见，请取消选中<code>在游戏中隐藏（Hidden in Game）</code>复选框（显示在箭头组件的 <strong>细节(Details)</strong> 面板中）。</p>
+<p>箭头组件也属于形状组件<br><img src="%E7%BB%84%E4%BB%B6/HiddenInGame_Checkbox.jpg" alt="HiddenInGame_Checkbox.png"></p>
+</blockquote>
+</li>
+<li><h2 id="样条组件"><a href="#样条组件" class="headerlink" title="样条组件"></a>样条组件</h2><blockquote>
+<p>样条组件（Spline Component） 让用户可在关卡内绘制样条。</p>
+<p>它尤其适用于为移动Actor（例如火车、背景角色、摄像机等）指定路径。</p>
+<p>放置在关卡中时，具有样条组件的Actor将在组件位置显示一个点，该点通过一条线连接到不远处的第二个点。</p>
+<p>你可以右键单击该线并在单击位置添加新点，也可以单击某个点（不是唯一的点）将其删除、复制或更改样条中从一个点到下一个点的曲线。</p>
+<p>复制功能可以创建一个与当前点位于同一位置的新点，但在线中被认为是”下一个”点。使用标准移动和旋转工具可以在关卡内随意操纵样条点。</p>
+<p>有一个名为<code>时长（Duration）</code>的字段，显示在组件的 <strong>细节（Details）</strong> 面板中，可以设置样条查询范围的值。<br>[^NOTE] : 使用样条组件创建的样条永远不会分叉为多个路径，或者包含成环形的回路或孤立的点。样条始终呈现为一条路径，每个样条点仅通过一次。<br>PS：个人感觉这个东西会很好用</p>
+</blockquote>
+<h1 id="控件组件-Widget-Component"><a href="#控件组件-Widget-Component" class="headerlink" title="控件组件     Widget  Component"></a>控件组件  <a href="https://docs.unrealengine.com/zh-CN/Basics/Components/Widget/index.html">   Widget  Component</a></h1><blockquote>
+<p>sdadas</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>c++</tag>
+        <tag>组件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Camera</title>
+    <url>/2021/03/09/Camera/</url>
+    <content><![CDATA[<p>概述：摄像机的控制</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>For More : <a href="https://docs.unrealengine.com/zh-CN/InteractiveExperiences/Framework/Camera/index.html">摄像机框架</a>，<a href="https://docs.unrealengine.com/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/PlayerCamera/index.html">玩家控制的摄像机</a></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用UPROPERTY(EditAnywhere)宏来使变量在编辑器中可见</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">AActor* Camera;<span class="comment">//定义摄像机组件</span></span><br></pre></td></tr></table></figure>
+
+<p>[^NOTE]: <strong>UPROPERTY</strong> 宏使得变量对 <strong>虚幻引擎</strong> 可见。这样，当我们启动游戏或在将来的工作会话中重新载入关卡或项目时，这些变量中设置的值将不会被重置。我们还添加了 <strong>EditAnywhere</strong> 关键字，这允许我们在 <strong>虚幻编辑器</strong> 中设置摄像机1（CameraOne）和摄像机2（CameraTwo）。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//获取PlayerController的视角</span></span><br><span class="line">PlayerController-&gt;<span class="built_in">GetViewTarget</span>(AActor* obj)</span><br><span class="line"><span class="comment">//改变PlayController的视角</span></span><br><span class="line">PlayerController-&gt;<span class="built_in">SetViewTarget</span>(AActor* obj)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//视角平滑移动  在两个ViewTugart之间</span></span><br><span class="line">PlayerController-&gt;<span class="built_in">SetViewTargetWithBlend</span>(AActor* OtherCamera, Const <span class="keyword">float</span> SmoothBlendTime);</span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a><a href="/2021/03/20/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA/" title="创建一个简单的摄像机">创建一个简单的摄像机</a></h3>]]></content>
+      <tags>
+        <tag>c++</tag>
+        <tag>Camera</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>联网和多人游戏</title>
+    <url>/2021/03/07/%E8%81%94%E7%BD%91%E5%92%8C%E5%A4%9A%E4%BA%BA%E6%B8%B8%E6%88%8F/</url>
+    <content><![CDATA[<p>概述：为多人游戏设置联网  ps：需要尽早规划多人游戏</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>​    ue4 在网络联机游戏中采用客户端-服务器模型</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>​    服务器作为游戏主机，保留一个真实 <strong>授权</strong> 的游戏状态。换句话说，服务器是多人游戏实际发生的地方，</p>
+<p>​    客户端远程控制服务器中所拥有的Pawn，并且向服务器发送调用过程</p>
+<p>​    服务器不会直接向客户端发送游戏画面，而是将游戏状态告知客户端，使客户端高度模拟主机上正在发生的事</p>
+<h2 id="范例与对比"><a href="#范例与对比" class="headerlink" title="范例与对比"></a>范例与对比</h2><p>​    。。省略，区别在于单机就是直接执行代码，网络联机需要将要执行的代码告知服务器，由服务器来运行代码，并且将运行结果告知客户端</p>
+<h2 id="网络模式和服务器类型"><a href="#网络模式和服务器类型" class="headerlink" title="网络模式和服务器类型"></a>网络模式和服务器类型</h2><p><strong>网络模式</strong> 描述了计算机与网络多人游戏会话的关系。游戏实例可采用以下任意网络模式：</p>
+<table>
+<thead>
+<tr>
+<th align="left">网络模式</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>独立</strong></td>
+<td align="center">游戏作为服务器运行，不接受远程客户端连接。参与游戏的玩家必须为本地玩家。此模式用于单人游戏和本地多人游戏。其将运行本地玩家适用的服务器逻辑和客户端逻辑。</td>
+</tr>
+<tr>
+<td align="left"><strong>客户端</strong></td>
+<td align="center">游戏作为网络多人游戏会话中与服务器连接的客户端运行。其不会运行服务器逻辑。</td>
+</tr>
+<tr>
+<td align="left"><strong>聆听服务器</strong></td>
+<td align="center">游戏作为主持网络多人游戏会话的服务器运行。其接受远程客户端中的连接，且直接在服务器上拥有本地玩家。此模式通常用于<strong>临时合作和竞技多人游戏</strong>。</td>
+</tr>
+<tr>
+<td align="left"><strong>专属服务器</strong></td>
+<td align="center">游戏作为主持网络多人游戏会话的服务器运行。其接受远程客户端中的连接，但无本地玩家，因此为了高效运行，其将废弃图形、音效、输入和其他面向玩家的功能。此模式<strong>常用于需要更固定、安全和大型多人功能的游戏。可以更加体现公平性</strong></td>
+</tr>
+</tbody></table>
+<p>​    </p>
+<h2 id="Actor复制"><a href="#Actor复制" class="headerlink" title="Actor复制"></a>Actor复制</h2><p>​    复制是指在网络会话中的不同机器间复制游戏状态信息。若正确设置复制，将可同步不同机器的游戏实例</p>
+<p>​    多数Actor默认不启用，启用时可以设置c++中bReplicates或者蓝图中的复制（Replicates） 设置为true</p>
+<p>​    常用复制功能</p>
+<table>
+<thead>
+<tr>
+<th align="right">复制功能</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right"><strong>创建和销毁</strong></td>
+<td align="center">服务器上生成复制Actor的<strong>授权版本</strong>时，其会在所有连接客户端上自动生成远程代理。其之后会将信息复制到这些远程代理。若销毁授权Actor，则将自动销毁所有连接客户端上的远程代理。</td>
+</tr>
+<tr>
+<td align="right"><strong>移动复制</strong></td>
+<td align="center">若授权Actor启用了 <strong>复制移动</strong>，或将C++中的 <code>bReplicateMovement</code> 设为 <code>true</code>，其将<strong>自动复制位置、旋转和速度</strong>。</td>
+</tr>
+<tr>
+<td align="right"><strong>变量复制</strong></td>
+<td align="center">在指定为复制<strong>变量</strong>的值变更时，其将自动从授权Actor复制到其远程代理。</td>
+</tr>
+<tr>
+<td align="right"><strong>组件复制</strong></td>
+<td align="center">Actor<strong>组件复制</strong>为其所属Actor的一部分。组件内指定为复制变量将复制，而组件内调用的RPC将与Actor类中调用的RPC保持一致。</td>
+</tr>
+<tr>
+<td align="right"><strong>远程过程调用（RPC）</strong></td>
+<td align="center">RPC是传输到网络游戏中特定机器的特殊函数。无论初始调用RPC的是哪台机器，其的实现仅在目标机器上运行。此类RPC可指定为服务器（仅在服务器上运行）、客户端（仅在Actor的拥有客户端上运行）或NetMulticast（在连接会话的所有机器上运行，包括服务器）。</td>
+</tr>
+</tbody></table>
+]]></content>
+      <tags>
+        <tag>c++</tag>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GamePlay框架</title>
+    <url>/2021/03/01/GamePlay%E6%A1%86%E6%9E%B6/</url>
+    <content><![CDATA[<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>GameMode 就是GamePlay框架的一种应用</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>GameMode</title>
+    <url>/2021/01/25/GameMode/</url>
+    <content><![CDATA[<p>概述： 对于Gamemode的蓝图和cpp的概述<img src="GameMode/Snipaste_2021-01-25_19-42-10.png" alt="Snipaste_2021-01-25_19-42-10"></p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<h2 id="蓝图（Gamemode）"><a href="#蓝图（Gamemode）" class="headerlink" title="蓝图（Gamemode）"></a>蓝图（Gamemode）</h2><h3 id="基本概念："><a href="#基本概念：" class="headerlink" title="基本概念："></a>基本概念：</h3><p>​                    1.属于蓝图类</p>
+<p>​                    2.可以设置一系列关于游戏控制的类，比如玩家控制器类，HUD类，Paw类等等</p>
+<p>​                    3.创建后一般放在BluePrint文件夹内</p>
+<p>​                    4.如果要在当前世界中使用该GameMode需要在项目设置里将Game Mode改为要使用的</p>
+]]></content>
+      <tags>
+        <tag>GameMode</tag>
+        <tag>BluePrint</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>控件蓝图</title>
+    <url>/2021/01/25/%E6%8E%A7%E4%BB%B6%E8%93%9D%E5%9B%BE/</url>
+    <content><![CDATA[<p>概述： 控件</p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>控件<img src="%E6%8E%A7%E4%BB%B6%E8%93%9D%E5%9B%BE/Snipaste_2021-01-24_16-30-51.png" alt="Snipaste_2021-01-24_16-30-51"></p>
+<h2 id="控件蓝图"><a href="#控件蓝图" class="headerlink" title="控件蓝图"></a>控件蓝图</h2><p>​    1.一般放在UI文件夹内</p>
+<p>​    2.用于创建和添加HUD中的内容</p>
+<p>​    3.可以在<img src="%E6%8E%A7%E4%BB%B6%E8%93%9D%E5%9B%BE/Snipaste_2021-01-24_16-33-51.png" alt="Snipaste_2021-01-24_16-33-51">  找到</p>
+<h2 id="各种控件"><a href="#各种控件" class="headerlink" title="各种控件"></a>各种控件</h2><h3 id="文本控件："><a href="#文本控件：" class="headerlink" title="文本控件："></a>文本控件：</h3><h4 id="基础的文本："><a href="#基础的文本：" class="headerlink" title="基础的文本："></a>基础的文本：<img src="%E6%8E%A7%E4%BB%B6%E8%93%9D%E5%9B%BE/Snipaste_2021-01-24_16-26-08.png" alt="Snipaste_2021-01-24_16-26-08"></h4>]]></content>
+      <categories>
+        <category>UI</category>
+      </categories>
+      <tags>
+        <tag>BluePrint</tag>
+        <tag>UI</tag>
+        <tag>Wiget BluePrint</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HUD</title>
+    <url>/2021/01/25/HUD/</url>
+    <content><![CDATA[<p>概述： 一些关于HUD的蓝图知识<img src="HUD/Snipaste_2021-01-24_16-36-44.png" alt="Snipaste_2021-01-24_16-36-44"></p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<h2 id="HUD基本概念："><a href="#HUD基本概念：" class="headerlink" title="HUD基本概念："></a>HUD基本概念：</h2><p>​                        1.是用户在使用的时候频幕上用来提示信息的一些常驻后非常驻的信息显示</p>
+<p>​                        2.一般在创建后会将其放在Blueprint文件夹内</p>
+<p>​                        3.</p>
+<h2 id="HUD使用："><a href="#HUD使用：" class="headerlink" title="HUD使用："></a>HUD使用：</h2><p>​        </p>
+<h3 id="将GameMode-类编辑视图下的HUD换成想要使用的HUD类"><a href="#将GameMode-类编辑视图下的HUD换成想要使用的HUD类" class="headerlink" title="将GameMode 类编辑视图下的HUD换成想要使用的HUD类"></a>将GameMode 类编辑视图下的HUD换成想要使用的HUD类<img src="HUD/Snipaste_2021-01-25_19-50-00.png" alt="Snipaste_2021-01-25_19-50-00"></h3><h3 id="在HUD的蓝图编辑视图使用选择所需的控件并且添加到视口（View）"><a href="#在HUD的蓝图编辑视图使用选择所需的控件并且添加到视口（View）" class="headerlink" title="在HUD的蓝图编辑视图使用选择所需的控件并且添加到视口（View）"></a>在HUD的蓝图编辑视图使用<img src="HUD/Snipaste_2021-01-25_19-54-29.png" alt="Snipaste_2021-01-25_19-54-29" style="zoom: 67%;" />选择所需的控件并且添加到视口（View）</h3>]]></content>
+      <categories>
+        <category>UI</category>
+      </categories>
+      <tags>
+        <tag>BluePrint</tag>
+        <tag>UI</tag>
+        <tag>HUD</tag>
+      </tags>
+  </entry>
+</search>
