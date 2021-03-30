@@ -372,7 +372,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UActorComponent::ToggleActive</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">SetActive</span>(!<span class="built_in">IsActive</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ol start="4">
-<li><p>建议直接用计数器+<a href="/2021/03/20/SetActive/" title="SetActive">SetActive</a>    <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_30918633/article/details/95445602?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242">大佬牛逼</a></p>
+<li><p>建议直接用计数器+<a href="/2021/03/20/SetActive/" title="UActorComponent::SetActive">UActorComponent::SetActive</a>    <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_30918633/article/details/95445602?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242">大佬牛逼</a></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">在.h中定义为私有</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">private</span> :  <span class="keyword">bool</span> ParticleState =<span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在调用时改变状态并设置激活状态</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ACollidingPawn::ParticleToggle</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (OurParticleSystem)</span><br><span class="line">     &#123;</span><br><span class="line">        ParticleState = !ParticleState;</span><br><span class="line">         OurParticleSystem-&gt;<span class="built_in">SetActive</span>(ParticleState);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 
@@ -409,8 +409,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/03/20/SetActive/" rel="prev" title="SetActive">
-                SetActive <i class="fa fa-chevron-right"></i>
+              <a href="/2021/03/20/SetActive/" rel="prev" title="UActorComponent::SetActive">
+                UActorComponent::SetActive <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -492,7 +492,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
