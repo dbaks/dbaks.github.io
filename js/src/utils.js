@@ -11,6 +11,7 @@ NexT.utils = NexT.$u = {
       .each(function () {
         var $image = $(this);
         var imageTitle = $image.attr('title');
+        if ($(this).hasClass('nofancybox')) return;
         var $imageWrapLink = $image.parent('a');
 
         if ($imageWrapLink.size() < 1) {
