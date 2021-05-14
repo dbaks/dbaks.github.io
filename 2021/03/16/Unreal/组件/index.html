@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="c++,组件," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概述 ： 组件及其细分类别      MORE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组件">
+<meta property="og:url" content="http://example.com/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/index.html">
+<meta property="og:site_name" content="dbaks&#39;Blog">
+<meta property="og:description" content="概述 ： 组件及其细分类别      MORE">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/arrow_component.jpg">
+<meta property="og:image" content="http://example.com/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/ChildActorTemplate.jpg">
+<meta property="og:image" content="http://example.com/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/HiddenInGame_Checkbox.jpg">
+<meta property="article:published_time" content="2021-03-16T14:47:58.000Z">
+<meta property="article:modified_time" content="2021-03-22T02:55:25.000Z">
+<meta property="article:author" content="dbaks">
+<meta property="article:tag" content="c++">
+<meta property="article:tag" content="组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/arrow_component.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2021/03/16/Unreal/组件/"/>
+
+
+
+
+
+  <title>组件 | dbaks'Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dbaks'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">dbaks</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">组件</h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-16T22:47:58+08:00">
+                2021-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>概述 ： 组件及其细分类别      <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/index.html">MORE</a></p>
+<span id="more"></span>
+
+<a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a>
+
+<p>组件是可以<strong>添加到Actor上</strong>并被Actor使用的一项功能，但是组件*<em>无法单独存在</em><br><strong>组件实例化</strong> ： 当Actor被实例化时，该Actor上的组件也将被实例化</p>
+<h1 id="AI组件-AI-Component"><a href="#AI组件-AI-Component" class="headerlink" title="AI组件     AI  Component"></a>AI组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/en-US/Basics/Components/AI/index.html">    AI  Component</a></h1><h1 id="音频组件-Audio-Component"><a href="#音频组件-Audio-Component" class="headerlink" title="音频组件     Audio  Component"></a>音频组件  <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/en-US/Basics/Components/Audio/index.html">   Audio  Component</a></h1><h1 id="摄像机组件-Camera-Component"><a href="#摄像机组件-Camera-Component" class="headerlink" title="摄像机组件    Camera  Component"></a>摄像机组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/en-US/Basics/Components/Camera/index.html">   Camera  Component</a></h1><h1 id="灯光组件-Light-Component"><a href="#灯光组件-Light-Component" class="headerlink" title="灯光组件    Light  Component"></a>灯光组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Lights/index.html">   Light  Component</a></h1><h1 id="移动组件-Movement-Component"><a href="#移动组件-Movement-Component" class="headerlink" title="移动组件    Movement  Component"></a>移动组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Movement/index.html">   Movement  Component</a></h1><h1 id="寻路组件-Navigation-Component"><a href="#寻路组件-Navigation-Component" class="headerlink" title="寻路组件    Navigation  Component"></a>寻路组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Navigation/index.html">   Navigation  Component</a></h1><h1 id="Paper2D组件-Paper2D-Component"><a href="#Paper2D组件-Paper2D-Component" class="headerlink" title="Paper2D组件    Paper2D  Component"></a>Paper2D组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Paper2D/index.html">   Paper2D  Component</a></h1><h1 id="物理组件-Physics-Component"><a href="#物理组件-Physics-Component" class="headerlink" title="物理组件   Physics  Component"></a>物理组件<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Physics/index.html">   Physics  Component</a></h1><h1 id="渲染组件-Rendering-Component"><a href="#渲染组件-Rendering-Component" class="headerlink" title="渲染组件     Rendering  Component"></a>渲染组件  <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Rendering/index.html">   Rendering  Component</a></h1><h1 id="形状组件-Shap-Components"><a href="#形状组件-Shap-Components" class="headerlink" title="形状组件      Shap Components"></a>形状组件  <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Shapes/index.html">    Shap Components</a></h1><blockquote>
+<p> 形状组件可用于创建碰撞或在其他对象周围创建触发器、提示方向或创建路径</p>
+</blockquote>
+<ul>
+<li><h2 id="Arrow-Component-（箭头组件）"><a href="#Arrow-Component-（箭头组件）" class="headerlink" title="Arrow Component （箭头组件）"></a>Arrow Component （箭头组件）</h2><blockquote>
+<p><strong>ArrowComponent</strong> 是一个用直线渲染的简单箭头，用于指示对象应当遵循的朝向。</p>
+<p>箭头不会显示在实际游戏中（除非取消选中 <em>Hidden in Game</em> 选项），而颜色和大小可以随意调整。</p>
+<p>该组件没有任何碰撞设置，可以被用作脚本”标记”（例如，将一个 <strong>ArrowComponent</strong> 添加到人物肩部上方的 <strong>CharacterBlueprint</strong>，然后在玩家按下按钮时，将 <strong>CameraComponent</strong> 移动到创建过肩式摄像机的 <strong>ArrowComponent</strong> 所在的位置）。</p>
+<p>箭头组件也属于实用工具组件</p>
+<p><img src="/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/arrow_component.jpg" alt="arrow_component.png"></p>
+</blockquote>
+</li>
+<li><h2 id="Box-Component-（盒体组件）"><a href="#Box-Component-（盒体组件）" class="headerlink" title="Box Component （盒体组件）"></a>Box Component （盒体组件）</h2><blockquote>
+<p><strong>BoxComponent</strong> 是一个盒体，通常被用于简单碰撞,也经常用做触发器。</p>
+</blockquote>
+</li>
+<li><h2 id="Capsule-Component-（胶囊形组件）"><a href="#Capsule-Component-（胶囊形组件）" class="headerlink" title="Capsule Component （胶囊形组件）"></a>Capsule Component （胶囊形组件）</h2></li>
+<li><h2 id="Sphere-Component-（球形组件）"><a href="#Sphere-Component-（球形组件）" class="headerlink" title="Sphere Component （球形组件）"></a>Sphere Component （球形组件）</h2></li>
+<li><h2 id="Spline-Component-（样条组件）"><a href="#Spline-Component-（样条组件）" class="headerlink" title="Spline Component （样条组件）"></a>Spline Component （样条组件）</h2></li>
+</ul>
+<h1 id="骨架网格模型组件-Skeletal-Mesh-Component"><a href="#骨架网格模型组件-Skeletal-Mesh-Component" class="headerlink" title="骨架网格模型组件    Skeletal  Mesh  Component"></a>骨架网格模型组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/SkeletalMesh/index.html">   Skeletal  Mesh  Component</a></h1><h1 id="静态网格模型组件-Static-Mesh-Component"><a href="#静态网格模型组件-Static-Mesh-Component" class="headerlink" title="静态网格模型组件   Static  Mesh  Component"></a>静态网格模型组件<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/StaticMesh/index.html">   Static  Mesh  Component</a></h1><blockquote>
+<p><strong>StaticMeshComponent</strong> 用于创建 <code>UStaticMesh</code> 的实例。<br><br><strong>Static Mesh</strong> 是一个包含一组静态多边形的几何体，是在虚幻引擎 4 的场景中创建世界几何体所用的基本单位。除构建场景外，静态网格模型还能用于创建运动体（如门或电梯）、刚体物理对象、植物和地形修饰、程序化创建的建筑、游戏目标和许多其他的视觉元素。<br>在actor中创建StaticMeshComponent之后，如果将该组件暴露给编辑器，则可以在编辑器中选择模型资产</p>
+</blockquote>
+<blockquote>
+<h2 id="Static-MeshComponent的创建"><a href="#Static-MeshComponent的创建" class="headerlink" title="Static MeshComponent的创建"></a>Static MeshComponent的创建</h2><p>1 . 在头文件中定义该组件的指针并且声明类</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明部分</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UStaticMeshComponent</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//定义组件变量，并使用宏公开给编辑器</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleAnywhere, Category = <span class="string">&quot;Components&quot;</span>)</span><br><span class="line">UStaticMeshComponent* MeshComp;</span><br></pre></td></tr></table></figure>
+<p>2 . 在cpp文件中创建该组件，需要添加头文件</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Components/StaticMeshComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">MeshComp = CreateDefaultSubobject&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;MeshComp&quot;</span>));</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="实用工具组件-Utility-Component"><a href="#实用工具组件-Utility-Component" class="headerlink" title="实用工具组件    Utility  Component"></a>实用工具组件 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Utility/index.html">   Utility  Component</a></h1><ul>
+<li><h2 id="应用程序生命周期组件"><a href="#应用程序生命周期组件" class="headerlink" title="应用程序生命周期组件"></a>应用程序生命周期组件</h2><blockquote>
+<p>应用程序生命周期组件（ApplicationLifecycleComponent） 处理从OS（操作系统）接收的<code>关于应用程序的状态（开始、停止、结束等）的通知</code>。</p>
+</blockquote>
+</li>
+<li><h2 id="平台事件组件"><a href="#平台事件组件" class="headerlink" title="平台事件组件"></a>平台事件组件</h2><blockquote>
+<p>平台事件组件（PlatformEventComponent） 根据特定于平台的OS信息和事件来轮询和接收事件的功能。</p>
+<p>目前，该组件支持可翻转式笔记本电脑，提供关于平台是否为可翻转式笔记本电脑及其状态（笔记本电脑模式或平板电脑模式）的信息。</p>
+<p>为了无需不断轮询这些函数就能知道平台状态何时改变，可以绑定代理。当状态改变时，代理会通知代码（或蓝图）</p>
+</blockquote>
+</li>
+<li><h2 id="子Actor组件"><a href="#子Actor组件" class="headerlink" title="子Actor组件"></a>子Actor组件</h2><blockquote>
+<p>子Actor组件（ChildActorComponent） 是一个在注册时生成Actor并在取消注册时销毁Actor的组件。 </p>
+<p>子Actor组件通过提供C++ 或蓝图资源来指定要生成的Actor。选择类或资源后，将显示 子Actor模板（Child Actor Template） 字段。</p>
+<p>你可以展开此字段并编辑指定子Actor或其组件的所有公开的可编辑字段，包括蓝图中声明的公共变量。<br>ChildActorTemplate.jpg<br><img src="/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/ChildActorTemplate.jpg" alt="ChildActorTemplate.png"></p>
+</blockquote>
+</li>
+<li><h2 id="场景组件"><a href="#场景组件" class="headerlink" title="场景组件"></a>场景组件</h2><blockquote>
+<p> 场景组件（SceneComponent） 具有变形和支持附件功能，但没有渲染或碰撞功能。</p>
+<p>它在层级中用作”虚拟”组件来偏移其他组件，或者与其子组件交互以使其像一个整体。</p>
+<p>例如，你可以移动或旋转子组件，使其全部可见或不可见，或者将其断开。</p>
+<p>有一点很重要，就是不要将场景组件作为组织工具过度使用，因为在生成包含这些组件的Actor时，每个组件都会占用相应的时间和内存。</p>
+</blockquote>
+</li>
+<li><h2 id="箭头组件"><a href="#箭头组件" class="headerlink" title="箭头组件"></a>箭头组件</h2><blockquote>
+<p>箭头组件（ArrowComponent） 是一种场景组件，绘制为指向所面对方向的简单箭头。</p>
+<p>箭头组件尤其适用于调试插槽位置或方向等内容。这对于游戏中出现的服装、手持或附着的物体或者产生发射物的枪口特别有用。</p>
+<p>默认情况下，这些组件仅显示在编辑器中。要使其在游戏中可见，请取消选中<code>在游戏中隐藏（Hidden in Game）</code>复选框（显示在箭头组件的 <strong>细节(Details)</strong> 面板中）。</p>
+<p>箭头组件也属于形状组件<br><img src="/2021/03/16/Unreal/%E7%BB%84%E4%BB%B6/HiddenInGame_Checkbox.jpg" alt="HiddenInGame_Checkbox.png"></p>
+</blockquote>
+</li>
+<li><h2 id="样条组件"><a href="#样条组件" class="headerlink" title="样条组件"></a>样条组件</h2><blockquote>
+<p>样条组件（Spline Component） 让用户可在关卡内绘制样条。</p>
+<p>它尤其适用于为移动Actor（例如火车、背景角色、摄像机等）指定路径。</p>
+<p>放置在关卡中时，具有样条组件的Actor将在组件位置显示一个点，该点通过一条线连接到不远处的第二个点。</p>
+<p>你可以右键单击该线并在单击位置添加新点，也可以单击某个点（不是唯一的点）将其删除、复制或更改样条中从一个点到下一个点的曲线。</p>
+<p>复制功能可以创建一个与当前点位于同一位置的新点，但在线中被认为是”下一个”点。使用标准移动和旋转工具可以在关卡内随意操纵样条点。</p>
+<p>有一个名为<code>时长（Duration）</code>的字段，显示在组件的 <strong>细节（Details）</strong> 面板中，可以设置样条查询范围的值。<br>[^NOTE] : 使用样条组件创建的样条永远不会分叉为多个路径，或者包含成环形的回路或孤立的点。样条始终呈现为一条路径，每个样条点仅通过一次。<br>PS：个人感觉这个东西会很好用</p>
+</blockquote>
+<h1 id="控件组件-Widget-Component"><a href="#控件组件-Widget-Component" class="headerlink" title="控件组件     Widget  Component"></a>控件组件  <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Basics/Components/Widget/index.html">   Widget  Component</a></h1><blockquote>
+<p>sdadas</p>
+</blockquote>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/c/" rel="tag"># c++</a>
+          
+            <a href="/tags/%E7%BB%84%E4%BB%B6/" rel="tag"># 组件</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/09/Unreal/Camera/" rel="next" title="Camera">
+                <i class="fa fa-chevron-left"></i> Camera
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/17/Unreal/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84Pawn/" rel="prev" title="创建自己的Pawn">
+                创建自己的Pawn <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AI%E7%BB%84%E4%BB%B6-AI-Component"><span class="nav-text">AI组件     AI  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E7%BB%84%E4%BB%B6-Audio-Component"><span class="nav-text">音频组件     Audio  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%84%E5%83%8F%E6%9C%BA%E7%BB%84%E4%BB%B6-Camera-Component"><span class="nav-text">摄像机组件    Camera  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%81%AF%E5%85%89%E7%BB%84%E4%BB%B6-Light-Component"><span class="nav-text">灯光组件    Light  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%BB%84%E4%BB%B6-Movement-Component"><span class="nav-text">移动组件    Movement  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BB%E8%B7%AF%E7%BB%84%E4%BB%B6-Navigation-Component"><span class="nav-text">寻路组件    Navigation  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Paper2D%E7%BB%84%E4%BB%B6-Paper2D-Component"><span class="nav-text">Paper2D组件    Paper2D  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E7%BB%84%E4%BB%B6-Physics-Component"><span class="nav-text">物理组件   Physics  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E7%BB%84%E4%BB%B6-Rendering-Component"><span class="nav-text">渲染组件     Rendering  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BD%A2%E7%8A%B6%E7%BB%84%E4%BB%B6-Shap-Components"><span class="nav-text">形状组件      Shap Components</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Arrow-Component-%EF%BC%88%E7%AE%AD%E5%A4%B4%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="nav-text">Arrow Component （箭头组件）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Box-Component-%EF%BC%88%E7%9B%92%E4%BD%93%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="nav-text">Box Component （盒体组件）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Capsule-Component-%EF%BC%88%E8%83%B6%E5%9B%8A%E5%BD%A2%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="nav-text">Capsule Component （胶囊形组件）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sphere-Component-%EF%BC%88%E7%90%83%E5%BD%A2%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="nav-text">Sphere Component （球形组件）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spline-Component-%EF%BC%88%E6%A0%B7%E6%9D%A1%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="nav-text">Spline Component （样条组件）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AA%A8%E6%9E%B6%E7%BD%91%E6%A0%BC%E6%A8%A1%E5%9E%8B%E7%BB%84%E4%BB%B6-Skeletal-Mesh-Component"><span class="nav-text">骨架网格模型组件    Skeletal  Mesh  Component</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E7%BD%91%E6%A0%BC%E6%A8%A1%E5%9E%8B%E7%BB%84%E4%BB%B6-Static-Mesh-Component"><span class="nav-text">静态网格模型组件   Static  Mesh  Component</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Static-MeshComponent%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-text">Static MeshComponent的创建</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E7%BB%84%E4%BB%B6-Utility-Component"><span class="nav-text">实用工具组件    Utility  Component</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%BB%84%E4%BB%B6"><span class="nav-text">应用程序生命周期组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E5%8F%B0%E4%BA%8B%E4%BB%B6%E7%BB%84%E4%BB%B6"><span class="nav-text">平台事件组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%90Actor%E7%BB%84%E4%BB%B6"><span class="nav-text">子Actor组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E7%BB%84%E4%BB%B6"><span class="nav-text">场景组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E7%BB%84%E4%BB%B6"><span class="nav-text">箭头组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E6%9D%A1%E7%BB%84%E4%BB%B6"><span class="nav-text">样条组件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A7%E4%BB%B6%E7%BB%84%E4%BB%B6-Widget-Component"><span class="nav-text">控件组件     Widget  Component</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dbaks</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
