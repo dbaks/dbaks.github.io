@@ -273,6 +273,909 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/14/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%86%85%E9%83%A8%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/14/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%86%85%E9%83%A8%E7%B1%BB/" itemprop="url">内部类</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-14T10:02:01+08:00">
+                2021-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>定义: 定义在一个类内部的类叫做内部类(嵌套类)</p>
+<p>特点: </p>
+<ul>
+<li><p>可以用访问控制符控制访问权限</p>
+</li>
+<li><p>内部类成员函数可以访问外部类的所有成员</p>
+</li>
+<li><p>外部类无法为访问内部类成员所有成员</p>
+</li>
+<li><p>内部类可以不带类名或对象名直接访问Static成员</p>
+</li>
+<li><p><em><strong>不会影响外部类的内存布局</strong></em>,只影响内部类的访问权限</p>
+</li>
+<li><p>内部类声明和实现可分离</p>
+</li>
+</ul>
+<h2 id="局部类"><a href="#局部类" class="headerlink" title="局部类"></a>局部类</h2><p>定义: 在函数内部定义的类</p>
+<p>特点:</p>
+<ul>
+<li>局部类的声明和实现必须放在类里</li>
+<li>不支持static成员变量(static成员变量需要在类外初始化)</li>
+<li>成员函数不可访问函数的局部变量,但是可以访问函数里的static变量</li>
+<li>可以访问全局变量</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/" itemprop="url">IOC(接口)</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-13T01:09:42+08:00">
+                2021-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<p>Spring提供IOC的两个接口(作用相似,都通过加载配置文件,通过工厂过程创建对象):</p>
+<ul>
+<li>BeanFactory : IOC容器基本实现,Spring自己用的,一不提供给开发人员使用</li>
+<li>ApplicationContext: BeanFactory的子接口,功能更加强大,一般由开发人员使用</li>
+</ul>
+<p>ApplicationContext接口实现类:</p>
+<blockquote>
+<p><img src="/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/image-20210513012407392.png" alt="image-20210513012407392"></p>
+</blockquote>
+<p>两个接口区别:一个使用文件系统路径(绝对路径,一个使用类路径)</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/13/Spring/IOC/IOC%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/13/Spring/IOC/IOC%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url">IOC底层原理</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-13T00:32:04+08:00">
+                2021-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<p>IOC : </p>
+<ul>
+<li><p>控制反转 (Inversion of Control )  ,将对象的创建与调用交给Spring管理</p>
+</li>
+<li><p> <strong>降低代码耦合度</strong></p>
+</li>
+</ul>
+<h2 id="IOC底层原理-xml文件解析-工厂模式-反射-主要用到的"><a href="#IOC底层原理-xml文件解析-工厂模式-反射-主要用到的" class="headerlink" title="IOC底层原理  :   xml文件解析,工厂模式,反射  (主要用到的)"></a>IOC底层原理  :   xml文件解析,工厂模式,反射  (主要用到的)</h2><p>1.xml解析,工厂模式,反射(反射,自省)</p>
+<p>​    工厂模式降低了耦合度 ,但是没有将耦合度降到最低</p>
+<p>2.IOC过程 : </p>
+<p>​        (1)配置xml文件,配置创建的对象</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span> = <span class="string">&quot;.....&quot;</span> <span class="attr">class</span> = <span class="string">&quot;.....路径&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​        (2)有Service类和Dao类(Serivce类想要调用Dao类中的方法),创建工厂类(ps:工厂类创建Spring已经写好了)</p>
+<p>​    <img src="/2021/05/13/Spring/IOC/IOC%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/image-20210513010544747.png" alt="image-20210513010544747"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%8F%8B%E5%85%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%8F%8B%E5%85%83/" itemprop="url">友元</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-12T18:37:09+08:00">
+                2021-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<ul>
+<li><p>分为友元函数和友元类</p>
+</li>
+<li><p>在类定义中声明就行</p>
+</li>
+</ul>
+<blockquote>
+<h3 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h3></blockquote>
+<p>使用友元会降低一些函数调用的频率</p>
+<p>友元在类中声明时不需要写明参数的名字,只需要说明参数的类型即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明友元函数</span></span><br><span class="line"><span class="function"><span class="keyword">friend</span> Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93, Point_friend_93)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//使用友元会降低一些函数调用的频率,可以直接调用成员变量(PS:需要看访问权限)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Point_friend_93</span>(p1.<span class="built_in">getX</span>() + p2.<span class="built_in">getX</span>(), p1.<span class="built_in">getY</span>() + p2.<span class="built_in">getY</span>());</span><br><span class="line">    <span class="comment">//return Point_friend_93(p1.m_x + p2.m_x, p1.m_y + p2.m_y);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<h3 id="友元类"><a href="#友元类" class="headerlink" title="友元类"></a>友元类</h3></blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span>;</span></span><br><span class="line"><span class="function"><span class="keyword">friend</span>  Point_friend_93 <span class="title">Math::add</span><span class="params">(Point_friend_93, Point_friend_93)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>​    声明一个类为友元</p>
+<p>​    不可以单独声明一个类中的函数为友元函数,如果没有声明类为友元,类内的函数仍然不可访问私有成员</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/12/CPP/%E4%B8%80%E4%BA%9B%E4%B8%B4%E6%97%B6%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/12/CPP/%E4%B8%80%E4%BA%9B%E4%B8%B4%E6%97%B6%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/" itemprop="url">一些临时的知识点</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-12T18:09:33+08:00">
+                2021-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>在使用<em><strong>new</strong></em>创建类对象时,必须调用构造函数,并且这个构造函数不会自动生成,一定要是自己创建的</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" itemprop="url">自动生成的构造函数</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-12T17:40:05+08:00">
+                2021-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index">
+                    <span itemprop="name">CPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+<ul>
+<li><input disabled type="checkbox"> c++编译器在<strong>某些特定的情况</strong>下,<strong>自动</strong>为类生成一个<strong>无参的构造函数</strong>(不是说类没有构造函数就会生成)</li>
+</ul>
+<p>[ PS: ] 很多书上都说  :  编译器会为每一个类生成无参的空的构造函数  (这对吗? ,这不对,只有特定情况下会生成)</p>
+<p><img src="/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/image-20210512175124940.png" alt="image-20210512175124940"></p>
+<p><em><strong>解释</strong></em> :   class Person92 中并未自定义构造函数.可以看到,运行时汇编中并<em>没有调用构造函数</em>,说明此时<strong>并不会生成构造函数</strong></p>
+<blockquote>
+<p>一些不会生成的情况(想到的)</p>
+</blockquote>
+<ul>
+<li>new 对象时一定要调用构造函数,但是如果不存在,编译器只会报错,而不是自动生成一个</li>
+</ul>
+<ul>
+<li><p><input disabled type="checkbox">  特定的会生成自动生成构造函数的情况(当Person对象生成后需要做一些后续动作时)</p>
+<ul>
+<li><p>成员变量在生成时初始化(下图为某个成员变量存在初始化值)</p>
+<p><img src="/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/image-20210512180027504.png" alt="image-20210512180027504"></p>
+</li>
+<li><p>有成员函数为虚函数Virtual  ,<em><strong>创建的对象会生成四个字节来生成指向虚表地址的指针</strong></em>(其实和成员变量存在初始值一样,需要在生成对象的时候对内存赋值)</p>
+</li>
+<li><p>虚继承其他类,也是虚表地址的关系</p>
+</li>
+<li><p>创建A对象时,A对象内部存在B类对象,并且B类对象存在构造函数或者以上情形</p>
+</li>
+<li><p>父类存在构造函数或者存在以上情形 </p>
+<ul>
+<li><input checked disabled type="checkbox"> <strong>总结</strong>: 当对象生成后,如果需要进行<strong>额外</strong>的<em><strong>内存操作</strong></em>或者<em><strong>函数调用</strong></em>,编译器就会自动创建无参的构造函数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/11/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/%E9%9A%90%E5%BC%8F%E6%9E%84%E9%80%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -886,833 +1789,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/10/Unreal/%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/10/Unreal/%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8/" itemprop="url">项目结构与作用</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-10T23:37:52+08:00">
-                2021-05-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
-                    <span itemprop="name">源码分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>概述 :转载自<a target="_blank" rel="noopener" href="https://blog.csdn.net/freehawkzk/article/details/80555770">(【UE4源代码分析】-001 UE4代码目录结构_freehawkzk的专栏-CSDN博客_ue4源码分析</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/05/10/Unreal/%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/30/Unreal/APawn-AddMovementInput/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/03/30/Unreal/APawn-AddMovementInput/" itemprop="url">APawn::AddMovementInput</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-30T21:37:21+08:00">
-                2021-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="APawn-AddMovementInput"><a href="#APawn-AddMovementInput" class="headerlink" title="APawn::AddMovementInput"></a>APawn::AddMovementInput</h1><p> Add movement input along the given world direction vector (usually normalized) scaled by ‘ScaleValue’.  </p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/03/30/Unreal/APawn-AddMovementInput/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/30/%E5%AD%A6%E4%B9%A0%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/03/30/%E5%AD%A6%E4%B9%A0%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/" itemprop="url">学习时产生的问题</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-30T21:03:40+08:00">
-                2021-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>概述:  </p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/03/30/%E5%AD%A6%E4%B9%A0%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/29/Unreal/%E6%9C%AF%E8%AF%AD%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/03/29/Unreal/%E6%9C%AF%E8%AF%AD%E8%A1%A8/" itemprop="url">术语表</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-29T20:45:03+08:00">
-                2021-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>概述: <a href="/2021/03/19/%E5%AF%BC%E8%88%AA/" title="导航页面">导航页面</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/03/29/Unreal/%E6%9C%AF%E8%AF%AD%E8%A1%A8/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/25/Unreal/%E7%BD%91%E6%A0%BC%E4%BD%93%E7%BB%84%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/03/25/Unreal/%E7%BD%91%E6%A0%BC%E4%BD%93%E7%BB%84%E4%BB%B6/" itemprop="url">网格体组件基本知识点及设置</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-25T02:15:13+08:00">
-                2021-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BD%91%E6%A0%BC%E4%BD%93%E7%BB%84%E4%BB%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">网格体组件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>概述： ？？见title</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/03/25/Unreal/%E7%BD%91%E6%A0%BC%E4%BD%93%E7%BB%84%E4%BB%B6/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/25/Unreal/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AE%9E%E4%BE%8B%E5%8F%8A%E7%90%86%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/03/25/Unreal/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AE%9E%E4%BE%8B%E5%8F%8A%E7%90%86%E8%A7%A3/" itemprop="url">Overlap应用（1）</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-25T02:15:13+08:00">
-                2021-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BA%94%E7%94%A8/" itemprop="url" rel="index">
-                    <span itemprop="name">应用</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>概述：void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/03/25/Unreal/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AE%9E%E4%BE%8B%E5%8F%8A%E7%90%86%E8%A7%A3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
   </nav>
 
 
@@ -1762,7 +1843,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1773,7 +1854,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1784,7 +1865,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -87,7 +87,7 @@
 <meta property="og:description" content="可以为运算符增加新的功能 “+”运算符重载的实现 1234567891011&#x2F;&#x2F;Point_96_op.hclass Point_96_op&amp;#123;	int x;	int y;	friend Point_96_op operator+(Point_96_op, Point_96_op);public:	Point_96_op(int x, int y) :x(x), y(y) &amp;#123;">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-05-14T04:02:19.000Z">
-<meta property="article:modified_time" content="2021-05-14T04:27:12.997Z">
+<meta property="article:modified_time" content="2021-05-15T09:55:03.483Z">
 <meta property="article:author" content="dbaks">
 <meta name="twitter:card" content="summary">
 
@@ -359,6 +359,90 @@
 <li><p>使用const对象(PS:我不知道为什么)(pps:)说明不对原对象进行修改,如果进行了修改就会报错</p>
 </li>
 </ul>
+<p>于是重载函数定义为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;p1, <span class="keyword">const</span> Point_96_op &amp;p2);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="运算符重载可以直接写在类里面-以成员函数的形式写"><a href="#运算符重载可以直接写在类里面-以成员函数的形式写" class="headerlink" title="运算符重载可以直接写在类里面,以成员函数的形式写"></a>运算符重载可以直接写在类里面,以成员函数的形式写</h3><p>此时,可以少传一个参数,也不需要在类内声明重载为友元了    (我觉得这样子写会比较方便)</p>
+<p><strong>原因</strong>:  a = p1 + p2  —&gt;p1.operator+(p2)   ,因为成员函数可以直接使用this指针</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;Point);</span><br></pre></td></tr></table></figure>
+
+<p>PS: 注意需要在public中写,不然会无法访问</p>
+<h3 id="运算符重载的返回值需要不可以被赋值"><a href="#运算符重载的返回值需要不可以被赋值" class="headerlink" title="运算符重载的返回值需要不可以被赋值"></a>运算符重载的返回值需要不可以被赋值</h3><ul>
+<li><p>比如   (1+2)=9; 这样子的代码是不会编译通过的,</p>
+</li>
+<li><p>但是上面定义的重载的返回值由于是一个临时的对象,在语句结束时才会被回收</p>
+</li>
+<li><p>所以  (P1+P2) = Point_96_op(10,10); 是不会报错的,但是这样的语句是不应该存在的,</p>
+</li>
+<li><p>所以需要使重载函数的返回值不可被修改,</p>
+</li>
+</ul>
+<p>于是,将重载函数定义为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;Point);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="const-成员无法调用非const成员函数"><a href="#const-成员无法调用非const成员函数" class="headerlink" title="const 成员无法调用非const成员函数"></a>const 成员无法调用非const成员函数</h3><p>由于在上一步中使用const修饰重载函数的返回值</p>
+<p>使运算符在使用中出现一个问题</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p4 = p1+p2+p3;<span class="comment">//报错</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>原因</strong> :</p>
+<ul>
+<li><p>这一句代码相当于  p4 = (p1.operator+(p2)).operator+(p3);   </p>
+</li>
+<li><p>此处p1.operator+(p2) 由于返回的是  const  Point_96_op;</p>
+</li>
+<li><p>所以相当于是一个const 对象在调用  operator+();</p>
+</li>
+<li><p>但是operator+是非const函数,于是在调用时会报错</p>
+</li>
+</ul>
+<p>于是重载函数应该定义为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96-op &amp;point) <span class="keyword">const</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="运算符重载的最终形态"><a href="#运算符重载的最终形态" class="headerlink" title="运算符重载的最终形态"></a>运算符重载的最终形态</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_96_op</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">int</span> y;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_96_op</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y) :<span class="built_in">x</span>(x), <span class="built_in">y</span>(y) &#123;&#125;;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/* --------------------------------------------------------*/</span></span><br><span class="line">	<span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+ (<span class="keyword">const</span> Point_96_op &amp;point) <span class="keyword">const</span>;</span><br><span class="line">	<span class="comment">/*----------------------------------------------------------*/</span></span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Point_96_op.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* --------------------------------------------------------------------*/</span></span><br><span class="line"><span class="keyword">const</span> Point_96_op Point_96_op::<span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op&amp; point) <span class="keyword">const</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Point_96_op</span>(<span class="keyword">this</span>-&gt;x + point.x, <span class="keyword">this</span>-&gt;y + point.y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* ---------------------------------------------------------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Point_96_op::display</span><span class="params">()</span></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Point(&quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; y &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h3><ol>
+<li><p><em><em>( +, - ,</em> ,/)</em>*,      </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span><span class="string">&quot;...&quot;</span> (<span class="keyword">const</span> Point_96_op &amp;point) <span class="keyword">const</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>(+=,-=)</strong>         </p>
+</li>
+</ol>
+   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op &amp;<span class="keyword">operator</span><span class="string">&quot;...&quot;</span> (<span class="keyword">const</span> Point_96_op &amp;point)&#123;<span class="keyword">return</span>  *<span class="keyword">this</span>; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>   说明:  </p>
+<ul>
+<li>返回值不加const ,原因: 返回的值是赋给原来的变量的,是可以被重新赋值的,也就是说   可以   (p1+=p2) = Point_96_op(10,10);<strong>合法</strong></li>
+<li>返回值不为void  原因: 没有返回值的话 (p1+p2) = Point_96_op(10,10)就不合法了</li>
+<li>返回值为引用类型 ,原因:   引用没学好,不知道为什么(防止产生中间对象)</li>
+<li>不是const函数,原因: 当p1为const时, p1+=p2;应该不合法,因为常量不因该被修改</li>
+</ul>
+<ol start="3">
+<li><p><strong>(==,!=)</strong></p>
+<ul>
+<li><p>重载函数因该返回bool类型</p>
+</li>
+<li><p>```cpp<br> bool operator==(const Point_96_op &amp;point) const {   return ‘…….’;   }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">4. **(负号   -)**</span><br><span class="line"></span><br><span class="line">   - &#96;&#96;&#96;</span><br><span class="line">     const Point_96_op operaror-() const&#123;return .......;&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>(&lt;&lt;,&gt;&gt;)</strong>(cin&amp;&amp;cout):</p>
+<p>- </p>
+</li>
+<li></li>
+</ol>
 
       
     </div>
@@ -476,7 +560,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -487,7 +571,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -498,7 +582,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -531,7 +615,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%90%E7%AE%97%E7%AC%A6%E6%97%B6%E5%85%B6%E5%AE%9E%E7%9B%B8%E5%BD%93%E4%BA%8E%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0-%E6%AF%94%E5%A6%82a-1-2-gt-a-operate-1-2"><span class="nav-text">使用运算符时其实相当于调用函数,比如a &#x3D; 1 +2 -&gt;a &#x3D; operate+(1,2);</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%90%E7%AE%97%E7%AC%A6%E6%97%B6%E5%85%B6%E5%AE%9E%E7%9B%B8%E5%BD%93%E4%BA%8E%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0-%E6%AF%94%E5%A6%82a-1-2-gt-a-operate-1-2"><span class="nav-text">使用运算符时其实相当于调用函数,比如a &#x3D; 1 +2 -&gt;a &#x3D; operate+(1,2);</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E5%86%99%E5%9C%A8%E7%B1%BB%E9%87%8C%E9%9D%A2-%E4%BB%A5%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E7%9A%84%E5%BD%A2%E5%BC%8F%E5%86%99"><span class="nav-text">运算符重载可以直接写在类里面,以成员函数的形式写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E9%9C%80%E8%A6%81%E4%B8%8D%E5%8F%AF%E4%BB%A5%E8%A2%AB%E8%B5%8B%E5%80%BC"><span class="nav-text">运算符重载的返回值需要不可以被赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const-%E6%88%90%E5%91%98%E6%97%A0%E6%B3%95%E8%B0%83%E7%94%A8%E9%9D%9Econst%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-text">const 成员无法调用非const成员函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%9A%84%E6%9C%80%E7%BB%88%E5%BD%A2%E6%80%81"><span class="nav-text">运算符重载的最终形态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tips"><span class="nav-text">Tips:</span></a></div>
             
 
           </div>
