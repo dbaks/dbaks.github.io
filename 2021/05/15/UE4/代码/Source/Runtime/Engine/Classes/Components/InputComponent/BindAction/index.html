@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Charactor中已有Crouch和jump的实现 Crouch 12&#x2F;*将bCanCrouch设置为true........路径很奇怪*&#x2F;	GetMovementComponent()-&gt;GetNavAgentPropertiesRef().bCanCrouch &#x3D; true;  123456789&#x2F;&#x2F;调用已有函数创建Crouch函数void ASCharacter::Begin">
+<meta name="description" content="我现阶段接触到的Bind Action都是用于角色移动和操作绑定的 BindAction有三个重载 12345678910111213141516171819202122232425262728293031323334353637&#x2F;** * Binds a delegate function to an Action defined in the project settings. * Ret">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单创建角色蹲下与跳起">
-<meta property="og:url" content="http://example.com/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E8%A7%92%E8%89%B2%E8%B9%B2%E4%B8%8B%E4%B8%8E%E8%B7%B3%E8%B5%B7/index.html">
+<meta property="og:title" content="BindAction">
+<meta property="og:url" content="http://example.com/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/index.html">
 <meta property="og:site_name" content="dbaks&#39;Blog">
-<meta property="og:description" content="Charactor中已有Crouch和jump的实现 Crouch 12&#x2F;*将bCanCrouch设置为true........路径很奇怪*&#x2F;	GetMovementComponent()-&gt;GetNavAgentPropertiesRef().bCanCrouch &#x3D; true;  123456789&#x2F;&#x2F;调用已有函数创建Crouch函数void ASCharacter::Begin">
+<meta property="og:description" content="我现阶段接触到的Bind Action都是用于角色移动和操作绑定的 BindAction有三个重载 12345678910111213141516171819202122232425262728293031323334353637&#x2F;** * Binds a delegate function to an Action defined in the project settings. * Ret">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-05-15T14:15:50.000Z">
-<meta property="article:modified_time" content="2021-05-15T14:27:04.995Z">
+<meta property="article:published_time" content="2021-05-15T11:41:21.000Z">
+<meta property="article:modified_time" content="2021-05-15T12:12:34.406Z">
 <meta property="article:author" content="dbaks">
 <meta name="twitter:card" content="summary">
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2021/05/15/UE4/案例/简单创建角色蹲下与跳起/"/>
+  <link rel="canonical" href="http://example.com/2021/05/15/UE4/代码/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/"/>
 
 
 
 
 
-  <title>简单创建角色蹲下与跳起 | dbaks'Blog</title>
+  <title>BindAction | dbaks'Blog</title>
   
 
 
@@ -276,7 +276,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E8%A7%92%E8%89%B2%E8%B9%B2%E4%B8%8B%E4%B8%8E%E8%B7%B3%E8%B5%B7/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -293,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">简单创建角色蹲下与跳起</h1>
+          <h1 class="post-title" itemprop="name headline">BindAction</h1>
         
 
         <div class="post-meta">
@@ -307,7 +307,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T22:15:50+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T19:41:21+08:00">
                 2021-05-15
               </time>
             
@@ -347,30 +347,23 @@
       
         <span id="more"></span>
 
-
-
-<p>Charactor中已有Crouch和jump的实现</p>
-<p><strong>Crouch</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*将bCanCrouch设置为true........路径很奇怪*/</span></span><br><span class="line">	<span class="built_in">GetMovementComponent</span>()-&gt;<span class="built_in">GetNavAgentPropertiesRef</span>().bCanCrouch = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用已有函数创建Crouch函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::BeginCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">Crouch</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::EndCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">UnCrouch</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用BindAction绑定函数(&quot;Crouch&quot;需要在编辑器中绑定输入)</span></span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Pressed,<span class="keyword">this</span>,&amp;ASCharacter::BeginCrouch);</span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Released, <span class="keyword">this</span>, &amp;ASCharacter::EndCrouch);</span><br></pre></td></tr></table></figure>
+<p>我现阶段接触到的Bind Action都是用于角色移动和操作绑定的</p>
+<p>BindAction有三个重载</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerWithKeySignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">DelegateType</span>, <span class="keyword">class</span> <span class="title">UserClass</span>, <span class="title">typename</span>... <span class="title">VarTypes</span> &gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> DelegateType::<span class="keyword">template</span> TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func, VarTypes... Vars )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.BindDelegate&lt;DelegateType&gt;(Object, Func, Vars...);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 
+<p>1.现在只使用过第一个重载    </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br><span class="line"></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure>
 
-<p>**Jump ** Character中已有实现,直接将jump函数绑定就可以</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<p>动画绑定的话在编辑器中选择动画就好了(需要选择已经制作好的动画序列)</p>
+<ul>
+<li><strong>const FName ActionName</strong> : Fname类型数据  , 字符串类型,需要与编辑器中绑定的操作名称相同</li>
+<li><strong>const EInputEvent KeyEvent</strong> 枚举变量 ,根据需要的操作类型选择相应的变量                  <a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" title="参见&quot;UE4一些基本的类型&quot;">参见&quot;UE4一些基本的类型&quot;</a></li>
+<li><em><em>UserClass</em> Object</em>*     上方自定义的模板类型(模板还没有学完), 一般这里放入的是调用的对象,一般只需传入this指针</li>
+<li><strong>typename FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func</strong>     传入需要绑定的函数</li>
+</ul>
+<p>其他的我还没有用过,第二个使用方法应该和第一个差别不大,第三个重载不知道怎么用</p>
 
       
     </div>
@@ -395,8 +388,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/05/15/UE4/UE4%E5%AF%BC%E8%88%AA/" rel="next" title="UE4导航">
-                <i class="fa fa-chevron-left"></i> UE4导航
+              <a href="/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/" rel="next" title="创建简单的角色移动">
+                <i class="fa fa-chevron-left"></i> 创建简单的角色移动
               </a>
             
           </div>
@@ -405,8 +398,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/" rel="prev" title="BindAxis">
-                BindAxis <i class="fa fa-chevron-right"></i>
+              <a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" rel="prev" title="EngineBaseTypes">
+                EngineBaseTypes <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

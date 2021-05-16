@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>导航</title>
-    <url>/2021/03/19/%E5%AF%BC%E8%88%AA/</url>
-    <content><![CDATA[<p><a href="https://docs.unrealengine.com/zh-CN/index.html">官网链接</a><br></p>
-<a href="/2021/05/11/CPP/CPPIndex/" title="C++知识点目录">C++知识点目录</a><br>
-
-<a href="/2021/05/15/UE4/UE4%E5%AF%BC%E8%88%AA/" title="UE4使用目录">UE4使用目录</a><br>
-
-<a href="/2021/03/30/%E5%AD%A6%E4%B9%A0%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/" title="学习时产生的问题">学习时产生的问题</a><br>]]></content>
-      <categories>
-        <category>目录</category>
-      </categories>
-  </entry>
-  <entry>
     <title>CPPIndex</title>
     <url>/2021/05/11/CPP/CPPIndex/</url>
     <content><![CDATA[<span id="more"></span>  
@@ -43,180 +30,44 @@
       </tags>
   </entry>
   <entry>
-    <title>编译链接原理</title>
-    <url>/2021/05/17/CPP/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<ol>
-<li><p> 编译的时候只有cpp文件才会参与编译</p>
-</li>
-<li><p>编译步骤 :(假设存在<strong>main.cpp</strong>,<strong>add.cpp</strong>,<strong>add.h</strong>)</p>
+    <title>学习时产生的问题</title>
+    <url>/2021/03/30/%E5%AD%A6%E4%B9%A0%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>概述:  </p>
+<span id="more"></span>
+<h5 id="1-找出”前进”方向，并记录玩家想向该方向移动-问题地址"><a href="#1-找出”前进”方向，并记录玩家想向该方向移动-问题地址" class="headerlink" title="1. 找出”前进”方向，并记录玩家想向该方向移动.问题地址"></a>1. 找出”前进”方向，并记录玩家想向该方向移动.<a href="https://docs.unrealengine.com/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/2/index.html">问题地址</a></h5><blockquote>
 <ul>
-<li><p>对每个cpp单独编译</p>
-<ul>
-<li>main.cpp—-&gt;main.obj(汇编)</li>
-<li>add.cpp——&gt;add.obj(汇编)</li>
+<li>主要疑问FRotationMatrix().GetScaledAxis(EAxis::X)是干什么的<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">  FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">  <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-</li>
-<li><p>链接生成exe文件</p>
-</li>
-</ul>
-</li>
-</ol>
-<p>知识点 : </p>
-<ul>
-<li>main.cpp在编译的时候会将函数调用替换为汇编<strong>call 函数地址</strong>,但是由于函数实现与main.cpp不在同一个文件夹里,只是声明了函数(引入头文件),所以main编译时会瞎几把填一个地址(PS : 是不是瞎几把填不知道,反正大概率不会是正确的地址)</li>
-<li>链接的作用正是将main.obj中错误的函数地址替换为其他.obj中正确的函数地址(当然首先会将obj文件合并)</li>
-<li>main.obj中不知道别的obj的函数地址的原因是…….这些cpp文件是单独编译的</li>
-<li>模板函数无法将定义与实现分离的原因<ul>
-<li>main.obj中调用模板函数的  call  函数地址是假的</li>
-<li>单独编译存在模板函数的cpp文件的时候,由于cpp内部并未调用模板函数,导致该模板函数没有实例化,即并没有在内存中生成具体的函数实例</li>
-<li>在main.obj与其obj文件链接时,编译器无法为main.obj中错误的函数地址找到其正确地址</li>
-<li>报错….链接失败</li>
-</ul>
-</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>HitResult</title>
-    <url>/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/HitResult/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">USTRUCT</span>(BlueprintType, meta = (HasNativeBreak = <span class="string">&quot;Engine.GameplayStatics.BreakHitResult&quot;</span>, HasNativeMake = <span class="string">&quot;Engine.GameplayStatics.MakeHitResult&quot;</span>))</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ENGINE_API</span> <span class="title">FHitResult</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 bBlockingHit:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 bStartPenetrating:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	int32 FaceIndex;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> Time;</span><br><span class="line">	 </span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> Distance; </span><br><span class="line">	</span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize Location;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize ImpactPoint;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantizeNormal Normal;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantizeNormal ImpactNormal;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize TraceStart;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize TraceEnd;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> PenetrationDepth;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	int32 Item;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 ElementIndex;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">UPhysicalMaterial</span>&gt;</span> PhysMaterial;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">AActor</span>&gt;</span> Actor;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">UPrimitiveComponent</span>&gt;</span> Component;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FName BoneName;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FName MyBoneName;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">FHitResult</span>()&#123;<span class="built_in">Init</span>();&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(<span class="keyword">float</span> InTime)</span></span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">		Time = InTime;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(EForceInit InInit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(ENoInit NoInit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(FVector Start, FVector End)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>(Start, End);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Initialize empty hit result with given time. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FMemory::<span class="built_in">Memzero</span>(<span class="keyword">this</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(FHitResult));</span><br><span class="line">		Time = <span class="number">1.f</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Initialize empty hit result with given time, TraceStart, and TraceEnd */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Init</span><span class="params">(FVector Start, FVector End)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FMemory::<span class="built_in">Memzero</span>(<span class="keyword">this</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(FHitResult));</span><br><span class="line">		Time = <span class="number">1.f</span>;</span><br><span class="line">		TraceStart = Start;</span><br><span class="line">		TraceEnd = End;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Ctor for easily creating &quot;fake&quot; hits from limited data. */</span></span><br><span class="line">	<span class="built_in">FHitResult</span>(class AActor* InActor, class UPrimitiveComponent* InComponent, FVector <span class="keyword">const</span>&amp; HitLoc, FVector <span class="keyword">const</span>&amp; HitNorm);</span><br><span class="line"> </span><br><span class="line">	<span class="comment">/** Reset hit result while optionally saving TraceStart and TraceEnd. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Reset</span><span class="params">(<span class="keyword">float</span> InTime = <span class="number">1.f</span>, <span class="keyword">bool</span> bPreserveTraceData = <span class="literal">true</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">const</span> FVector SavedTraceStart = TraceStart;</span><br><span class="line">		<span class="keyword">const</span> FVector SavedTraceEnd = TraceEnd;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">		Time = InTime;</span><br><span class="line">		<span class="keyword">if</span> (bPreserveTraceData)</span><br><span class="line">		&#123;</span><br><span class="line">			TraceStart = SavedTraceStart;</span><br><span class="line">			TraceEnd = SavedTraceEnd;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Utility to return the Actor that owns the Component that was hit. */</span></span><br><span class="line">	<span class="function">FORCEINLINE AActor* <span class="title">GetActor</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Actor.<span class="built_in">Get</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Utility to return the Component that was hit. */</span></span><br><span class="line">	<span class="function">FORCEINLINE UPrimitiveComponent* <span class="title">GetComponent</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Component.<span class="built_in">Get</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Optimized serialize function */</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">NetSerialize</span><span class="params">(FArchive&amp; Ar, class UPackageMap* Map, <span class="keyword">bool</span>&amp; bOutSuccess)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Return true if there was a blocking hit that was not caused by starting in penetration. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">bool</span> <span class="title">IsValidBlockingHit</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> bBlockingHit &amp;&amp; !bStartPenetrating;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the first &#x27;blocking&#x27; hit in an array of results. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> FHitResult* <span class="title">GetFirstBlockingHit</span><span class="params">(TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(int32 HitIdx=<span class="number">0</span>; HitIdx&lt;InHits.<span class="built_in">Num</span>(); HitIdx++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(InHits[HitIdx].bBlockingHit)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> &amp;InHits[HitIdx];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the number of blocking hits in array. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> int32 <span class="title">GetNumBlockingHits</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		int32 NumBlocks = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(int32 HitIdx=<span class="number">0</span>; HitIdx&lt;InHits.<span class="built_in">Num</span>(); HitIdx++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(InHits[HitIdx].bBlockingHit)</span><br><span class="line">			&#123;</span><br><span class="line">				NumBlocks++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> NumBlocks;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the number of overlapping hits in array. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> int32 <span class="title">GetNumOverlapHits</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (InHits.<span class="built_in">Num</span>() - <span class="built_in">GetNumBlockingHits</span>(InHits));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Get a copy of the HitResult with relevant information reversed.</span></span><br><span class="line"><span class="comment">	 * For example when receiving a hit from another object, we reverse the normals.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> FHitResult <span class="title">GetReversedHit</span><span class="params">(<span class="keyword">const</span> FHitResult&amp; Hit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">FHitResult <span class="title">Result</span><span class="params">(Hit)</span></span>;</span><br><span class="line">		Result.Normal = -Result.Normal;</span><br><span class="line">		Result.ImpactNormal = -Result.ImpactNormal;</span><br><span class="line">		<span class="keyword">return</span> Result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function">FString <span class="title">ToString</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// All members of FHitResult are PODs.</span></span><br><span class="line"><span class="keyword">template</span>&lt;&gt; <span class="class"><span class="keyword">struct</span> <span class="title">TIsPODType</span>&lt;</span>FHitResult&gt; &#123; <span class="class"><span class="keyword">enum</span> &#123;</span> Value = <span class="literal">true</span> &#125;; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TStructOpsTypeTraits</span>&lt;</span>FHitResult&gt; : <span class="keyword">public</span> TStructOpsTypeTraitsBase2&lt;FHitResult&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		WithNetSerializer = <span class="literal">true</span>,</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-  </entry>
-  <entry>
-    <title>伤害应用</title>
-    <url>/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E4%BC%A4%E5%AE%B3%E5%BA%94%E7%94%A8/</url>
-    <content><![CDATA[<span id="more"></span>
-
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** Hurts the specified actor with the specified impact.</span></span><br><span class="line"><span class="comment"> * @param DamagedActor - 被伤害的actor -AActor*</span></span><br><span class="line"><span class="comment"> * @param BaseDamage - 基础伤害数值 - float</span></span><br><span class="line"><span class="comment"> * @param HitFromDirection - 伤害来自的方向(一般就是单位向量) - const FVector&amp;</span></span><br><span class="line"><span class="comment"> * @param HitInfo - 碰撞或者射线检测的结果(HitResult) - const FHitResult&amp;</span></span><br><span class="line"><span class="comment"> * @param EventInstigator - 伤害来自哪个controller - AController*</span></span><br><span class="line"><span class="comment"> * @param DamageCauser - 实际造成伤害的Actor(比如说某个Controller生成了手榴弹,手榴弹爆炸造成伤害) - AActor*</span></span><br><span class="line"><span class="comment"> * @param DamageTypeClass - 伤害类型 - TSubclassOf&lt;class UDamageType&gt;(这应该是定义的某个模板PS:模板还没有学好)</span></span><br><span class="line"><span class="comment"> * @return Actual damage the ended up being applied to the actor.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintAuthorityOnly, Category=<span class="string">&quot;Game|Damage&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">float</span> <span class="title">ApplyPointDamage</span><span class="params">(AActor* DamagedActor, <span class="keyword">float</span> BaseDamage, <span class="keyword">const</span> FVector&amp; HitFromDirection, <span class="keyword">const</span> FHitResult&amp; HitInfo, AController* EventInstigator, AActor* DamageCauser, TSubclassOf&lt;class UDamageType&gt; DamageTypeClass)</span></span>;</span><br></pre></td></tr></table></figure>
-
-
-<p>UE4的GameplayStatics.h中定义了四种伤害类型<strong>ApplyRadialDamage</strong>,<strong>ApplyRadialDamageWithFalloff</strong>,<strong>ApplyPointDamage</strong>,<strong>ApplyDamage</strong></p>
-<p>这里先介绍PointDamage(点状伤害)</p>
-<blockquote>
-<p>函数参数列表的含义与参数类型见注释</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">	 *  Trace a ray against the world using a specific channel and return the first blocking hit</span><br><span class="line">	 *  @param  OutHit          First blocking hit found</span><br><span class="line">	 *  @param  Start           Start location of the ray</span><br><span class="line">	 *  @param  End             End location of the ray</span><br><span class="line">	 *  @param  TraceChannel    The &#39;channel&#39; that this ray is in, used to determine which components to hit</span><br><span class="line">	 *  @param  Params          Additional parameters used for the trace</span><br><span class="line">	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace	 </span><br><span class="line">	 *  @return TRUE if a blocking hit is found</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	bool LineTraceSingleByChannel(struct FHitResult&amp; OutHit,const FVector&amp; Start,const FVector&amp; End,ECollisionChannel TraceChannel,const FCollisionQueryParams&amp; Params &#x3D; FCollisionQueryParams::DefaultQueryParam, const FCollisionResponseParams&amp; ResponseParam &#x3D; FCollisionResponseParams::DefaultResponseParam) const;</span><br></pre></td></tr></table></figure>
-
-]]></content>
+<h5 id="2-在enum-EInputEvent-的枚举中-IE-Repeat-IE-Axis-IE-MAX分别是什么意义"><a href="#2-在enum-EInputEvent-的枚举中-IE-Repeat-IE-Axis-IE-MAX分别是什么意义" class="headerlink" title="2. 在enum EInputEvent 的枚举中,IE_Repeat,IE_Axis,IE_MAX分别是什么意义"></a>2. 在enum EInputEvent 的枚举中,IE_Repeat,IE_Axis,IE_MAX分别是什么意义</h5>]]></content>
   </entry>
   <entry>
-    <title>轨迹检测LineTrace</title>
-    <url>/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E8%BD%A8%E8%BF%B9%E6%A3%80%E6%B5%8BLineTrace/</url>
-    <content><![CDATA[<span id="more"></span>]]></content>
-  </entry>
-  <entry>
-    <title>BindAxis</title>
-    <url>/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/</url>
-    <content><![CDATA[<p>1<span id="more"></span></p>
-<p>我现阶段接触到的BindAxis都是用于角色移动和操作绑定的</p>
-<p>BindAxis有两个重载,用于轴操作的绑定</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Binds a delegate function an Axis defined in the project settings.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another axis is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">	<span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line">	<span class="function">FInputAxisBinding&amp; <span class="title">BindAxis</span><span class="params">( <span class="keyword">const</span> FName AxisName, UserClass* Object, <span class="keyword">typename</span> FInputAxisHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">FInputAxisBinding <span class="title">AB</span><span class="params">( AxisName )</span></span>;</span><br><span class="line">		AB.AxisDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">		AxisBindings.<span class="built_in">Emplace</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">		<span class="keyword">return</span> AxisBindings.<span class="built_in">Last</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Indicates that the InputComponent is interested in knowing the Axis value</span></span><br><span class="line"><span class="comment">* (via GetAxisValue) but does not want a delegate function called each frame.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another axis is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">	<span class="function">FInputAxisBinding&amp; <span class="title">BindAxis</span><span class="params">( <span class="keyword">const</span> FName AxisName )</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">FInputAxisBinding <span class="title">AB</span><span class="params">( AxisName )</span></span>;</span><br><span class="line">		AxisBindings.<span class="built_in">Emplace</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">		<span class="keyword">return</span> AxisBindings.<span class="built_in">Last</span>();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p>只使用过第一个</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>简单创建角色蹲下与跳起</title>
-    <url>/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E8%A7%92%E8%89%B2%E8%B9%B2%E4%B8%8B%E4%B8%8E%E8%B7%B3%E8%B5%B7/</url>
-    <content><![CDATA[<span id="more"></span>
-
-
-
-<p>Charactor中已有Crouch和jump的实现</p>
-<p><strong>Crouch</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*将bCanCrouch设置为true........路径很奇怪*/</span></span><br><span class="line">	<span class="built_in">GetMovementComponent</span>()-&gt;<span class="built_in">GetNavAgentPropertiesRef</span>().bCanCrouch = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//调用已有函数创建Crouch函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::BeginCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">Crouch</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::EndCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">UnCrouch</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用BindAction绑定函数(&quot;Crouch&quot;需要在编辑器中绑定输入)</span></span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Pressed,<span class="keyword">this</span>,&amp;ASCharacter::BeginCrouch);</span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Released, <span class="keyword">this</span>, &amp;ASCharacter::EndCrouch);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>**Jump ** Character中已有实现,直接将jump函数绑定就可以</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<p>动画绑定的话在编辑器中选择动画就好了(需要选择已经制作好的动画序列)</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>UE4导航</title>
-    <url>/2021/05/15/UE4/UE4%E5%AF%BC%E8%88%AA/</url>
-    <content><![CDATA[<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><blockquote>
-<a href="/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/" title="创建简单的角色移动">创建简单的角色移动</a>  
-</blockquote>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="InputComponent"><a href="#InputComponent" class="headerlink" title="InputComponent"></a>InputComponent</h2><blockquote>
-<a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/" title="BindAction">BindAction</a>  
-</blockquote>
-<h2 id="EngineBaseTypes"><a href="#EngineBaseTypes" class="headerlink" title="EngineBaseTypes"></a>EngineBaseTypes</h2><blockquote>
-<a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" title="EngineBaseTypes">EngineBaseTypes</a>  
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
-    <title>EngineBaseTypes</title>
-    <url>/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>文件路径 Engine\Source\Runtime\Engine\Classes\Engine\EngineBaseTypes.h\</p>
-<p>该文件下包含了一些枚举变量,结构体,并且在一部分类型上加了命名空间,使用的时候需要注意</p>
-<p>我使用过的,定义在EngineBaseType中的类型会记录在这篇博客中</p>
-<p>目前使用过的枚举</p>
-<h4 id="enum-EInputEvent"><a href="#enum-EInputEvent" class="headerlink" title="enum EInputEvent"></a>enum EInputEvent</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">UENUM</span>( BlueprintType, meta=(ScriptName=<span class="string">&quot;InputEventType&quot;</span>))</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EInputEvent</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	IE_Pressed              =<span class="number">0</span>,</span><br><span class="line">	IE_Released             =<span class="number">1</span>,</span><br><span class="line">	IE_Repeat               =<span class="number">2</span>,</span><br><span class="line">	IE_DoubleClick          =<span class="number">3</span>,</span><br><span class="line">	IE_Axis                 =<span class="number">4</span>,</span><br><span class="line">	IE_MAX                  =<span class="number">5</span>,</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span> 看到不是很理解</span><br><span class="line">        </span><br><span class="line">       </span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//1.在BindAction的时候hui作为EInputEvent使用</span></span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line"><span class="comment">//3.</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-  </entry>
-  <entry>
-    <title>BindAction</title>
-    <url>/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>我现阶段接触到的Bind Action都是用于角色移动和操作绑定的</p>
-<p>BindAction有三个重载</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerWithKeySignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">DelegateType</span>, <span class="keyword">class</span> <span class="title">UserClass</span>, <span class="title">typename</span>... <span class="title">VarTypes</span> &gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> DelegateType::<span class="keyword">template</span> TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func, VarTypes... Vars )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.BindDelegate&lt;DelegateType&gt;(Object, Func, Vars...);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>1.现在只使用过第一个重载    </p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br><span class="line"></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>const FName ActionName</strong> : Fname类型数据  , 字符串类型,需要与编辑器中绑定的操作名称相同</li>
-<li><strong>const EInputEvent KeyEvent</strong> 枚举变量 ,根据需要的操作类型选择相应的变量                  <a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" title="参见&quot;UE4一些基本的类型&quot;">参见&quot;UE4一些基本的类型&quot;</a></li>
-<li><em><em>UserClass</em> Object</em>*     上方自定义的模板类型(模板还没有学完), 一般这里放入的是调用的对象,一般只需传入this指针</li>
-<li><strong>typename FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func</strong>     传入需要绑定的函数</li>
+    <title>一些临时的知识点</title>
+    <url>/2021/05/12/CPP/%E4%B8%80%E4%BA%9B%E4%B8%B4%E6%97%B6%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<ul>
+<li>在使用<em><strong>new</strong></em>创建类对象时,必须调用构造函数,并且这个构造函数不会自动生成,一定要是自己创建的</li>
 </ul>
-<p>其他的我还没有用过,第二个使用方法应该和第一个差别不大,第三个重载不知道怎么用</p>
 ]]></content>
+      <categories>
+        <category>CPP</category>
+      </categories>
+      <tags>
+        <tag>CPP</tag>
+        <tag>CPP其他知识点</tag>
+      </tags>
   </entry>
   <entry>
-    <title>创建简单的角色移动</title>
-    <url>/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>导航</title>
+    <url>/2021/03/19/%E5%AF%BC%E8%88%AA/</url>
+    <content><![CDATA[<p><a href="https://docs.unrealengine.com/zh-CN/index.html">官网链接</a><br></p>
+<a href="/2021/05/11/CPP/CPPIndex/" title="C++知识点目录">C++知识点目录</a><br>
 
-<p>Character  提供了自己的移动函数</p>
-<ol>
-<li>BindAxis只需在自己创建的移动函数中调用已有的函数并将其绑定即可</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Charactor Movement code </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::MoveForward</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddMovementInput</span>(<span class="built_in">GetActorForwardVector</span>(), Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::MoveRight</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddMovementInput</span>(<span class="built_in">GetActorRightVector</span>(), Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Bind  character View</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::LookUp</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddControllerPitchInput</span>(Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::Turn</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddControllerYawInput</span>(Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<a href="/2021/05/15/UE4/UE4%E5%AF%BC%E8%88%AA/" title="UE4使用目录">UE4使用目录</a><br>
 
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Movement Part</span></span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::MoveForward);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::MoveRight);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;LookUp&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::LookUp);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::Turn);</span><br></pre></td></tr></table></figure>
-
-]]></content>
+<a href="/2021/03/30/%E5%AD%A6%E4%B9%A0%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/" title="学习时产生的问题">学习时产生的问题</a><br>]]></content>
+      <categories>
+        <category>目录</category>
+      </categories>
   </entry>
   <entry>
     <title>模板</title>
@@ -250,20 +101,17 @@
 ]]></content>
   </entry>
   <entry>
-    <title>两个不同类互相调用问题</title>
-    <url>/2021/05/14/CPP/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%B1%BB%E4%BA%92%E7%9B%B8%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>起初碰到这个问题是在学习友元的时候,</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Math.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_friend_93</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function">Point_friend_93 <span class="title">add1</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Point_friend_93.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Math.h&quot;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_friend_93</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="comment">//声明友元函数</span></span><br><span class="line">	<span class="function"><span class="keyword">friend</span> Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93, Point_friend_93)</span></span>;</span><br><span class="line">	<span class="keyword">int</span> m_y;</span><br><span class="line">	<span class="keyword">int</span> m_x;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span>;</span></span><br><span class="line">	<span class="function"><span class="keyword">friend</span>  Point_friend_93 <span class="title">Math::add1</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_friend_93</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getY</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getX</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//add p1 &amp; p2</span></span><br><span class="line"><span class="function">Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>为了方便说明我把Math类称为A类,将Point_friend_93成为B类,起只是在两个类的头文件中简单#include了对方的头文件</p>
-<p>结果发现,在B类中声明A类的函数为友元时,编译器报错,(说他找不到A中的那个函数,认为我们没有定义这个函数)</p>
-<p>具体过程…我也还没搞清楚,但是找到了解决方案,</p>
-<p>1.只在A类的头文件中引入B类头文件</p>
-<p>2.由于B类中没有#include  “A.h”,所以此时B类无法使用A类,所以要在B类头文件的开头声明一下A类   (class A;)</p>
-<p>3.然后在B类的cpp文件中#include A.h</p>
-<p>此处因该涉及到 : <strong>向前声明</strong>,<strong>不完全类型</strong>,<strong>单独编译</strong>,以及类的基础知识<a href="https://blog.csdn.net/qq_43915356/article/details/107577450">详情可见此篇博客</a></p>
+    <title>UE4导航</title>
+    <url>/2021/05/15/UE4/UE4%E5%AF%BC%E8%88%AA/</url>
+    <content><![CDATA[<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><blockquote>
+<a href="/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/" title="创建简单的角色移动">创建简单的角色移动</a>  
+</blockquote>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="InputComponent"><a href="#InputComponent" class="headerlink" title="InputComponent"></a>InputComponent</h2><blockquote>
+<a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/" title="BindAction">BindAction</a>  
+</blockquote>
+<h2 id="EngineBaseTypes"><a href="#EngineBaseTypes" class="headerlink" title="EngineBaseTypes"></a>EngineBaseTypes</h2><blockquote>
+<a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" title="EngineBaseTypes">EngineBaseTypes</a>  
+</blockquote>
 ]]></content>
   </entry>
   <entry>
@@ -370,52 +218,63 @@
 ]]></content>
   </entry>
   <entry>
-    <title>内部类</title>
-    <url>/2021/05/14/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%86%85%E9%83%A8%E7%B1%BB/</url>
+    <title>编译链接原理</title>
+    <url>/2021/05/17/CPP/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<span id="more"></span>
 
-<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>定义: 定义在一个类内部的类叫做内部类(嵌套类)</p>
-<p>特点: </p>
+<ol>
+<li><p> 编译的时候只有cpp文件才会参与编译</p>
+</li>
+<li><p>编译步骤 :(假设存在<strong>main.cpp</strong>,<strong>add.cpp</strong>,<strong>add.h</strong>)</p>
 <ul>
-<li><p>可以用访问控制符控制访问权限</p>
+<li><p>对每个cpp单独编译</p>
+<ul>
+<li>main.cpp—-&gt;main.obj(汇编)</li>
+<li>add.cpp——&gt;add.obj(汇编)</li>
+</ul>
 </li>
-<li><p>内部类成员函数可以访问外部类的所有成员</p>
-</li>
-<li><p>外部类无法为访问内部类成员所有成员</p>
-</li>
-<li><p>内部类可以不带类名或对象名直接访问Static成员</p>
-</li>
-<li><p><em><strong>不会影响外部类的内存布局</strong></em>,只影响内部类的访问权限</p>
-</li>
-<li><p>内部类声明和实现可分离</p>
+<li><p>链接生成exe文件</p>
 </li>
 </ul>
-<h2 id="局部类"><a href="#局部类" class="headerlink" title="局部类"></a>局部类</h2><p>定义: 在函数内部定义的类</p>
-<p>特点:</p>
+</li>
+</ol>
+<p>知识点 : </p>
 <ul>
-<li>局部类的声明和实现必须放在类里</li>
-<li>不支持static成员变量(static成员变量需要在类外初始化)</li>
-<li>成员函数不可访问函数的局部变量,但是可以访问函数里的static变量</li>
-<li>可以访问全局变量</li>
+<li>main.cpp在编译的时候会将函数调用替换为汇编<strong>call 函数地址</strong>,但是由于函数实现与main.cpp不在同一个文件夹里,只是声明了函数(引入头文件),所以main编译时会瞎几把填一个地址(PS : 是不是瞎几把填不知道,反正大概率不会是正确的地址)</li>
+<li>链接的作用正是将main.obj中错误的函数地址替换为其他.obj中正确的函数地址(当然首先会将obj文件合并)</li>
+<li>main.obj中不知道别的obj的函数地址的原因是…….这些cpp文件是单独编译的</li>
+<li>模板函数无法将定义与实现分离的原因<ul>
+<li>main.obj中调用模板函数的  call  函数地址是假的</li>
+<li>单独编译存在模板函数的cpp文件的时候,由于cpp内部并未调用模板函数,导致该模板函数没有实例化,即并没有在内存中生成具体的函数实例</li>
+<li>在main.obj与其obj文件链接时,编译器无法为main.obj中错误的函数地址找到其正确地址</li>
+<li>报错….链接失败</li>
+</ul>
+</li>
 </ul>
 ]]></content>
   </entry>
   <entry>
-    <title>IOC(接口)</title>
-    <url>/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/</url>
+    <title>匿名对象(临时对象)</title>
+    <url>/2021/05/11/CPP/%E5%AF%B9%E8%B1%A1/%E5%8C%BF%E5%90%8D%E5%AF%B9%E8%B1%A1(%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1)/</url>
     <content><![CDATA[<span id="more"></span>
-
-<p>Spring提供IOC的两个接口(作用相似,都通过加载配置文件,通过工厂过程创建对象):</p>
+<p>有名字的,有指针指着的不是匿名对象</p>
+<p>匿名对象:  顾名思义是没有名字的对象</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Car</span>();</span><br></pre></td></tr></table></figure>
+<p>生存周期: 一句语句( 在当前语句创建匿名对象,在下一句语句执行前会 <strong>销毁/执行析构函数</strong> )</p>
+<p>扩展:  </p>
 <ul>
-<li>BeanFactory : IOC容器基本实现,Spring自己用的,一不提供给开发人员使用</li>
-<li>ApplicationContext: BeanFactory的子接口,功能更加强大,一般由开发人员使用</li>
+<li>当匿名对象作为函数参数时,编译器会对其做出优化,与传入非匿名对象不同</li>
+<li>当匿名对象最为函数返回值时,也会优化,相当于直接放在main中一样</li>
 </ul>
-<p>ApplicationContext接口实现类:</p>
-<blockquote>
-<p><img src="/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/image-20210513012407392.png" alt="image-20210513012407392"></p>
-</blockquote>
-<p>两个接口区别:一个使用文件系统路径(绝对路径,一个使用类路径)</p>
 ]]></content>
+      <categories>
+        <category>CPP</category>
+      </categories>
+      <tags>
+        <tag>CPP</tag>
+        <tag>匿名对象</tag>
+        <tag>对象</tag>
+      </tags>
   </entry>
   <entry>
     <title>IOC底层原理</title>
@@ -437,6 +296,148 @@
 
 <p>​        (2)有Service类和Dao类(Serivce类想要调用Dao类中的方法),创建工厂类(ps:工厂类创建Spring已经写好了)</p>
 <p>​    <img src="/2021/05/13/Spring/IOC/IOC%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/image-20210513010544747.png" alt="image-20210513010544747"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>对象类型参数和返回值</title>
+    <url>/2021/05/11/CPP/%E5%87%BD%E6%95%B0/%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0%E5%92%8C%E8%BF%94%E5%9B%9E%E5%80%BC/</url>
+    <content><![CDATA[<span id="more"></span>  
+
+<ul>
+<li>存在的问题:<blockquote>
+<p>[<strong>对象类型作为参数</strong>]可能会产生一些不必要的中间值.</p>
+</blockquote>
+<ul>
+<li>对象作为参数传入时,会调用拷贝构造函数,<strong>建立一个新的对象</strong>(中间对象)<br>[ note ] 这和一般函数是一样的,所以一般会使用引用,而不是直接传参<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">(Car car)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">(Car &amp;car)</span></span>;<span class="comment">//使用引用会比较好(建议)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[<strong>对象作为返回值</strong>]  会产生中间值</p>
+<ul>
+<li><strong>原因</strong> : 函数栈空间在函数结束调用之后就会释放,所以需要将<em>函数栈空间</em>中的对象在函数结束前<em>提前</em>将其复制到<em>main函数的栈空间</em>中,因此会<em>调用拷贝构造函数</em>   (如果是在main中调用该函数)</li>
+</ul>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">	<span class="function">Car <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">	    Car car;</span><br><span class="line">        <span class="keyword">return</span> car;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">    main:</span><br><span class="line">        Car car;</span><br><span class="line">        car = <span class="built_in">test2</span>();</span><br><span class="line">    main:</span><br><span class="line">        Car car = <span class="built_in">test2</span>();<span class="comment">//这样子编译器会对其优化</span></span><br></pre></td></tr></table></figure></li>
+<li>实现方法(底层) : 在调用 test2() 时,传入一个指针(指向main栈空间的指针),当对象返回时,调用拷贝构造函数将其拷贝到main函数的栈空间中</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>CPP</category>
+      </categories>
+      <tags>
+        <tag>CPP</tag>
+        <tag>函数</tag>
+        <tag>对象类型参数</tag>
+        <tag>对象类型返回值</tag>
+        <tag>函数参数</tag>
+        <tag>函数返回值</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两个不同类互相调用问题</title>
+    <url>/2021/05/14/CPP/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%B1%BB%E4%BA%92%E7%9B%B8%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>起初碰到这个问题是在学习友元的时候,</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Math.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_friend_93</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function">Point_friend_93 <span class="title">add1</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Point_friend_93.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Math.h&quot;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_friend_93</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="comment">//声明友元函数</span></span><br><span class="line">	<span class="function"><span class="keyword">friend</span> Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93, Point_friend_93)</span></span>;</span><br><span class="line">	<span class="keyword">int</span> m_y;</span><br><span class="line">	<span class="keyword">int</span> m_x;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span>;</span></span><br><span class="line">	<span class="function"><span class="keyword">friend</span>  Point_friend_93 <span class="title">Math::add1</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_friend_93</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getY</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getX</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//add p1 &amp; p2</span></span><br><span class="line"><span class="function">Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>为了方便说明我把Math类称为A类,将Point_friend_93成为B类,起只是在两个类的头文件中简单#include了对方的头文件</p>
+<p>结果发现,在B类中声明A类的函数为友元时,编译器报错,(说他找不到A中的那个函数,认为我们没有定义这个函数)</p>
+<p>具体过程…我也还没搞清楚,但是找到了解决方案,</p>
+<p>1.只在A类的头文件中引入B类头文件</p>
+<p>2.由于B类中没有#include  “A.h”,所以此时B类无法使用A类,所以要在B类头文件的开头声明一下A类   (class A;)</p>
+<p>3.然后在B类的cpp文件中#include A.h</p>
+<p>此处因该涉及到 : <strong>向前声明</strong>,<strong>不完全类型</strong>,<strong>单独编译</strong>,以及类的基础知识<a href="https://blog.csdn.net/qq_43915356/article/details/107577450">详情可见此篇博客</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>伤害应用</title>
+    <url>/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E4%BC%A4%E5%AE%B3%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<span id="more"></span>
+
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** Hurts the specified actor with the specified impact.</span></span><br><span class="line"><span class="comment"> * @param DamagedActor - 被伤害的actor -AActor*</span></span><br><span class="line"><span class="comment"> * @param BaseDamage - 基础伤害数值 - float</span></span><br><span class="line"><span class="comment"> * @param HitFromDirection - 伤害来自的方向(一般就是单位向量) - const FVector&amp;</span></span><br><span class="line"><span class="comment"> * @param HitInfo - 碰撞或者射线检测的结果(HitResult) - const FHitResult&amp;</span></span><br><span class="line"><span class="comment"> * @param EventInstigator - 伤害来自哪个controller - AController*</span></span><br><span class="line"><span class="comment"> * @param DamageCauser - 实际造成伤害的Actor(比如说某个Controller生成了手榴弹,手榴弹爆炸造成伤害) - AActor*</span></span><br><span class="line"><span class="comment"> * @param DamageTypeClass - 伤害类型 - TSubclassOf&lt;class UDamageType&gt;(这应该是定义的某个模板PS:模板还没有学好)</span></span><br><span class="line"><span class="comment"> * @return Actual damage the ended up being applied to the actor.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintAuthorityOnly, Category=<span class="string">&quot;Game|Damage&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">float</span> <span class="title">ApplyPointDamage</span><span class="params">(AActor* DamagedActor, <span class="keyword">float</span> BaseDamage, <span class="keyword">const</span> FVector&amp; HitFromDirection, <span class="keyword">const</span> FHitResult&amp; HitInfo, AController* EventInstigator, AActor* DamageCauser, TSubclassOf&lt;class UDamageType&gt; DamageTypeClass)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+<p>UE4的GameplayStatics.h中定义了四种伤害类型<strong>ApplyRadialDamage</strong>,<strong>ApplyRadialDamageWithFalloff</strong>,<strong>ApplyPointDamage</strong>,<strong>ApplyDamage</strong></p>
+<p>这里先介绍PointDamage(点状伤害)</p>
+<blockquote>
+<p>函数参数列表的含义与参数类型见注释</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">	 *  Trace a ray against the world using a specific channel and return the first blocking hit</span><br><span class="line">	 *  @param  OutHit          First blocking hit found</span><br><span class="line">	 *  @param  Start           Start location of the ray</span><br><span class="line">	 *  @param  End             End location of the ray</span><br><span class="line">	 *  @param  TraceChannel    The &#39;channel&#39; that this ray is in, used to determine which components to hit</span><br><span class="line">	 *  @param  Params          Additional parameters used for the trace</span><br><span class="line">	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace	 </span><br><span class="line">	 *  @return TRUE if a blocking hit is found</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	bool LineTraceSingleByChannel(struct FHitResult&amp; OutHit,const FVector&amp; Start,const FVector&amp; End,ECollisionChannel TraceChannel,const FCollisionQueryParams&amp; Params &#x3D; FCollisionQueryParams::DefaultQueryParam, const FCollisionResponseParams&amp; ResponseParam &#x3D; FCollisionResponseParams::DefaultResponseParam) const;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>IOC(接口)</title>
+    <url>/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>Spring提供IOC的两个接口(作用相似,都通过加载配置文件,通过工厂过程创建对象):</p>
+<ul>
+<li>BeanFactory : IOC容器基本实现,Spring自己用的,一不提供给开发人员使用</li>
+<li>ApplicationContext: BeanFactory的子接口,功能更加强大,一般由开发人员使用</li>
+</ul>
+<p>ApplicationContext接口实现类:</p>
+<blockquote>
+<p><img src="/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/image-20210513012407392.png" alt="image-20210513012407392"></p>
+</blockquote>
+<p>两个接口区别:一个使用文件系统路径(绝对路径,一个使用类路径)</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>HitResult</title>
+    <url>/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/HitResult/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">USTRUCT</span>(BlueprintType, meta = (HasNativeBreak = <span class="string">&quot;Engine.GameplayStatics.BreakHitResult&quot;</span>, HasNativeMake = <span class="string">&quot;Engine.GameplayStatics.MakeHitResult&quot;</span>))</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ENGINE_API</span> <span class="title">FHitResult</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 bBlockingHit:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 bStartPenetrating:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	int32 FaceIndex;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> Time;</span><br><span class="line">	 </span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> Distance; </span><br><span class="line">	</span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize Location;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize ImpactPoint;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantizeNormal Normal;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantizeNormal ImpactNormal;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize TraceStart;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize TraceEnd;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> PenetrationDepth;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	int32 Item;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 ElementIndex;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">UPhysicalMaterial</span>&gt;</span> PhysMaterial;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">AActor</span>&gt;</span> Actor;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">UPrimitiveComponent</span>&gt;</span> Component;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FName BoneName;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FName MyBoneName;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">FHitResult</span>()&#123;<span class="built_in">Init</span>();&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(<span class="keyword">float</span> InTime)</span></span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">		Time = InTime;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(EForceInit InInit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(ENoInit NoInit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(FVector Start, FVector End)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>(Start, End);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Initialize empty hit result with given time. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FMemory::<span class="built_in">Memzero</span>(<span class="keyword">this</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(FHitResult));</span><br><span class="line">		Time = <span class="number">1.f</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Initialize empty hit result with given time, TraceStart, and TraceEnd */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Init</span><span class="params">(FVector Start, FVector End)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FMemory::<span class="built_in">Memzero</span>(<span class="keyword">this</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(FHitResult));</span><br><span class="line">		Time = <span class="number">1.f</span>;</span><br><span class="line">		TraceStart = Start;</span><br><span class="line">		TraceEnd = End;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Ctor for easily creating &quot;fake&quot; hits from limited data. */</span></span><br><span class="line">	<span class="built_in">FHitResult</span>(class AActor* InActor, class UPrimitiveComponent* InComponent, FVector <span class="keyword">const</span>&amp; HitLoc, FVector <span class="keyword">const</span>&amp; HitNorm);</span><br><span class="line"> </span><br><span class="line">	<span class="comment">/** Reset hit result while optionally saving TraceStart and TraceEnd. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Reset</span><span class="params">(<span class="keyword">float</span> InTime = <span class="number">1.f</span>, <span class="keyword">bool</span> bPreserveTraceData = <span class="literal">true</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">const</span> FVector SavedTraceStart = TraceStart;</span><br><span class="line">		<span class="keyword">const</span> FVector SavedTraceEnd = TraceEnd;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">		Time = InTime;</span><br><span class="line">		<span class="keyword">if</span> (bPreserveTraceData)</span><br><span class="line">		&#123;</span><br><span class="line">			TraceStart = SavedTraceStart;</span><br><span class="line">			TraceEnd = SavedTraceEnd;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Utility to return the Actor that owns the Component that was hit. */</span></span><br><span class="line">	<span class="function">FORCEINLINE AActor* <span class="title">GetActor</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Actor.<span class="built_in">Get</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Utility to return the Component that was hit. */</span></span><br><span class="line">	<span class="function">FORCEINLINE UPrimitiveComponent* <span class="title">GetComponent</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Component.<span class="built_in">Get</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Optimized serialize function */</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">NetSerialize</span><span class="params">(FArchive&amp; Ar, class UPackageMap* Map, <span class="keyword">bool</span>&amp; bOutSuccess)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Return true if there was a blocking hit that was not caused by starting in penetration. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">bool</span> <span class="title">IsValidBlockingHit</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> bBlockingHit &amp;&amp; !bStartPenetrating;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the first &#x27;blocking&#x27; hit in an array of results. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> FHitResult* <span class="title">GetFirstBlockingHit</span><span class="params">(TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(int32 HitIdx=<span class="number">0</span>; HitIdx&lt;InHits.<span class="built_in">Num</span>(); HitIdx++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(InHits[HitIdx].bBlockingHit)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> &amp;InHits[HitIdx];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the number of blocking hits in array. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> int32 <span class="title">GetNumBlockingHits</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		int32 NumBlocks = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(int32 HitIdx=<span class="number">0</span>; HitIdx&lt;InHits.<span class="built_in">Num</span>(); HitIdx++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(InHits[HitIdx].bBlockingHit)</span><br><span class="line">			&#123;</span><br><span class="line">				NumBlocks++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> NumBlocks;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the number of overlapping hits in array. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> int32 <span class="title">GetNumOverlapHits</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (InHits.<span class="built_in">Num</span>() - <span class="built_in">GetNumBlockingHits</span>(InHits));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Get a copy of the HitResult with relevant information reversed.</span></span><br><span class="line"><span class="comment">	 * For example when receiving a hit from another object, we reverse the normals.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> FHitResult <span class="title">GetReversedHit</span><span class="params">(<span class="keyword">const</span> FHitResult&amp; Hit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">FHitResult <span class="title">Result</span><span class="params">(Hit)</span></span>;</span><br><span class="line">		Result.Normal = -Result.Normal;</span><br><span class="line">		Result.ImpactNormal = -Result.ImpactNormal;</span><br><span class="line">		<span class="keyword">return</span> Result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function">FString <span class="title">ToString</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// All members of FHitResult are PODs.</span></span><br><span class="line"><span class="keyword">template</span>&lt;&gt; <span class="class"><span class="keyword">struct</span> <span class="title">TIsPODType</span>&lt;</span>FHitResult&gt; &#123; <span class="class"><span class="keyword">enum</span> &#123;</span> Value = <span class="literal">true</span> &#125;; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TStructOpsTypeTraits</span>&lt;</span>FHitResult&gt; : <span class="keyword">public</span> TStructOpsTypeTraitsBase2&lt;FHitResult&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		WithNetSerializer = <span class="literal">true</span>,</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>简单创建角色蹲下与跳起</title>
+    <url>/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E8%A7%92%E8%89%B2%E8%B9%B2%E4%B8%8B%E4%B8%8E%E8%B7%B3%E8%B5%B7/</url>
+    <content><![CDATA[<span id="more"></span>
+
+
+
+<p>Charactor中已有Crouch和jump的实现</p>
+<p><strong>Crouch</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*将bCanCrouch设置为true........路径很奇怪*/</span></span><br><span class="line">	<span class="built_in">GetMovementComponent</span>()-&gt;<span class="built_in">GetNavAgentPropertiesRef</span>().bCanCrouch = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//调用已有函数创建Crouch函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::BeginCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">Crouch</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::EndCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">UnCrouch</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用BindAction绑定函数(&quot;Crouch&quot;需要在编辑器中绑定输入)</span></span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Pressed,<span class="keyword">this</span>,&amp;ASCharacter::BeginCrouch);</span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Released, <span class="keyword">this</span>, &amp;ASCharacter::EndCrouch);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>**Jump ** Character中已有实现,直接将jump函数绑定就可以</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>动画绑定的话在编辑器中选择动画就好了(需要选择已经制作好的动画序列)</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>创建简单的角色移动</title>
+    <url>/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>Character  提供了自己的移动函数</p>
+<ol>
+<li>BindAxis只需在自己创建的移动函数中调用已有的函数并将其绑定即可</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Charactor Movement code </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::MoveForward</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddMovementInput</span>(<span class="built_in">GetActorForwardVector</span>(), Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::MoveRight</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddMovementInput</span>(<span class="built_in">GetActorRightVector</span>(), Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Bind  character View</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::LookUp</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddControllerPitchInput</span>(Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::Turn</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddControllerYawInput</span>(Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Movement Part</span></span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::MoveForward);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::MoveRight);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;LookUp&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::LookUp);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::Turn);</span><br></pre></td></tr></table></figure>
+
 ]]></content>
   </entry>
   <entry>
@@ -468,26 +469,100 @@
       </categories>
       <tags>
         <tag>CPP</tag>
+        <tag>友元</tag>
         <tag>面对对象</tag>
         <tag>类</tag>
-        <tag>友元</tag>
         <tag>权限控制</tag>
       </tags>
   </entry>
   <entry>
-    <title>一些临时的知识点</title>
-    <url>/2021/05/12/CPP/%E4%B8%80%E4%BA%9B%E4%B8%B4%E6%97%B6%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
-    <content><![CDATA[<ul>
-<li>在使用<em><strong>new</strong></em>创建类对象时,必须调用构造函数,并且这个构造函数不会自动生成,一定要是自己创建的</li>
+    <title>轨迹检测LineTrace</title>
+    <url>/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E8%BD%A8%E8%BF%B9%E6%A3%80%E6%B5%8BLineTrace/</url>
+    <content><![CDATA[<span id="more"></span>]]></content>
+  </entry>
+  <entry>
+    <title>内部类</title>
+    <url>/2021/05/14/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%86%85%E9%83%A8%E7%B1%BB/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>定义: 定义在一个类内部的类叫做内部类(嵌套类)</p>
+<p>特点: </p>
+<ul>
+<li><p>可以用访问控制符控制访问权限</p>
+</li>
+<li><p>内部类成员函数可以访问外部类的所有成员</p>
+</li>
+<li><p>外部类无法为访问内部类成员所有成员</p>
+</li>
+<li><p>内部类可以不带类名或对象名直接访问Static成员</p>
+</li>
+<li><p><em><strong>不会影响外部类的内存布局</strong></em>,只影响内部类的访问权限</p>
+</li>
+<li><p>内部类声明和实现可分离</p>
+</li>
+</ul>
+<h2 id="局部类"><a href="#局部类" class="headerlink" title="局部类"></a>局部类</h2><p>定义: 在函数内部定义的类</p>
+<p>特点:</p>
+<ul>
+<li>局部类的声明和实现必须放在类里</li>
+<li>不支持static成员变量(static成员变量需要在类外初始化)</li>
+<li>成员函数不可访问函数的局部变量,但是可以访问函数里的static变量</li>
+<li>可以访问全局变量</li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>拷贝构造函数</title>
+    <url>/2021/05/11/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<p>并不存在的概述</p>
+<span id="more"></span>]]></content>
       <categories>
         <category>CPP</category>
       </categories>
       <tags>
         <tag>CPP</tag>
-        <tag>CPP其他知识点</tag>
+        <tag>面对对象</tag>
+        <tag>类</tag>
+        <tag>构造函数</tag>
+        <tag>拷贝构造函数</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>EngineBaseTypes</title>
+    <url>/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>文件路径 Engine\Source\Runtime\Engine\Classes\Engine\EngineBaseTypes.h\</p>
+<p>该文件下包含了一些枚举变量,结构体,并且在一部分类型上加了命名空间,使用的时候需要注意</p>
+<p>我使用过的,定义在EngineBaseType中的类型会记录在这篇博客中</p>
+<p>目前使用过的枚举</p>
+<h4 id="enum-EInputEvent"><a href="#enum-EInputEvent" class="headerlink" title="enum EInputEvent"></a>enum EInputEvent</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">UENUM</span>( BlueprintType, meta=(ScriptName=<span class="string">&quot;InputEventType&quot;</span>))</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EInputEvent</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	IE_Pressed              =<span class="number">0</span>,</span><br><span class="line">	IE_Released             =<span class="number">1</span>,</span><br><span class="line">	IE_Repeat               =<span class="number">2</span>,</span><br><span class="line">	IE_DoubleClick          =<span class="number">3</span>,</span><br><span class="line">	IE_Axis                 =<span class="number">4</span>,</span><br><span class="line">	IE_MAX                  =<span class="number">5</span>,</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span> 看到不是很理解</span><br><span class="line">        </span><br><span class="line">       </span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//1.在BindAction的时候hui作为EInputEvent使用</span></span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line"><span class="comment">//3.</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>BindAction</title>
+    <url>/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>我现阶段接触到的Bind Action都是用于角色移动和操作绑定的</p>
+<p>BindAction有三个重载</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerWithKeySignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">DelegateType</span>, <span class="keyword">class</span> <span class="title">UserClass</span>, <span class="title">typename</span>... <span class="title">VarTypes</span> &gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> DelegateType::<span class="keyword">template</span> TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func, VarTypes... Vars )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.BindDelegate&lt;DelegateType&gt;(Object, Func, Vars...);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>1.现在只使用过第一个重载    </p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br><span class="line"></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>const FName ActionName</strong> : Fname类型数据  , 字符串类型,需要与编辑器中绑定的操作名称相同</li>
+<li><strong>const EInputEvent KeyEvent</strong> 枚举变量 ,根据需要的操作类型选择相应的变量                  <a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" title="参见&quot;UE4一些基本的类型&quot;">参见&quot;UE4一些基本的类型&quot;</a></li>
+<li><em><em>UserClass</em> Object</em>*     上方自定义的模板类型(模板还没有学完), 一般这里放入的是调用的对象,一般只需传入this指针</li>
+<li><strong>typename FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func</strong>     传入需要绑定的函数</li>
+</ul>
+<p>其他的我还没有用过,第二个使用方法应该和第一个差别不大,第三个重载不知道怎么用</p>
+]]></content>
   </entry>
   <entry>
     <title>自动生成的构造函数</title>
@@ -531,11 +606,22 @@
       </categories>
       <tags>
         <tag>CPP</tag>
-        <tag>构造函数</tag>
         <tag>面对对象</tag>
         <tag>类</tag>
+        <tag>构造函数</tag>
         <tag>自动生成的构造函数</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>BindAxis</title>
+    <url>/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/</url>
+    <content><![CDATA[<p>1<span id="more"></span></p>
+<p>我现阶段接触到的BindAxis都是用于角色移动和操作绑定的</p>
+<p>BindAxis有两个重载,用于轴操作的绑定</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Binds a delegate function an Axis defined in the project settings.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another axis is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">	<span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line">	<span class="function">FInputAxisBinding&amp; <span class="title">BindAxis</span><span class="params">( <span class="keyword">const</span> FName AxisName, UserClass* Object, <span class="keyword">typename</span> FInputAxisHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">FInputAxisBinding <span class="title">AB</span><span class="params">( AxisName )</span></span>;</span><br><span class="line">		AB.AxisDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">		AxisBindings.<span class="built_in">Emplace</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">		<span class="keyword">return</span> AxisBindings.<span class="built_in">Last</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Indicates that the InputComponent is interested in knowing the Axis value</span></span><br><span class="line"><span class="comment">* (via GetAxisValue) but does not want a delegate function called each frame.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another axis is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">	<span class="function">FInputAxisBinding&amp; <span class="title">BindAxis</span><span class="params">( <span class="keyword">const</span> FName AxisName )</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">FInputAxisBinding <span class="title">AB</span><span class="params">( AxisName )</span></span>;</span><br><span class="line">		AxisBindings.<span class="built_in">Emplace</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">		<span class="keyword">return</span> AxisBindings.<span class="built_in">Last</span>();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只使用过第一个</p>
+]]></content>
   </entry>
   <entry>
     <title>隐式构造</title>
@@ -566,96 +652,10 @@
       </categories>
       <tags>
         <tag>CPP</tag>
-        <tag>构造函数</tag>
         <tag>面对对象</tag>
         <tag>类</tag>
+        <tag>构造函数</tag>
         <tag>隐式构造</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>匿名对象(临时对象)</title>
-    <url>/2021/05/11/CPP/%E5%AF%B9%E8%B1%A1/%E5%8C%BF%E5%90%8D%E5%AF%B9%E8%B1%A1(%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1)/</url>
-    <content><![CDATA[<span id="more"></span>
-<p>有名字的,有指针指着的不是匿名对象</p>
-<p>匿名对象:  顾名思义是没有名字的对象</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Car</span>();</span><br></pre></td></tr></table></figure>
-<p>生存周期: 一句语句( 在当前语句创建匿名对象,在下一句语句执行前会 <strong>销毁/执行析构函数</strong> )</p>
-<p>扩展:  </p>
-<ul>
-<li>当匿名对象作为函数参数时,编译器会对其做出优化,与传入非匿名对象不同</li>
-<li>当匿名对象最为函数返回值时,也会优化,相当于直接放在main中一样</li>
-</ul>
-]]></content>
-      <categories>
-        <category>CPP</category>
-      </categories>
-      <tags>
-        <tag>CPP</tag>
-        <tag>匿名对象</tag>
-        <tag>对象</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>对象类型参数和返回值</title>
-    <url>/2021/05/11/CPP/%E5%87%BD%E6%95%B0/%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0%E5%92%8C%E8%BF%94%E5%9B%9E%E5%80%BC/</url>
-    <content><![CDATA[<span id="more"></span>  
-
-<ul>
-<li>存在的问题:<blockquote>
-<p>[<strong>对象类型作为参数</strong>]可能会产生一些不必要的中间值.</p>
-</blockquote>
-<ul>
-<li>对象作为参数传入时,会调用拷贝构造函数,<strong>建立一个新的对象</strong>(中间对象)<br>[ note ] 这和一般函数是一样的,所以一般会使用引用,而不是直接传参<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">(Car car)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">(Car &amp;car)</span></span>;<span class="comment">//使用引用会比较好(建议)</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>[<strong>对象作为返回值</strong>]  会产生中间值</p>
-<ul>
-<li><strong>原因</strong> : 函数栈空间在函数结束调用之后就会释放,所以需要将<em>函数栈空间</em>中的对象在函数结束前<em>提前</em>将其复制到<em>main函数的栈空间</em>中,因此会<em>调用拷贝构造函数</em>   (如果是在main中调用该函数)</li>
-</ul>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">	<span class="function">Car <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">	    Car car;</span><br><span class="line">        <span class="keyword">return</span> car;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">    main:</span><br><span class="line">        Car car;</span><br><span class="line">        car = <span class="built_in">test2</span>();</span><br><span class="line">    main:</span><br><span class="line">        Car car = <span class="built_in">test2</span>();<span class="comment">//这样子编译器会对其优化</span></span><br></pre></td></tr></table></figure></li>
-<li>实现方法(底层) : 在调用 test2() 时,传入一个指针(指向main栈空间的指针),当对象返回时,调用拷贝构造函数将其拷贝到main函数的栈空间中</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>CPP</category>
-      </categories>
-      <tags>
-        <tag>CPP</tag>
-        <tag>函数</tag>
-        <tag>对象类型参数</tag>
-        <tag>对象类型返回值</tag>
-        <tag>函数参数</tag>
-        <tag>函数返回值</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>拷贝构造函数</title>
-    <url>/2021/05/11/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<p>并不存在的概述</p>
-<span id="more"></span>]]></content>
-      <categories>
-        <category>CPP</category>
-      </categories>
-      <tags>
-        <tag>CPP</tag>
-        <tag>构造函数</tag>
-        <tag>拷贝构造函数</tag>
-        <tag>面对对象</tag>
-        <tag>类</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习时产生的问题</title>
-    <url>/2021/03/30/%E5%AD%A6%E4%B9%A0%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>概述:  </p>
-<span id="more"></span>
-<h5 id="1-找出”前进”方向，并记录玩家想向该方向移动-问题地址"><a href="#1-找出”前进”方向，并记录玩家想向该方向移动-问题地址" class="headerlink" title="1. 找出”前进”方向，并记录玩家想向该方向移动.问题地址"></a>1. 找出”前进”方向，并记录玩家想向该方向移动.<a href="https://docs.unrealengine.com/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/2/index.html">问题地址</a></h5><blockquote>
-<ul>
-<li>主要疑问FRotationMatrix().GetScaledAxis(EAxis::X)是干什么的<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">  FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">  <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-</blockquote>
-<h5 id="2-在enum-EInputEvent-的枚举中-IE-Repeat-IE-Axis-IE-MAX分别是什么意义"><a href="#2-在enum-EInputEvent-的枚举中-IE-Repeat-IE-Axis-IE-MAX分别是什么意义" class="headerlink" title="2. 在enum EInputEvent 的枚举中,IE_Repeat,IE_Axis,IE_MAX分别是什么意义"></a>2. 在enum EInputEvent 的枚举中,IE_Repeat,IE_Axis,IE_MAX分别是什么意义</h5>]]></content>
   </entry>
 </search>
