@@ -537,13 +537,671 @@
 <li><input disabled type="checkbox"> <a href="/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%8F%8B%E5%85%83/" title="友元">友元</a><br>  </li>
 </ul>
 <h1 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h1><ul>
-<li><input disabled type="checkbox"> <a href="/2021/05/14/CPP/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" title="运算符重载">运算符重载</a><br>  </li>
+<li><input disabled type="checkbox"> <a href="/2021/05/14/CPP/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" title="运算符重载">运算符重载</a><br></li>
 </ul>
-<h1 id="疑难杂症"><a href="#疑难杂症" class="headerlink" title="疑难杂症"></a>疑难杂症</h1><ul>
+<h1 id><a href="#" class="headerlink" title></a><a href="/2021/05/15/CPP/%E6%A8%A1%E6%9D%BF/" title="模板">模板</a></h1><h1 id="疑难杂症"><a href="#疑难杂症" class="headerlink" title="疑难杂症"></a>疑难杂症</h1><ul>
 <li><input disabled type="checkbox"> <a href="/2021/05/14/CPP/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%B1%BB%E4%BA%92%E7%9B%B8%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/" title="两个不同类互相调用问题">两个不同类互相调用问题</a><br></li>
 </ul>
 
           
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/17/CPP/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/17/CPP/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E5%8E%9F%E7%90%86/" itemprop="url">编译链接原理</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-17T01:04:59+08:00">
+                2021-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<ol>
+<li><p> 编译的时候只有cpp文件才会参与编译</p>
+</li>
+<li><p>编译步骤 :(假设存在<strong>main.cpp</strong>,<strong>add.cpp</strong>,<strong>add.h</strong>)</p>
+<ul>
+<li><p>对每个cpp单独编译</p>
+<ul>
+<li>main.cpp—-&gt;main.obj(汇编)</li>
+<li>add.cpp——&gt;add.obj(汇编)</li>
+</ul>
+</li>
+<li><p>链接生成exe文件</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>知识点 : </p>
+<ul>
+<li>main.cpp在编译的时候会将函数调用替换为汇编<strong>call 函数地址</strong>,但是由于函数实现与main.cpp不在同一个文件夹里,只是声明了函数(引入头文件),所以main编译时会瞎几把填一个地址(PS : 是不是瞎几把填不知道,反正大概率不会是正确的地址)</li>
+<li>链接的作用正是将main.obj中错误的函数地址替换为其他.obj中正确的函数地址(当然首先会将obj文件合并)</li>
+<li>main.obj中不知道别的obj的函数地址的原因是…….这些cpp文件是单独编译的</li>
+<li>模板函数无法将定义与实现分离的原因<ul>
+<li>main.obj中调用模板函数的  call  函数地址是假的</li>
+<li>单独编译存在模板函数的cpp文件的时候,由于cpp内部并未调用模板函数,导致该模板函数没有实例化,即并没有在内存中生成具体的函数实例</li>
+<li>在main.obj与其obj文件链接时,编译器无法为main.obj中错误的函数地址找到其正确地址</li>
+<li>报错….链接失败</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/HitResult/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/HitResult/" itemprop="url">HitResult</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-16T21:11:43+08:00">
+                2021-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">USTRUCT</span>(BlueprintType, meta = (HasNativeBreak = <span class="string">&quot;Engine.GameplayStatics.BreakHitResult&quot;</span>, HasNativeMake = <span class="string">&quot;Engine.GameplayStatics.MakeHitResult&quot;</span>))</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ENGINE_API</span> <span class="title">FHitResult</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 bBlockingHit:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 bStartPenetrating:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	int32 FaceIndex;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> Time;</span><br><span class="line">	 </span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> Distance; </span><br><span class="line">	</span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize Location;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize ImpactPoint;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantizeNormal Normal;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantizeNormal ImpactNormal;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize TraceStart;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FVector_NetQuantize TraceEnd;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">float</span> PenetrationDepth;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	int32 Item;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	uint8 ElementIndex;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">UPhysicalMaterial</span>&gt;</span> PhysMaterial;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">AActor</span>&gt;</span> Actor;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	TWeakObjectPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">UPrimitiveComponent</span>&gt;</span> Component;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FName BoneName;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FName MyBoneName;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">FHitResult</span>()&#123;<span class="built_in">Init</span>();&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(<span class="keyword">float</span> InTime)</span></span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">		Time = InTime;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(EForceInit InInit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(ENoInit NoInit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">FHitResult</span><span class="params">(FVector Start, FVector End)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">Init</span>(Start, End);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Initialize empty hit result with given time. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FMemory::<span class="built_in">Memzero</span>(<span class="keyword">this</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(FHitResult));</span><br><span class="line">		Time = <span class="number">1.f</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Initialize empty hit result with given time, TraceStart, and TraceEnd */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Init</span><span class="params">(FVector Start, FVector End)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FMemory::<span class="built_in">Memzero</span>(<span class="keyword">this</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(FHitResult));</span><br><span class="line">		Time = <span class="number">1.f</span>;</span><br><span class="line">		TraceStart = Start;</span><br><span class="line">		TraceEnd = End;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Ctor for easily creating &quot;fake&quot; hits from limited data. */</span></span><br><span class="line">	<span class="built_in">FHitResult</span>(class AActor* InActor, class UPrimitiveComponent* InComponent, FVector <span class="keyword">const</span>&amp; HitLoc, FVector <span class="keyword">const</span>&amp; HitNorm);</span><br><span class="line"> </span><br><span class="line">	<span class="comment">/** Reset hit result while optionally saving TraceStart and TraceEnd. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">void</span> <span class="title">Reset</span><span class="params">(<span class="keyword">float</span> InTime = <span class="number">1.f</span>, <span class="keyword">bool</span> bPreserveTraceData = <span class="literal">true</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">const</span> FVector SavedTraceStart = TraceStart;</span><br><span class="line">		<span class="keyword">const</span> FVector SavedTraceEnd = TraceEnd;</span><br><span class="line">		<span class="built_in">Init</span>();</span><br><span class="line">		Time = InTime;</span><br><span class="line">		<span class="keyword">if</span> (bPreserveTraceData)</span><br><span class="line">		&#123;</span><br><span class="line">			TraceStart = SavedTraceStart;</span><br><span class="line">			TraceEnd = SavedTraceEnd;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Utility to return the Actor that owns the Component that was hit. */</span></span><br><span class="line">	<span class="function">FORCEINLINE AActor* <span class="title">GetActor</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Actor.<span class="built_in">Get</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Utility to return the Component that was hit. */</span></span><br><span class="line">	<span class="function">FORCEINLINE UPrimitiveComponent* <span class="title">GetComponent</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Component.<span class="built_in">Get</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Optimized serialize function */</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">NetSerialize</span><span class="params">(FArchive&amp; Ar, class UPackageMap* Map, <span class="keyword">bool</span>&amp; bOutSuccess)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Return true if there was a blocking hit that was not caused by starting in penetration. */</span></span><br><span class="line">	<span class="function">FORCEINLINE <span class="keyword">bool</span> <span class="title">IsValidBlockingHit</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> bBlockingHit &amp;&amp; !bStartPenetrating;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the first &#x27;blocking&#x27; hit in an array of results. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> FHitResult* <span class="title">GetFirstBlockingHit</span><span class="params">(TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(int32 HitIdx=<span class="number">0</span>; HitIdx&lt;InHits.<span class="built_in">Num</span>(); HitIdx++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(InHits[HitIdx].bBlockingHit)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> &amp;InHits[HitIdx];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the number of blocking hits in array. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> int32 <span class="title">GetNumBlockingHits</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		int32 NumBlocks = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(int32 HitIdx=<span class="number">0</span>; HitIdx&lt;InHits.<span class="built_in">Num</span>(); HitIdx++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(InHits[HitIdx].bBlockingHit)</span><br><span class="line">			&#123;</span><br><span class="line">				NumBlocks++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> NumBlocks;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Static utility function that returns the number of overlapping hits in array. */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> int32 <span class="title">GetNumOverlapHits</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; InHits)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (InHits.<span class="built_in">Num</span>() - <span class="built_in">GetNumBlockingHits</span>(InHits));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Get a copy of the HitResult with relevant information reversed.</span></span><br><span class="line"><span class="comment">	 * For example when receiving a hit from another object, we reverse the normals.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">static</span> FHitResult <span class="title">GetReversedHit</span><span class="params">(<span class="keyword">const</span> FHitResult&amp; Hit)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">FHitResult <span class="title">Result</span><span class="params">(Hit)</span></span>;</span><br><span class="line">		Result.Normal = -Result.Normal;</span><br><span class="line">		Result.ImpactNormal = -Result.ImpactNormal;</span><br><span class="line">		<span class="keyword">return</span> Result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function">FString <span class="title">ToString</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// All members of FHitResult are PODs.</span></span><br><span class="line"><span class="keyword">template</span>&lt;&gt; <span class="class"><span class="keyword">struct</span> <span class="title">TIsPODType</span>&lt;</span>FHitResult&gt; &#123; <span class="class"><span class="keyword">enum</span> &#123;</span> Value = <span class="literal">true</span> &#125;; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TStructOpsTypeTraits</span>&lt;</span>FHitResult&gt; : <span class="keyword">public</span> TStructOpsTypeTraitsBase2&lt;FHitResult&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		WithNetSerializer = <span class="literal">true</span>,</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E4%BC%A4%E5%AE%B3%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E4%BC%A4%E5%AE%B3%E5%BA%94%E7%94%A8/" itemprop="url">伤害应用</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-16T20:44:33+08:00">
+                2021-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Hurts the specified actor with the specified impact.</span></span><br><span class="line"><span class="comment"> * @param DamagedActor - 被伤害的actor -AActor*</span></span><br><span class="line"><span class="comment"> * @param BaseDamage - 基础伤害数值 - float</span></span><br><span class="line"><span class="comment"> * @param HitFromDirection - 伤害来自的方向(一般就是单位向量) - const FVector&amp;</span></span><br><span class="line"><span class="comment"> * @param HitInfo - 碰撞或者射线检测的结果(HitResult) - const FHitResult&amp;</span></span><br><span class="line"><span class="comment"> * @param EventInstigator - 伤害来自哪个controller - AController*</span></span><br><span class="line"><span class="comment"> * @param DamageCauser - 实际造成伤害的Actor(比如说某个Controller生成了手榴弹,手榴弹爆炸造成伤害) - AActor*</span></span><br><span class="line"><span class="comment"> * @param DamageTypeClass - 伤害类型 - TSubclassOf&lt;class UDamageType&gt;(这应该是定义的某个模板PS:模板还没有学好)</span></span><br><span class="line"><span class="comment"> * @return Actual damage the ended up being applied to the actor.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintAuthorityOnly, Category=<span class="string">&quot;Game|Damage&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">float</span> <span class="title">ApplyPointDamage</span><span class="params">(AActor* DamagedActor, <span class="keyword">float</span> BaseDamage, <span class="keyword">const</span> FVector&amp; HitFromDirection, <span class="keyword">const</span> FHitResult&amp; HitInfo, AController* EventInstigator, AActor* DamageCauser, TSubclassOf&lt;class UDamageType&gt; DamageTypeClass)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+<p>UE4的GameplayStatics.h中定义了四种伤害类型<strong>ApplyRadialDamage</strong>,<strong>ApplyRadialDamageWithFalloff</strong>,<strong>ApplyPointDamage</strong>,<strong>ApplyDamage</strong></p>
+<p>这里先介绍PointDamage(点状伤害)</p>
+<blockquote>
+<p>函数参数列表的含义与参数类型见注释</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">	 *  Trace a ray against the world using a specific channel and return the first blocking hit</span><br><span class="line">	 *  @param  OutHit          First blocking hit found</span><br><span class="line">	 *  @param  Start           Start location of the ray</span><br><span class="line">	 *  @param  End             End location of the ray</span><br><span class="line">	 *  @param  TraceChannel    The &#39;channel&#39; that this ray is in, used to determine which components to hit</span><br><span class="line">	 *  @param  Params          Additional parameters used for the trace</span><br><span class="line">	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace	 </span><br><span class="line">	 *  @return TRUE if a blocking hit is found</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	bool LineTraceSingleByChannel(struct FHitResult&amp; OutHit,const FVector&amp; Start,const FVector&amp; End,ECollisionChannel TraceChannel,const FCollisionQueryParams&amp; Params &#x3D; FCollisionQueryParams::DefaultQueryParam, const FCollisionResponseParams&amp; ResponseParam &#x3D; FCollisionResponseParams::DefaultResponseParam) const;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E8%BD%A8%E8%BF%B9%E6%A3%80%E6%B5%8BLineTrace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E8%BD%A8%E8%BF%B9%E6%A3%80%E6%B5%8BLineTrace/" itemprop="url">轨迹检测LineTrace</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-16T20:38:59+08:00">
+                2021-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/" itemprop="url">BindAxis</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-16T20:21:59+08:00">
+                2021-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>1</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -983,755 +1641,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/" itemprop="url">BindAction</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T19:41:21+08:00">
-                2021-05-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>我现阶段接触到的Bind Action都是用于角色移动和操作绑定的</p>
-<p>BindAction有三个重载</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment"> * Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">UserClass</span>&gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerWithKeySignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.<span class="built_in">BindDelegate</span>(Object, Func);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Binds a delegate function to an Action defined in the project settings.</span></span><br><span class="line"><span class="comment">* Returned reference is only guaranteed to be valid until another action is bound.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">DelegateType</span>, <span class="keyword">class</span> <span class="title">UserClass</span>, <span class="title">typename</span>... <span class="title">VarTypes</span> &gt;</span></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> DelegateType::<span class="keyword">template</span> TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func, VarTypes... Vars )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">( ActionName, KeyEvent )</span></span>;</span><br><span class="line">	AB.ActionDelegate.BindDelegate&lt;DelegateType&gt;(Object, Func, Vars...);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">AddActionBinding</span>(<span class="built_in">MoveTemp</span>(AB));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>1.现在只使用过第一个重载    </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br><span class="line"></span><br><span class="line"><span class="function">FInputActionBinding&amp; <span class="title">BindAction</span><span class="params">( <span class="keyword">const</span> FName ActionName, <span class="keyword">const</span> EInputEvent KeyEvent, UserClass* Object, <span class="keyword">typename</span> FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func )</span></span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>const FName ActionName</strong> : Fname类型数据  , 字符串类型,需要与编辑器中绑定的操作名称相同</li>
-<li><strong>const EInputEvent KeyEvent</strong> 枚举变量 ,根据需要的操作类型选择相应的变量                  <a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" title="参见&quot;UE4一些基本的类型&quot;">参见&quot;UE4一些基本的类型&quot;</a></li>
-<li><em><em>UserClass</em> Object</em>*     上方自定义的模板类型(模板还没有学完), 一般这里放入的是调用的对象,一般只需传入this指针</li>
-<li><strong>typename FInputActionHandlerSignature::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr Func</strong>     传入需要绑定的函数</li>
-</ul>
-<p>其他的我还没有用过,第二个使用方法应该和第一个差别不大,第三个重载不知道怎么用</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/" itemprop="url">创建简单的角色移动</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T19:31:03+08:00">
-                2021-05-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>Character  提供了自己的移动函数</p>
-<ol>
-<li>BindAxis只需在自己创建的移动函数中调用已有的函数并将其绑定即可</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Charactor Movement code </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::MoveForward</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddMovementInput</span>(<span class="built_in">GetActorForwardVector</span>(), Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::MoveRight</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddMovementInput</span>(<span class="built_in">GetActorRightVector</span>(), Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Bind  character View</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::LookUp</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddControllerPitchInput</span>(Value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::Turn</span><span class="params">(<span class="keyword">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">AddControllerYawInput</span>(Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Movement Part</span></span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::MoveForward);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::MoveRight);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;LookUp&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::LookUp);</span><br><span class="line">	PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;ASCharacter::Turn);</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/CPP/%E6%A8%A1%E6%9D%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/15/CPP/%E6%A8%A1%E6%9D%BF/" itemprop="url">模板</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T13:33:24+08:00">
-                2021-05-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>template</p>
-<p>泛型: 将类型参数化达到代码重用的效果</p>
-<p>c++中使用模板来实现泛型</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/14/CPP/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%B1%BB%E4%BA%92%E7%9B%B8%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/14/CPP/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%B1%BB%E4%BA%92%E7%9B%B8%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/" itemprop="url">两个不同类互相调用问题</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-14T19:58:21+08:00">
-                2021-05-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>起初碰到这个问题是在学习友元的时候,</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Math.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_friend_93</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function">Point_friend_93 <span class="title">add1</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Point_friend_93.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Math.h&quot;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_friend_93</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="comment">//声明友元函数</span></span><br><span class="line">	<span class="function"><span class="keyword">friend</span> Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93, Point_friend_93)</span></span>;</span><br><span class="line">	<span class="keyword">int</span> m_y;</span><br><span class="line">	<span class="keyword">int</span> m_x;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span>;</span></span><br><span class="line">	<span class="function"><span class="keyword">friend</span>  Point_friend_93 <span class="title">Math::add1</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_friend_93</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getY</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getX</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//add p1 &amp; p2</span></span><br><span class="line"><span class="function">Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>为了方便说明我把Math类称为A类,将Point_friend_93成为B类,起只是在两个类的头文件中简单#include了对方的头文件</p>
-<p>结果发现,在B类中声明A类的函数为友元时,编译器报错,(说他找不到A中的那个函数,认为我们没有定义这个函数)</p>
-<p>具体过程…我也还没搞清楚,但是找到了解决方案,</p>
-<p>1.只在A类的头文件中引入B类头文件</p>
-<p>2.由于B类中没有#include  “A.h”,所以此时B类无法使用A类,所以要在B类头文件的开头声明一下A类   (class A;)</p>
-<p>3.然后在B类的cpp文件中#include A.h</p>
-<p>此处因该涉及到 : <strong>向前声明</strong>,<strong>不完全类型</strong>,<strong>单独编译</strong>,以及类的基础知识<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43915356/article/details/107577450">详情可见此篇博客</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/14/CPP/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/14/CPP/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" itemprop="url">运算符重载</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-14T12:02:19+08:00">
-                2021-05-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>可以为运算符增加新的功能</p>
-<p>“+”运算符重载的实现</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_96_op</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">int</span> y;</span><br><span class="line">	<span class="keyword">friend</span> Point_96_op <span class="keyword">operator</span>+(Point_96_op, Point_96_op);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_96_op</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y) :<span class="built_in">x</span>(x), <span class="built_in">y</span>(y) &#123;&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line">Point_96_op <span class="keyword">operator</span>+(Point_96_op p1, Point_96_op p2);</span><br></pre></td></tr></table></figure>
-
-<p>将重载的函数声明为友元,便可以直接调用成员变量</p>
-<h4 id="使用运算符时其实相当于调用函数-比如a-1-2-gt-a-operate-1-2"><a href="#使用运算符时其实相当于调用函数-比如a-1-2-gt-a-operate-1-2" class="headerlink" title="使用运算符时其实相当于调用函数,比如a = 1 +2 -&gt;a = operate+(1,2);"></a>使用运算符时其实相当于调用函数,比如a = 1 +2 -&gt;a = operate+(1,2);</h4><p>一般来说,运算符重载应该</p>
-<ul>
-<li><p>使用引用来避免生成不必要的对象</p>
-</li>
-<li><p>使用const对象(PS:我不知道为什么)(pps:)说明不对原对象进行修改,如果进行了修改就会报错</p>
-</li>
-</ul>
-<p>于是重载函数定义为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;p1, <span class="keyword">const</span> Point_96_op &amp;p2);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="运算符重载可以直接写在类里面-以成员函数的形式写"><a href="#运算符重载可以直接写在类里面-以成员函数的形式写" class="headerlink" title="运算符重载可以直接写在类里面,以成员函数的形式写"></a>运算符重载可以直接写在类里面,以成员函数的形式写</h3><p>此时,可以少传一个参数,也不需要在类内声明重载为友元了    (我觉得这样子写会比较方便)</p>
-<p><strong>原因</strong>:  a = p1 + p2  —&gt;p1.operator+(p2)   ,因为成员函数可以直接使用this指针</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;Point);</span><br></pre></td></tr></table></figure>
-
-<p>PS: 注意需要在public中写,不然会无法访问</p>
-<h3 id="运算符重载的返回值需要不可以被赋值"><a href="#运算符重载的返回值需要不可以被赋值" class="headerlink" title="运算符重载的返回值需要不可以被赋值"></a>运算符重载的返回值需要不可以被赋值</h3><ul>
-<li><p>比如   (1+2)=9; 这样子的代码是不会编译通过的,</p>
-</li>
-<li><p>但是上面定义的重载的返回值由于是一个临时的对象,在语句结束时才会被回收</p>
-</li>
-<li><p>所以  (P1+P2) = Point_96_op(10,10); 是不会报错的,但是这样的语句是不应该存在的,</p>
-</li>
-<li><p>所以需要使重载函数的返回值不可被修改,</p>
-</li>
-</ul>
-<p>于是,将重载函数定义为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;Point);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="const-成员无法调用非const成员函数"><a href="#const-成员无法调用非const成员函数" class="headerlink" title="const 成员无法调用非const成员函数"></a>const 成员无法调用非const成员函数</h3><p>由于在上一步中使用const修饰重载函数的返回值</p>
-<p>使运算符在使用中出现一个问题</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p4 = p1+p2+p3;<span class="comment">//报错</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>原因</strong> :</p>
-<ul>
-<li><p>这一句代码相当于  p4 = (p1.operator+(p2)).operator+(p3);   </p>
-</li>
-<li><p>此处p1.operator+(p2) 由于返回的是  const  Point_96_op;</p>
-</li>
-<li><p>所以相当于是一个const 对象在调用  operator+();</p>
-</li>
-<li><p>但是operator+是非const函数,于是在调用时会报错</p>
-</li>
-</ul>
-<p>于是重载函数应该定义为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96-op &amp;point) <span class="keyword">const</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h3 id="运算符重载的最终形态"><a href="#运算符重载的最终形态" class="headerlink" title="运算符重载的最终形态"></a>运算符重载的最终形态</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_96_op</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">int</span> y;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_96_op</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y) :<span class="built_in">x</span>(x), <span class="built_in">y</span>(y) &#123;&#125;;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/* --------------------------------------------------------*/</span></span><br><span class="line">	<span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+ (<span class="keyword">const</span> Point_96_op &amp;point) <span class="keyword">const</span>;</span><br><span class="line">	<span class="comment">/*----------------------------------------------------------*/</span></span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Point_96_op.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* --------------------------------------------------------------------*/</span></span><br><span class="line"><span class="keyword">const</span> Point_96_op Point_96_op::<span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op&amp; point) <span class="keyword">const</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Point_96_op</span>(<span class="keyword">this</span>-&gt;x + point.x, <span class="keyword">this</span>-&gt;y + point.y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* ---------------------------------------------------------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Point_96_op::display</span><span class="params">()</span></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Point(&quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; y &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h3><ol>
-<li><p><em><em>( +, - ,</em> ,/)</em>*,      </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span><span class="string">&quot;...&quot;</span> (<span class="keyword">const</span> Point_96_op &amp;point) <span class="keyword">const</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p><strong>(+=,-=)</strong>         </p>
-</li>
-</ol>
-   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op &amp;<span class="keyword">operator</span><span class="string">&quot;...&quot;</span> (<span class="keyword">const</span> Point_96_op &amp;point)&#123;<span class="keyword">return</span>  *<span class="keyword">this</span>; &#125;</span><br></pre></td></tr></table></figure>
-
-<p>   说明:  </p>
-<ul>
-<li>返回值不加const ,原因: 返回的值是赋给原来的变量的,是可以被重新赋值的,也就是说   可以   (p1+=p2) = Point_96_op(10,10);<strong>合法</strong></li>
-<li>返回值不为void  原因: 没有返回值的话 (p1+p2) = Point_96_op(10,10)就不合法了</li>
-<li>返回值为引用类型 ,原因:   引用没学好,不知道为什么(防止产生中间对象)</li>
-<li>不是const函数,原因: 当p1为const时, p1+=p2;应该不合法,因为常量不因该被修改</li>
-</ul>
-<ol start="3">
-<li><p><strong>(==,!=)</strong></p>
-<ul>
-<li><p>重载函数因该返回bool类型</p>
-</li>
-<li><p>```cpp<br> bool operator==(const Point_96_op &amp;point) const {   return ‘…….’;   }</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">4. **(负号   -)**</span><br><span class="line"></span><br><span class="line">   - &#96;&#96;&#96;</span><br><span class="line">     const Point_96_op operaror-() const&#123;return .......;&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>(&lt;&lt;,&gt;&gt;)</strong>(cin&amp;&amp;cout):</p>
-<p>- </p>
-</li>
-<li></li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1786,7 +1695,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
