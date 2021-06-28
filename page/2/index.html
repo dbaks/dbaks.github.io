@@ -273,6 +273,793 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E4%BC%A4%E5%AE%B3%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E4%BC%A4%E5%AE%B3%E5%BA%94%E7%94%A8/" itemprop="url">伤害应用</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-16T20:44:33+08:00">
+                2021-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Hurts the specified actor with the specified impact.</span></span><br><span class="line"><span class="comment"> * @param DamagedActor - 被伤害的actor -AActor*</span></span><br><span class="line"><span class="comment"> * @param BaseDamage - 基础伤害数值 - float</span></span><br><span class="line"><span class="comment"> * @param HitFromDirection - 伤害来自的方向(一般就是单位向量) - const FVector&amp;</span></span><br><span class="line"><span class="comment"> * @param HitInfo - 碰撞或者射线检测的结果(HitResult) - const FHitResult&amp;</span></span><br><span class="line"><span class="comment"> * @param EventInstigator - 伤害来自哪个controller - AController*</span></span><br><span class="line"><span class="comment"> * @param DamageCauser - 实际造成伤害的Actor(比如说某个Controller生成了手榴弹,手榴弹爆炸造成伤害) - AActor*</span></span><br><span class="line"><span class="comment"> * @param DamageTypeClass - 伤害类型 - TSubclassOf&lt;class UDamageType&gt;(这应该是定义的某个模板PS:模板还没有学好)</span></span><br><span class="line"><span class="comment"> * @return Actual damage the ended up being applied to the actor.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintAuthorityOnly, Category=<span class="string">&quot;Game|Damage&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">float</span> <span class="title">ApplyPointDamage</span><span class="params">(AActor* DamagedActor, <span class="keyword">float</span> BaseDamage, <span class="keyword">const</span> FVector&amp; HitFromDirection, <span class="keyword">const</span> FHitResult&amp; HitInfo, AController* EventInstigator, AActor* DamageCauser, TSubclassOf&lt;class UDamageType&gt; DamageTypeClass)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+<p>UE4的GameplayStatics.h中定义了四种伤害类型<strong>ApplyRadialDamage</strong>,<strong>ApplyRadialDamageWithFalloff</strong>,<strong>ApplyPointDamage</strong>,<strong>ApplyDamage</strong></p>
+<p>这里先介绍PointDamage(点状伤害)</p>
+<blockquote>
+<p>函数参数列表的含义与参数类型见注释</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">	 *  Trace a ray against the world using a specific channel and return the first blocking hit</span><br><span class="line">	 *  @param  OutHit          First blocking hit found</span><br><span class="line">	 *  @param  Start           Start location of the ray</span><br><span class="line">	 *  @param  End             End location of the ray</span><br><span class="line">	 *  @param  TraceChannel    The &#39;channel&#39; that this ray is in, used to determine which components to hit</span><br><span class="line">	 *  @param  Params          Additional parameters used for the trace</span><br><span class="line">	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace	 </span><br><span class="line">	 *  @return TRUE if a blocking hit is found</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	bool LineTraceSingleByChannel(struct FHitResult&amp; OutHit,const FVector&amp; Start,const FVector&amp; End,ECollisionChannel TraceChannel,const FCollisionQueryParams&amp; Params &#x3D; FCollisionQueryParams::DefaultQueryParam, const FCollisionResponseParams&amp; ResponseParam &#x3D; FCollisionResponseParams::DefaultResponseParam) const;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E8%BD%A8%E8%BF%B9%E6%A3%80%E6%B5%8BLineTrace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/16/UE4/%E6%A1%88%E4%BE%8B/%E8%BD%A8%E8%BF%B9%E6%A3%80%E6%B5%8BLineTrace/" itemprop="url">轨迹检测LineTrace</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-16T20:38:59+08:00">
+                2021-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/" itemprop="url">BindAxis</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-16T20:21:59+08:00">
+                2021-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>1</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/05/16/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAxis/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E8%A7%92%E8%89%B2%E8%B9%B2%E4%B8%8B%E4%B8%8E%E8%B7%B3%E8%B5%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E8%A7%92%E8%89%B2%E8%B9%B2%E4%B8%8B%E4%B8%8E%E8%B7%B3%E8%B5%B7/" itemprop="url">简单创建角色蹲下与跳起</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T22:15:50+08:00">
+                2021-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+
+
+<p>Charactor中已有Crouch和jump的实现</p>
+<p><strong>Crouch</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*将bCanCrouch设置为true........路径很奇怪*/</span></span><br><span class="line">	<span class="built_in">GetMovementComponent</span>()-&gt;<span class="built_in">GetNavAgentPropertiesRef</span>().bCanCrouch = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用已有函数创建Crouch函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::BeginCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">Crouch</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASCharacter::EndCrouch</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">UnCrouch</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用BindAction绑定函数(&quot;Crouch&quot;需要在编辑器中绑定输入)</span></span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Pressed,<span class="keyword">this</span>,&amp;ASCharacter::BeginCrouch);</span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Crouch&quot;</span>,IE_Released, <span class="keyword">this</span>, &amp;ASCharacter::EndCrouch);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>**Jump ** Character中已有实现,直接将jump函数绑定就可以</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ASCharacter::Jump);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>动画绑定的话在编辑器中选择动画就好了(需要选择已经制作好的动画序列)</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/UE4%E5%AF%BC%E8%88%AA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/15/UE4/UE4%E5%AF%BC%E8%88%AA/" itemprop="url">UE4导航</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T21:52:15+08:00">
+                2021-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><blockquote>
+<a href="/2021/05/15/UE4/%E6%A1%88%E4%BE%8B/%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/" title="创建简单的角色移动">创建简单的角色移动</a>  
+</blockquote>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="InputComponent"><a href="#InputComponent" class="headerlink" title="InputComponent"></a>InputComponent</h2><blockquote>
+<a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/" title="BindAction">BindAction</a>  
+</blockquote>
+<h2 id="EngineBaseTypes"><a href="#EngineBaseTypes" class="headerlink" title="EngineBaseTypes"></a>EngineBaseTypes</h2><blockquote>
+<a href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" title="EngineBaseTypes">EngineBaseTypes</a>  
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dbaks'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Engine/EngineBaseTypes/" itemprop="url">EngineBaseTypes</a></h1>
+        
+
+        <div class="post-meta">
+          
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-15T20:04:19+08:00">
+                2021-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<p>文件路径 Engine\Source\Runtime\Engine\Classes\Engine\EngineBaseTypes.h\</p>
+<p>该文件下包含了一些枚举变量,结构体,并且在一部分类型上加了命名空间,使用的时候需要注意</p>
+<p>我使用过的,定义在EngineBaseType中的类型会记录在这篇博客中</p>
+<p>目前使用过的枚举</p>
+<h4 id="enum-EInputEvent"><a href="#enum-EInputEvent" class="headerlink" title="enum EInputEvent"></a>enum EInputEvent</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">UENUM</span>( BlueprintType, meta=(ScriptName=<span class="string">&quot;InputEventType&quot;</span>))</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EInputEvent</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	IE_Pressed              =<span class="number">0</span>,</span><br><span class="line">	IE_Released             =<span class="number">1</span>,</span><br><span class="line">	IE_Repeat               =<span class="number">2</span>,</span><br><span class="line">	IE_DoubleClick          =<span class="number">3</span>,</span><br><span class="line">	IE_Axis                 =<span class="number">4</span>,</span><br><span class="line">	IE_MAX                  =<span class="number">5</span>,</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span> 看到不是很理解</span><br><span class="line">        </span><br><span class="line">       </span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//1.在BindAction的时候hui作为EInputEvent使用</span></span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line"><span class="comment">//3.</span></span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/15/UE4/%E4%BB%A3%E7%A0%81/Source/Runtime/Engine/Classes/Components/InputComponent/BindAction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -811,957 +1598,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/14/CPP/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/14/CPP/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" itemprop="url">运算符重载</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-14T12:02:19+08:00">
-                2021-05-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>可以为运算符增加新的功能</p>
-<p>“+”运算符重载的实现</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_96_op</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">int</span> y;</span><br><span class="line">	<span class="keyword">friend</span> Point_96_op <span class="keyword">operator</span>+(Point_96_op, Point_96_op);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_96_op</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y) :<span class="built_in">x</span>(x), <span class="built_in">y</span>(y) &#123;&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line">Point_96_op <span class="keyword">operator</span>+(Point_96_op p1, Point_96_op p2);</span><br></pre></td></tr></table></figure>
-
-<p>将重载的函数声明为友元,便可以直接调用成员变量</p>
-<h4 id="使用运算符时其实相当于调用函数-比如a-1-2-gt-a-operate-1-2"><a href="#使用运算符时其实相当于调用函数-比如a-1-2-gt-a-operate-1-2" class="headerlink" title="使用运算符时其实相当于调用函数,比如a = 1 +2 -&gt;a = operate+(1,2);"></a>使用运算符时其实相当于调用函数,比如a = 1 +2 -&gt;a = operate+(1,2);</h4><p>一般来说,运算符重载应该</p>
-<ul>
-<li><p>使用引用来避免生成不必要的对象</p>
-</li>
-<li><p>使用const对象(PS:我不知道为什么)(pps:)说明不对原对象进行修改,如果进行了修改就会报错</p>
-</li>
-</ul>
-<p>于是重载函数定义为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;p1, <span class="keyword">const</span> Point_96_op &amp;p2);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="运算符重载可以直接写在类里面-以成员函数的形式写"><a href="#运算符重载可以直接写在类里面-以成员函数的形式写" class="headerlink" title="运算符重载可以直接写在类里面,以成员函数的形式写"></a>运算符重载可以直接写在类里面,以成员函数的形式写</h3><p>此时,可以少传一个参数,也不需要在类内声明重载为友元了    (我觉得这样子写会比较方便)</p>
-<p><strong>原因</strong>:  a = p1 + p2  —&gt;p1.operator+(p2)   ,因为成员函数可以直接使用this指针</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;Point);</span><br></pre></td></tr></table></figure>
-
-<p>PS: 注意需要在public中写,不然会无法访问</p>
-<h3 id="运算符重载的返回值需要不可以被赋值"><a href="#运算符重载的返回值需要不可以被赋值" class="headerlink" title="运算符重载的返回值需要不可以被赋值"></a>运算符重载的返回值需要不可以被赋值</h3><ul>
-<li><p>比如   (1+2)=9; 这样子的代码是不会编译通过的,</p>
-</li>
-<li><p>但是上面定义的重载的返回值由于是一个临时的对象,在语句结束时才会被回收</p>
-</li>
-<li><p>所以  (P1+P2) = Point_96_op(10,10); 是不会报错的,但是这样的语句是不应该存在的,</p>
-</li>
-<li><p>所以需要使重载函数的返回值不可被修改,</p>
-</li>
-</ul>
-<p>于是,将重载函数定义为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op &amp;Point);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="const-成员无法调用非const成员函数"><a href="#const-成员无法调用非const成员函数" class="headerlink" title="const 成员无法调用非const成员函数"></a>const 成员无法调用非const成员函数</h3><p>由于在上一步中使用const修饰重载函数的返回值</p>
-<p>使运算符在使用中出现一个问题</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p4 = p1+p2+p3;<span class="comment">//报错</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>原因</strong> :</p>
-<ul>
-<li><p>这一句代码相当于  p4 = (p1.operator+(p2)).operator+(p3);   </p>
-</li>
-<li><p>此处p1.operator+(p2) 由于返回的是  const  Point_96_op;</p>
-</li>
-<li><p>所以相当于是一个const 对象在调用  operator+();</p>
-</li>
-<li><p>但是operator+是非const函数,于是在调用时会报错</p>
-</li>
-</ul>
-<p>于是重载函数应该定义为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96-op &amp;point) <span class="keyword">const</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h3 id="运算符重载的最终形态"><a href="#运算符重载的最终形态" class="headerlink" title="运算符重载的最终形态"></a>运算符重载的最终形态</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point_96_op</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">int</span> y;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Point_96_op</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y) :<span class="built_in">x</span>(x), <span class="built_in">y</span>(y) &#123;&#125;;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/* --------------------------------------------------------*/</span></span><br><span class="line">	<span class="keyword">const</span> Point_96_op <span class="keyword">operator</span>+ (<span class="keyword">const</span> Point_96_op &amp;point) <span class="keyword">const</span>;</span><br><span class="line">	<span class="comment">/*----------------------------------------------------------*/</span></span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Point_96_op.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Point_96_op.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* --------------------------------------------------------------------*/</span></span><br><span class="line"><span class="keyword">const</span> Point_96_op Point_96_op::<span class="keyword">operator</span>+(<span class="keyword">const</span> Point_96_op&amp; point) <span class="keyword">const</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Point_96_op</span>(<span class="keyword">this</span>-&gt;x + point.x, <span class="keyword">this</span>-&gt;y + point.y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* ---------------------------------------------------------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Point_96_op::display</span><span class="params">()</span></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Point(&quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; y &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h3><ol>
-<li><p><em><em>( +, - ,</em> ,/)</em>*,      </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Point_96_op <span class="keyword">operator</span><span class="string">&quot;...&quot;</span> (<span class="keyword">const</span> Point_96_op &amp;point) <span class="keyword">const</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p><strong>(+=,-=)</strong>         </p>
-</li>
-</ol>
-   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point_96_op &amp;<span class="keyword">operator</span><span class="string">&quot;...&quot;</span> (<span class="keyword">const</span> Point_96_op &amp;point)&#123;<span class="keyword">return</span>  *<span class="keyword">this</span>; &#125;</span><br></pre></td></tr></table></figure>
-
-<p>   说明:  </p>
-<ul>
-<li>返回值不加const ,原因: 返回的值是赋给原来的变量的,是可以被重新赋值的,也就是说   可以   (p1+=p2) = Point_96_op(10,10);<strong>合法</strong></li>
-<li>返回值不为void  原因: 没有返回值的话 (p1+p2) = Point_96_op(10,10)就不合法了</li>
-<li>返回值为引用类型 ,原因:   引用没学好,不知道为什么(防止产生中间对象)</li>
-<li>不是const函数,原因: 当p1为const时, p1+=p2;应该不合法,因为常量不因该被修改</li>
-</ul>
-<ol start="3">
-<li><p><strong>(==,!=)</strong></p>
-<ul>
-<li><p>重载函数因该返回bool类型</p>
-</li>
-<li><p>```cpp<br> bool operator==(const Point_96_op &amp;point) const {   return ‘…….’;   }</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">4. **(负号   -)**</span><br><span class="line"></span><br><span class="line">   - &#96;&#96;&#96;</span><br><span class="line">     const Point_96_op operaror-() const&#123;return .......;&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>(&lt;&lt;,&gt;&gt;)</strong>(cin&amp;&amp;cout):</p>
-<p>- </p>
-</li>
-<li></li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/14/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%86%85%E9%83%A8%E7%B1%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/14/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%86%85%E9%83%A8%E7%B1%BB/" itemprop="url">内部类</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-14T10:02:01+08:00">
-                2021-05-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>定义: 定义在一个类内部的类叫做内部类(嵌套类)</p>
-<p>特点: </p>
-<ul>
-<li><p>可以用访问控制符控制访问权限</p>
-</li>
-<li><p>内部类成员函数可以访问外部类的所有成员</p>
-</li>
-<li><p>外部类无法为访问内部类成员所有成员</p>
-</li>
-<li><p>内部类可以不带类名或对象名直接访问Static成员</p>
-</li>
-<li><p><em><strong>不会影响外部类的内存布局</strong></em>,只影响内部类的访问权限</p>
-</li>
-<li><p>内部类声明和实现可分离</p>
-</li>
-</ul>
-<h2 id="局部类"><a href="#局部类" class="headerlink" title="局部类"></a>局部类</h2><p>定义: 在函数内部定义的类</p>
-<p>特点:</p>
-<ul>
-<li>局部类的声明和实现必须放在类里</li>
-<li>不支持static成员变量(static成员变量需要在类外初始化)</li>
-<li>成员函数不可访问函数的局部变量,但是可以访问函数里的static变量</li>
-<li>可以访问全局变量</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/" itemprop="url">IOC(接口)</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-13T01:09:42+08:00">
-                2021-05-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>Spring提供IOC的两个接口(作用相似,都通过加载配置文件,通过工厂过程创建对象):</p>
-<ul>
-<li>BeanFactory : IOC容器基本实现,Spring自己用的,一不提供给开发人员使用</li>
-<li>ApplicationContext: BeanFactory的子接口,功能更加强大,一般由开发人员使用</li>
-</ul>
-<p>ApplicationContext接口实现类:</p>
-<blockquote>
-<p><img src="/2021/05/13/Spring/IOC/IOC(%E6%8E%A5%E5%8F%A3)/image-20210513012407392.png" alt="image-20210513012407392"></p>
-</blockquote>
-<p>两个接口区别:一个使用文件系统路径(绝对路径,一个使用类路径)</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/13/Spring/IOC/IOC%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/13/Spring/IOC/IOC%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url">IOC底层原理</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-13T00:32:04+08:00">
-                2021-05-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<p>IOC : </p>
-<ul>
-<li><p>控制反转 (Inversion of Control )  ,将对象的创建与调用交给Spring管理</p>
-</li>
-<li><p> <strong>降低代码耦合度</strong></p>
-</li>
-</ul>
-<h2 id="IOC底层原理-xml文件解析-工厂模式-反射-主要用到的"><a href="#IOC底层原理-xml文件解析-工厂模式-反射-主要用到的" class="headerlink" title="IOC底层原理  :   xml文件解析,工厂模式,反射  (主要用到的)"></a>IOC底层原理  :   xml文件解析,工厂模式,反射  (主要用到的)</h2><p>1.xml解析,工厂模式,反射(反射,自省)</p>
-<p>​    工厂模式降低了耦合度 ,但是没有将耦合度降到最低</p>
-<p>2.IOC过程 : </p>
-<p>​        (1)配置xml文件,配置创建的对象</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span> = <span class="string">&quot;.....&quot;</span> <span class="attr">class</span> = <span class="string">&quot;.....路径&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>​        (2)有Service类和Dao类(Serivce类想要调用Dao类中的方法),创建工厂类(ps:工厂类创建Spring已经写好了)</p>
-<p>​    <img src="/2021/05/13/Spring/IOC/IOC%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/image-20210513010544747.png" alt="image-20210513010544747"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%8F%8B%E5%85%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/12/CPP/%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1/%E7%B1%BB/%E5%8F%8B%E5%85%83/" itemprop="url">友元</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-12T18:37:09+08:00">
-                2021-05-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CPP/" itemprop="url" rel="index">
-                    <span itemprop="name">CPP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <span id="more"></span>
-
-<ul>
-<li><p>分为友元函数和友元类</p>
-</li>
-<li><p>在类定义中声明就行</p>
-</li>
-</ul>
-<blockquote>
-<h3 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h3></blockquote>
-<p>使用友元会降低一些函数调用的频率</p>
-<p>友元在类中声明时不需要写明参数的名字,只需要说明参数的类型即可</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明友元函数</span></span><br><span class="line"><span class="function"><span class="keyword">friend</span> Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93, Point_friend_93)</span></span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Point_friend_93 <span class="title">add</span><span class="params">(Point_friend_93 p1, Point_friend_93 p2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//使用友元会降低一些函数调用的频率,可以直接调用成员变量(PS:需要看访问权限)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Point_friend_93</span>(p1.<span class="built_in">getX</span>() + p2.<span class="built_in">getX</span>(), p1.<span class="built_in">getY</span>() + p2.<span class="built_in">getY</span>());</span><br><span class="line">    <span class="comment">//return Point_friend_93(p1.m_x + p2.m_x, p1.m_y + p2.m_y);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<h3 id="友元类"><a href="#友元类" class="headerlink" title="友元类"></a>友元类</h3></blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span>;</span></span><br><span class="line"><span class="function"><span class="keyword">friend</span>  Point_friend_93 <span class="title">Math::add</span><span class="params">(Point_friend_93, Point_friend_93)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>​    声明一个类为友元</p>
-<p>​    不可以单独声明一个类中的函数为友元函数,如果没有声明类为友元,类内的函数仍然不可访问私有成员</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/12/CPP/%E4%B8%80%E4%BA%9B%E4%B8%B4%E6%97%B6%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dbaks'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/05/12/CPP/%E4%B8%80%E4%BA%9B%E4%B8%B4%E6%97%B6%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/" itemprop="url">一些临时的知识点</a></h1>
-        
-
-        <div class="post-meta">
-          
-
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-12T18:09:33+08:00">
-                2021-05-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CPP/" itemprop="url" rel="index">
-                    <span itemprop="name">CPP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>在使用<em><strong>new</strong></em>创建类对象时,必须调用构造函数,并且这个构造函数不会自动生成,一定要是自己创建的</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
   </nav>
 
 
@@ -1811,7 +1652,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1822,7 +1663,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1833,7 +1674,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
